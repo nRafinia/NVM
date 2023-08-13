@@ -1,7 +1,7 @@
 ﻿using FileManager.Application.Abstraction;
 using FileManager.Application.FileLists.Models;
-using FileManager.Domain.Models;
 using Shared.Domain.Base.Results;
+using Shared.Domain.Errors;
 
 namespace FileManager.Application.FileLists;
 
@@ -9,20 +9,31 @@ public class FileListLogic : IFileListLogic
 {
     private readonly IFiles _files;
 
-    private const string RootPath = @"d:\";
-
     public FileListLogic(IFiles files)
     {
         _files = files;
     }
 
-    public Result<IList<FileListItem>?> GetFileList(GetFileListRequest request)
+    public Result<GetFileListResponse?> GetFileList(GetFileListRequest request)
     {
-        var path = string.IsNullOrWhiteSpace(request.Path)
-            ? RootPath
-            : Path.Combine(RootPath + request.Path);
-        var getFilesResponse = _files.GetFiles(path);
+        if (request.Path is "." or "..")
+        {
+            return Result.Failure<GetFileListResponse>(SharedErrors.InvalidArguments);
+        }
 
-        return getFilesResponse;
+        var path = string.Empty;
+        if (!string.IsNullOrWhiteSpace(request.Path))
+        {
+            path = request.Path
+                .Replace('/', Path.DirectorySeparatorChar)
+                .Replace('\\', Path.DirectorySeparatorChar);
+        }
+
+        //var rootPath = Directory.GetDirectoryRoot(Directory.GetCurrentDirectory());
+        var getFilesResponse = _files.GetFiles(Path.Combine(request.Root, path));
+
+        return getFilesResponse.IsFailure
+            ? Result.Failure<GetFileListResponse>(getFilesResponse.Error!)
+            : new GetFileListResponse(getFilesResponse.Value!, path);
     }
 }

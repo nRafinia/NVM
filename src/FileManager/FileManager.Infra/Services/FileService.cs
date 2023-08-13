@@ -13,6 +13,11 @@ public class FileService : IFiles
     {
         try
         {
+            if (!Directory.Exists(path))
+            {
+                return Result.Failure<IList<FileListItem>>(SharedErrors.InvalidArguments);
+            }
+
             var directories = Directory.GetDirectories(path)
                 .Select(d => Path.GetFileName(d));
             var files = Directory.GetFiles(path)

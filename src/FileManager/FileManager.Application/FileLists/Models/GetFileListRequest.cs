@@ -2,4 +2,4 @@
 
 namespace FileManager.Application.FileLists.Models;
 
-public record GetFileListRequest(string? Path = null) : IHttpRequest;
+public record GetFileListRequest(string Root, string? Path = null) : IHttpRequest;

@@ -13,7 +13,8 @@ public static class SharedErrors
     public static readonly Error AuthorizationIsFailed = new("Authorization.IsEmpty", "Invalid authorization token");
     public static readonly Error InternalError = new(InternalErrorCode, "An internal error has occurred");
     public static readonly Error ProviderError = new("Provider.Error", "An error occurred in the service provider");
-    public static readonly Error DiskError = new("Disk.Error", "Error in save file to disk.");
+    public static readonly Error SaveToDiskError = new("Disk.SaveError", "Error in save file to disk.");
+    public static readonly Error DiskError = new("Disk.Error", "Error in access to disk.");
     public static readonly Error NotAllowed = new("Authorize.NotAllowed", "You are not allowed to do this.");
     public static readonly Error OutOfRang = new("Invalid.OutOfRang", "userId is out of range.");
     public static readonly Error ItemNotFound = new(ItemNotFoundCode, "No items found with the provided information");

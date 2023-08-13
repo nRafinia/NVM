@@ -1,4 +1,5 @@
 using FileManager.API.Endpoints.FileLists;
+using FileManager.API.Middlewares;
 
 namespace FileManager.API;
 
@@ -19,7 +20,7 @@ public static class ConfigureServices
 
     public static void AddPipelines(this WebApplication app)
     {
-        if (app.Environment.IsDevelopment())
+        //if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
             app.UseSwaggerUI();
@@ -27,6 +28,8 @@ public static class ConfigureServices
 
         app.UseHttpsRedirection();
 
+        app.UseMiddleware<UnhandledExceptionMiddleware>();
+        
         app.UseAuthorization();
 
         app.MapControllers();

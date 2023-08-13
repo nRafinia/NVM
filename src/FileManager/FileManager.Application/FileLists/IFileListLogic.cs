@@ -6,5 +6,5 @@ namespace FileManager.Application.FileLists;
 
 public interface IFileListLogic
 {
-    Result<IList<FileListItem>?> GetFileList(GetFileListRequest request);
+    Result<GetFileListResponse?> GetFileList(GetFileListRequest request);
 }
