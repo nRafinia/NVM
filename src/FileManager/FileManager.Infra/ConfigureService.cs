@@ -1,3 +1,5 @@
+using FileManager.Application.Abstraction;
+using FileManager.Infra.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,6 +12,8 @@ public static class ConfigureServices
     {
         Shared.Infra.ConfigureServices.AddSharedInfraServices(services, configuration);
 
+        services.AddSingleton<IFiles, FileService>();
+        
         return services;
     }
 
