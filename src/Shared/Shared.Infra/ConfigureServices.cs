@@ -12,7 +12,7 @@ public static class ConfigureServices
 {
     private const string RedisConfigurationName = nameof(RedisConfiguration);
 
-    public static IServiceCollection AddSharedInfraServices(this IServiceCollection services,
+    public static IServiceCollection AddSharedInfraServices(IServiceCollection services,
         IConfiguration configuration)
     {
         services.AddTransient<HttpLoggingHandler>();

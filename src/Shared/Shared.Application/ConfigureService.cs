@@ -10,25 +10,25 @@ namespace Shared.Application;
 
 public static class ConfigureServices
 {
-    public static IServiceCollection AddSharedApplicationServices(this IServiceCollection services,
-        Assembly assembly)
+    public static IServiceCollection AddSharedApplicationServices(IServiceCollection services,
+        params Assembly[] assemblies)
     {
-        services.AddValidatorsFromAssembly(assembly);
+        services.AddValidatorsFromAssemblies(assemblies);
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviorResult<,>));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
-        services.AddMediatR(configuration => configuration.RegisterServicesFromAssembly(assembly));
-        AddMapper(services, assembly);
+        services.AddMediatR(configuration => configuration.RegisterServicesFromAssemblies(assemblies));
+        AddMapper(services, assemblies);
 
 
         return services;
     }
 
-    private static void AddMapper(IServiceCollection services, Assembly assembly)
+    private static void AddMapper(IServiceCollection services, params Assembly[] assemblies)
     {
         TypeAdapterConfig.GlobalSettings.Default.MapToConstructor(true);
         var config = TypeAdapterConfig.GlobalSettings;
-        config.Scan(assembly);
+        config.Scan(assemblies);
         services.AddSingleton(config);
         services.AddScoped<IMapper, ServiceMapper>();
     }

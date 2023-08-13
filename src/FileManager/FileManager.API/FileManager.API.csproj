@@ -18,4 +18,11 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\Shared\Shared.Presentation\Shared.Presentation.csproj" />
+      <ProjectReference Include="..\FileManager.Application\FileManager.Application.csproj" />
+      <ProjectReference Include="..\FileManager.Domain\FileManager.Domain.csproj" />
+      <ProjectReference Include="..\FileManager.Infra\FileManager.Infra.csproj" />
+    </ItemGroup>
+
 </Project>
