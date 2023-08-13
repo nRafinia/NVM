@@ -38,6 +38,42 @@ public class FileService : IFiles
         }
     }
 
+    public async Task<Result<byte[]?>> GetFileContentAsync(string path, CancellationToken cancellationToken)
+    {
+        try
+        {
+            if (!File.Exists(path))
+            {
+                return Result.Failure<byte[]>(SharedErrors.InvalidArguments);
+            }
+
+            return await File.ReadAllBytesAsync(path, cancellationToken);
+        }
+        catch
+        {
+            return Result.Failure<byte[]>(SharedErrors.DiskError);
+        }
+    }
+    
+    public async Task<Result<string?>> GetTextFileContentAsync(string path, CancellationToken cancellationToken)
+    {
+        try
+        {
+            if (!File.Exists(path))
+            {
+                return Result.Failure<string>(SharedErrors.InvalidArguments);
+            }
+
+            return await File.ReadAllTextAsync(path, cancellationToken);
+        }
+        catch
+        {
+            return Result.Failure<string>(SharedErrors.DiskError);
+        }
+    }
+
+    #region Private methods
+
     private static Dictionary<string, long> GetFileInformation(string path, IEnumerable<string> files)
     {
         var result = files.ToDictionary(f => f, f => GetFileInformation(Path.Combine(path, f)));
@@ -56,4 +92,6 @@ public class FileService : IFiles
             return 0;
         }
     }
+
+    #endregion
 }

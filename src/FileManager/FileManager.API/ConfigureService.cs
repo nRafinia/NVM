@@ -1,4 +1,4 @@
-using FileManager.API.Endpoints.FileLists;
+using FileManager.API.Endpoints.Files;
 using FileManager.API.Middlewares;
 
 namespace FileManager.API;

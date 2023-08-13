@@ -11,7 +11,7 @@ public static class ConfigureServices
     {
         Shared.Application.ConfigureServices.AddSharedApplicationServices(services, assemblies);
 
-        services.AddSingleton<IFileListLogic, FileListLogic>();
+        services.AddSingleton<IFileLogic, FileLogic>();
         
         return services;
     }
