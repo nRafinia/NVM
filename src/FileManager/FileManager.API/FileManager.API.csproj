@@ -7,8 +7,7 @@
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.10"/>
+    <ItemGroup>        
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
     </ItemGroup>
 
@@ -24,5 +23,6 @@
       <ProjectReference Include="..\FileManager.Domain\FileManager.Domain.csproj" />
       <ProjectReference Include="..\FileManager.Infra\FileManager.Infra.csproj" />
     </ItemGroup>
+
 
 </Project>

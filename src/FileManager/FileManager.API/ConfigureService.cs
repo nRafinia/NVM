@@ -1,3 +1,5 @@
+using FileManager.API.Endpoints.FileLists;
+
 namespace FileManager.API;
 
 public static class ConfigureServices
@@ -28,6 +30,8 @@ public static class ConfigureServices
         app.UseAuthorization();
 
         app.MapControllers();
+        
+        app.AddFileListEndpoints();
     }
     
 }

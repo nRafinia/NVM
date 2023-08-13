@@ -3,33 +3,39 @@ using FileManager.Domain.Models;
 using Shared.Domain.Base.Results;
 using Shared.Domain.Errors;
 
+// ReSharper disable ConvertClosureToMethodGroup
+
 namespace FileManager.Infra.Services;
 
 public class FileService : IFiles
 {
-    public Result<IList<FileList>?> GetFiles(string path)
+    public Result<IList<FileListItem>?> GetFiles(string path)
     {
         try
         {
-            var directories = Directory.GetDirectories(path);
-            var files = Directory.GetFiles(path);
-            var filesInformation = GetFileInformation(files);
+            var directories = Directory.GetDirectories(path)
+                .Select(d => Path.GetFileName(d));
+            var files = Directory.GetFiles(path)
+                .Select(f => Path.GetFileName(f))
+                .ToList();
 
-            var result = new List<FileList>();
-            result.AddRange(directories.Select(d => new FileList(d, FileType.Directory, 0)));
-            result.AddRange(filesInformation.Select(f => new FileList(f.Key, FileType.File, f.Value)));
+            var filesInformation = GetFileInformation(path, files);
+
+            var result = new List<FileListItem>();
+            result.AddRange(directories.Select(d => new FileListItem(d, FileType.Directory, 0)));
+            result.AddRange(filesInformation.Select(f => new FileListItem(f.Key, FileType.File, f.Value)));
 
             return result;
         }
         catch
         {
-            return Result.Failure<IList<FileList>>(SharedErrors.DiskError);
+            return Result.Failure<IList<FileListItem>>(SharedErrors.DiskError);
         }
     }
 
-    private Dictionary<string, long> GetFileInformation(IEnumerable<string> files)
+    private static Dictionary<string, long> GetFileInformation(string path, IEnumerable<string> files)
     {
-        var result = files.ToDictionary(f => f, GetFileInformation);
+        var result = files.ToDictionary(f => f, f => GetFileInformation(Path.Combine(path, f)));
         return result;
     }
 

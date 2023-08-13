@@ -3,7 +3,7 @@ using Shared.Domain.Base;
 using Shared.Domain.Base.Results;
 using Shared.Domain.Errors;
 
-namespace Shared.Presentation.HttpEndpointHandlers;
+namespace Shared.Presentation.Extensions;
 
 public static class HttpResponseResultExt
 {

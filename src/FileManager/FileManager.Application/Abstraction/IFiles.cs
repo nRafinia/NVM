@@ -5,5 +5,5 @@ namespace FileManager.Application.Abstraction;
 
 public interface IFiles
 {
-    Result<IList<FileList>?> GetFiles(string path);
+    Result<IList<FileListItem>?> GetFiles(string path);
 }
