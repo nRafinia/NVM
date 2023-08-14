@@ -1,6 +1,6 @@
 ﻿using FileManager.Application.FileLists;
 using FileManager.Application.FileLists.Models.GetFileContent;
-using FileManager.Application.FileLists.Models.GetFileList;
+using Shared.Domain.Shared;
 using Shared.Presentation.Extensions;
 using Shared.Presentation.HttpEndpointHandlers;
 
@@ -27,6 +27,6 @@ public class GetFileContentRequestHandler : IHttpRequestHandler<GetFileContentRe
         var contentResponse = getContentResponse.Value!;
         var fileName = Path.GetFileName(contentResponse.Path);
 
-        return Results.Bytes(getContentResponse.Value!.Content, fileDownloadName: fileName);
+        return Results.Bytes(getContentResponse.Value!.Content, Common.GetMimeType(fileName), fileName);
     }
 }

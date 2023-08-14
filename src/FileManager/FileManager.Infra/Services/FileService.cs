@@ -2,6 +2,7 @@
 using FileManager.Domain.Models;
 using Shared.Domain.Base.Results;
 using Shared.Domain.Errors;
+using Shared.Domain.Shared;
 
 // ReSharper disable ConvertClosureToMethodGroup
 
@@ -27,8 +28,9 @@ public class FileService : IFiles
             var filesInformation = GetFileInformation(path, files);
 
             var result = new List<FileListItem>();
-            result.AddRange(directories.Select(d => new FileListItem(d, FileType.Directory, 0)));
-            result.AddRange(filesInformation.Select(f => new FileListItem(f.Key, FileType.File, f.Value)));
+            result.AddRange(directories.Select(d => new FileListItem(d, FileType.Directory, "Directory", 0)));
+            result.AddRange(filesInformation.Select(f =>
+                new FileListItem(f.Key, FileType.File, Common.GetMimeType(f.Key), f.Value)));
 
             return result;
         }
@@ -54,7 +56,7 @@ public class FileService : IFiles
             return Result.Failure<byte[]>(SharedErrors.DiskError);
         }
     }
-    
+
     public async Task<Result<string?>> GetTextFileContentAsync(string path, CancellationToken cancellationToken)
     {
         try
