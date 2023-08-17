@@ -1,20 +1,20 @@
 ﻿using FileManager.Application.FileLists;
-using FileManager.Application.FileLists.Models.GetTextFileContent;
+using FileManager.Application.FileLists.Query.GetTextFileContent;
 using Shared.Presentation.Extensions;
 using Shared.Presentation.HttpEndpointHandlers;
 
 namespace FileManager.API.Endpoints.Files;
 
-public class GetTextFileContentRequestHandler : IHttpRequestHandler<GetTextFileContentRequest>
+public class GetTextFileContentQueryHandler : IHttpRequestHandler<GetTextFileContentQuery>
 {
     private readonly IFileLogic _fileListLogic;
 
-    public GetTextFileContentRequestHandler(IFileLogic fileListLogic)
+    public GetTextFileContentQueryHandler(IFileLogic fileListLogic)
     {
         _fileListLogic = fileListLogic;
     }
 
-    public async Task<IResult> Handle(GetTextFileContentRequest request, CancellationToken cancellationToken)
+    public async Task<IResult> Handle(GetTextFileContentQuery request, CancellationToken cancellationToken)
     {
         var getContentResponse = await _fileListLogic.GetTextContent(request, cancellationToken);
         return getContentResponse.IsFailure

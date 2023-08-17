@@ -14,6 +14,7 @@ public static class SharedErrors
     public static readonly Error InternalError = new(InternalErrorCode, "An internal error has occurred");
     public static readonly Error ProviderError = new("Provider.Error", "An error occurred in the service provider");
     public static readonly Error SaveToDiskError = new("Disk.SaveError", "Error in save file to disk.");
+    public static readonly Error AccessDenied = new("Access.Denied", "Access denied.");
     public static readonly Error DiskError = new("Disk.Error", "Error in access to disk.");
     public static readonly Error NotAllowed = new("Authorize.NotAllowed", "You are not allowed to do this.");
     public static readonly Error OutOfRang = new("Invalid.OutOfRang", "userId is out of range.");

@@ -12,8 +12,5 @@
     </ItemGroup>
 
 
-    <ItemGroup>
-      <Folder Include="Errors\" />
-    </ItemGroup>
 
 </Project>
