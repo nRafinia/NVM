@@ -8,9 +8,23 @@
 
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Shared\Shared.Infra\Shared.Infra.csproj" />
-      <ProjectReference Include="..\FileManager.Application\FileManager.Application.csproj" />
+      <ProjectReference Include="..\..\..\Shared\Shared.Application\Shared.Application.csproj" />
+      <ProjectReference Include="..\..\..\Shared\Shared.Presentation\Shared.Presentation.csproj" />
       <ProjectReference Include="..\FileManager.Domain\FileManager.Domain.csproj" />
+
+
+
+
+
+
     </ItemGroup>
+
+
+
+
+
+
+
+
 
 </Project>
