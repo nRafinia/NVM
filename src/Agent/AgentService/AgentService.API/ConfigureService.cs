@@ -1,9 +1,7 @@
-using FileManager.API.Endpoints.Directories;
-using FileManager.API.Endpoints.Files;
-using FileManager.API.Endpoints.Paths;
+using AgentService.Application.Plugins;
 using Shared.Presentation.Middlewares;
 
-namespace FileManager.API;
+namespace AgentService.API;
 
 public static class ConfigureServices
 {
@@ -16,6 +14,11 @@ public static class ConfigureServices
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+
+        foreach (var plugin in PluginCollection.GetPlugins)
+        {
+            plugin.AddPluginService(services, configuration);
+        }
 
         return services;
     }
@@ -36,9 +39,9 @@ public static class ConfigureServices
 
         app.MapControllers();
 
-        app
-            .AddPathEndpoints()
-            .AddDirectoryEndpoints()
-            .AddFileEndpoints();
+        foreach (var plugin in PluginCollection.GetPlugins)
+        {
+            plugin.AddEndpoints(app);
+        }
     }
 }

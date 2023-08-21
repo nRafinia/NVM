@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Http;
 
-namespace FileManager.API.Middlewares;
+namespace Shared.Presentation.Middlewares;
 
 public class UnhandledExceptionMiddleware
 {
