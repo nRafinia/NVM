@@ -1,4 +1,3 @@
-using AgentService.Application.Plugins;
 using Shared.Presentation.Middlewares;
 
 namespace AgentService.API;
@@ -14,11 +13,6 @@ public static class ConfigureServices
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
-
-        foreach (var plugin in PluginCollection.GetPlugins)
-        {
-            plugin.AddPluginService(services, configuration);
-        }
 
         return services;
     }
@@ -38,10 +32,5 @@ public static class ConfigureServices
         app.UseAuthorization();
 
         app.MapControllers();
-
-        foreach (var plugin in PluginCollection.GetPlugins)
-        {
-            plugin.AddEndpoints(app);
-        }
     }
 }

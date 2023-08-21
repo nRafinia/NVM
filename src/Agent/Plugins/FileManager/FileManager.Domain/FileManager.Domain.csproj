@@ -6,10 +6,11 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+
     <ItemGroup>
-      <ProjectReference Include="..\..\..\Shared\Shared.Infra\Shared.Infra.csproj" />
-      <ProjectReference Include="..\..\Plugins\FileManager\FileManager.API\FileManager.API.csproj" />
+      <ProjectReference Include="..\..\..\..\Shared\Shared.Domain\Shared.Domain.csproj" />
     </ItemGroup>
+
 
 
 </Project>

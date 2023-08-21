@@ -6,6 +6,10 @@ public static class PluginFinder
 {
     public static Assembly[] GetList()
     {
-        return Array.Empty<Assembly>();
+        var assemblies = new List<Assembly>
+        {
+            typeof(FileManager.API.PluginInformation).Assembly
+        };
+        return assemblies.ToArray();
     }
 }

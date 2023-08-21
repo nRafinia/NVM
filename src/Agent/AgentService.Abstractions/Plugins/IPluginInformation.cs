@@ -8,5 +8,5 @@ public interface IPluginInformation
 {
     string Name { get; }
     void AddPluginService(IServiceCollection services, IConfiguration configuration);
-    void AddEndpoints(IEndpointRouteBuilder app);
+    void AddEndpoints(IEndpointRouteBuilder app, string parentTag);
 }

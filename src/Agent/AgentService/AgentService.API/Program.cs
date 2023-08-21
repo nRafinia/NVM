@@ -21,6 +21,9 @@ var assemblies = new List<Assembly>()
     typeof(Program).Assembly,
 };
 
+var pluginAssemblies = PluginFinder.GetList();
+assemblies.AddRange(pluginAssemblies);
+
 PluginCollection.Initialize(PluginFinder.GetList());
 
 builder.Services
@@ -29,9 +32,22 @@ builder.Services
     .AddApplicationServices(assemblies.ToArray())
     .AddPresentationServices(builder.Configuration);
 
+foreach (var plugin in PluginCollection.GetPlugins)
+{
+    plugin.AddPluginService(builder.Services, builder.Configuration);
+}
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.AddPipelines();
+
+foreach (var plugin in PluginCollection.GetPlugins)
+{
+    var endpointRoute = $"/{plugin.Name.Replace(" ","")}";
+    var endpointTag = plugin.Name;
+    var group = app.MapGroup(endpointRoute).WithTags(endpointTag);
+    plugin.AddEndpoints(group, endpointTag);
+}
 
 app.Run();
