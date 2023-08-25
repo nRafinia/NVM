@@ -13,7 +13,9 @@ namespace FileManager.API;
 
 public class PluginInformation : IPluginInformation
 {
+    public string Key => "FileManager";
     public string Name => "File Manager";
+    public string Description => string.Empty;
 
     public void AddPluginService(IServiceCollection services, IConfiguration configuration)
     {
@@ -24,11 +26,11 @@ public class PluginInformation : IPluginInformation
             .AddApplicationServices();
     }
 
-    public void AddEndpoints(IEndpointRouteBuilder app, string parentTag)
+    public void AddEndpoints(IEndpointRouteBuilder app)
     {
         app
-            .AddPathEndpoints(parentTag)
-            .AddDirectoryEndpoints(parentTag)
-            .AddFileEndpoints(parentTag);
+            .AddPathEndpoints()
+            .AddDirectoryEndpoints()
+            .AddFileEndpoints();
     }
 }

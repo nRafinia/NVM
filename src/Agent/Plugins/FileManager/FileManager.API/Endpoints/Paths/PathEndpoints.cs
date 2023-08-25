@@ -11,9 +11,9 @@ public static class PathEndpoints
     private const string PathEndpointRoute = "/Path";
     private const string PathEndpointTag = "Path";
 
-    public static IEndpointRouteBuilder AddPathEndpoints(this IEndpointRouteBuilder app, string parentTag)
+    public static IEndpointRouteBuilder AddPathEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup(PathEndpointRoute).WithTags($"{parentTag} - {PathEndpointTag}");
+        var group = app.MapGroup(PathEndpointRoute).WithTags(PathEndpointTag);
         group.MapHttpGet<GetFileListQuery>("/");
         
         return app;

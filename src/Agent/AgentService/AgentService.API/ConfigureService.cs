@@ -1,3 +1,5 @@
+using AgentService.Application.Plugins;
+using Microsoft.OpenApi.Models;
 using Shared.Presentation.Middlewares;
 
 namespace AgentService.API;
@@ -12,7 +14,19 @@ public static class ConfigureServices
         services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
+        services.AddSwaggerGen(generator =>
+        {
+            foreach (var plugin in PluginCollection.GetPlugins)
+            {
+                generator.SwaggerDoc(plugin.Key, new OpenApiInfo()
+                {
+                    Title = plugin.Name,
+                    //Version = plugin.Version,
+                    Description = plugin.Description
+                });
+            }
+            //generator.DocInclusionPredicate();
+        });
 
         return services;
     }
@@ -22,7 +36,13 @@ public static class ConfigureServices
         //if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
-            app.UseSwaggerUI();
+            app.UseSwaggerUI(s =>
+            {
+                foreach (var plugin in PluginCollection.GetPlugins)
+                {
+                    s.SwaggerEndpoint($"/swagger/{plugin.Key}/swagger.json", plugin.Name);
+                }
+            });
         }
 
         app.UseHttpsRedirection();

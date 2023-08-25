@@ -44,10 +44,13 @@ app.AddPipelines();
 
 foreach (var plugin in PluginCollection.GetPlugins)
 {
-    var endpointRoute = $"/{plugin.Name.Replace(" ","")}";
+    var endpointRoute = $"/{plugin.Key}";
     var endpointTag = plugin.Name;
-    var group = app.MapGroup(endpointRoute).WithTags(endpointTag);
-    plugin.AddEndpoints(group, endpointTag);
+    var group = app.MapGroup(endpointRoute)
+        .WithTags(endpointTag)
+        .WithGroupName(plugin.Key);
+    
+    plugin.AddEndpoints(group);
 }
 
 app.Run();
