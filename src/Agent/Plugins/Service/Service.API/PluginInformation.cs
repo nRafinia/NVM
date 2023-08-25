@@ -1,31 +1,25 @@
 using AgentService.Abstractions.Plugins;
-using HardwareInfo.API.Endpoints;
-using HardwareInfo.Application;
-using HardwareInfo.Domain;
-using HardwareInfo.Infra;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Service.API.Endpoints;
 
-namespace HardwareInfo.API;
+namespace Service.API;
 
 public class PluginInformation : IPluginInformation
 {
-    public string Key => "HardwareInfo";
-    public string Name => "Hardware information";
+    public static string KeyName => "Service";
+    public string Key => KeyName;
+    public string Name => "Service";
     public string Description => string.Empty;
 
     public void AddPluginService(IServiceCollection services, IConfiguration configuration)
     {
         // Add services to the container.
-        services
-            .AddDomainServices()
-            .AddApplicationServices()
-            .AddInfraServices();
     }
 
     public void AddEndpoints(IEndpointRouteBuilder app)
     {
-        app.AddHardwareInformationEndpoints();
+        app.AddServiceEndpoints();
     }
 }

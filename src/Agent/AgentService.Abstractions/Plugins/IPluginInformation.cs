@@ -4,11 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace AgentService.Abstractions.Plugins;
 
-public interface IPluginInformation
+public interface IPluginInformation:IPluginInformationBase
 {
-    string Key { get; }
-    string Name { get; }
-    string Description { get; }
     void AddPluginService(IServiceCollection services, IConfiguration configuration);
     void AddEndpoints(IEndpointRouteBuilder app);
 }

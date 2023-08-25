@@ -10,6 +10,7 @@
       <ProjectReference Include="..\..\..\Shared\Shared.Infra\Shared.Infra.csproj" />
       <ProjectReference Include="..\..\Plugins\FileManager\FileManager.API\FileManager.API.csproj" />
       <ProjectReference Include="..\..\Plugins\HardwareInfo\HardwareInfo.API\HardwareInfo.API.csproj" />
+      <ProjectReference Include="..\..\Plugins\Service\Service.API\Service.API.csproj" />
     </ItemGroup>
 
 

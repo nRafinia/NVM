@@ -14,7 +14,7 @@ namespace FileManager.API;
 public class PluginInformation : IPluginInformation
 {
     public string Key => "FileManager";
-    public string Name => "File Manager";
+    public string Name => "File manager";
     public string Description => string.Empty;
 
     public void AddPluginService(IServiceCollection services, IConfiguration configuration)

@@ -21,11 +21,9 @@ public static class ConfigureServices
                 generator.SwaggerDoc(plugin.Key, new OpenApiInfo()
                 {
                     Title = plugin.Name,
-                    //Version = plugin.Version,
                     Description = plugin.Description
                 });
             }
-            //generator.DocInclusionPredicate();
         });
 
         return services;
@@ -52,5 +50,6 @@ public static class ConfigureServices
         app.UseAuthorization();
 
         app.MapControllers();
+
     }
 }

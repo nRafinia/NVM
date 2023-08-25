@@ -8,9 +8,9 @@ public static class PluginFinder
     {
         var assemblies = new List<Assembly>
         {
+            typeof(Service.API.PluginInformation).Assembly,
             typeof(FileManager.API.PluginInformation).Assembly,
             typeof(HardwareInfo.API.PluginInformation).Assembly,
-            
         };
         return assemblies.ToArray();
     }
