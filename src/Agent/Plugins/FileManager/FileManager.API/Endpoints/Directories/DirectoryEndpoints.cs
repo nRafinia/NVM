@@ -12,12 +12,12 @@ public static class DirectoryEndpoints
     private const string DirectoryEndpointRoute = "/Directory";
     private const string DirectoryEndpointTag = "Directory";
 
-    public static IEndpointRouteBuilder AddDirectoryEndpoints(this IEndpointRouteBuilder app, string parentTag)
+    public static IEndpointRouteBuilder AddDirectoryEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup(DirectoryEndpointRoute).WithTags($"{parentTag} - {DirectoryEndpointTag}");
-        group.MapHttpPost<CreateFolderCommand>("/");
-        group.MapHttpDelete<DeleteFolderCommand>("/");
-        
+        var group = app.MapGroup(DirectoryEndpointRoute).WithTags(DirectoryEndpointTag);
+        group.MapHttpPost<CreateFolderCommand>("/")
+            .MapHttpDelete<DeleteFolderCommand>("/");
+
         return app;
     }
 }
