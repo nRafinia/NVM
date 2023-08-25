@@ -15,15 +15,15 @@ public static class FileEndpoints
     private const string UserEndpointRoute = "/File";
     private const string UserEndpointTag = "File";
 
-    public static IEndpointRouteBuilder AddFileEndpoints(this IEndpointRouteBuilder app, string parentTag)
+    public static IEndpointRouteBuilder AddFileEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup(UserEndpointRoute).WithTags($"{parentTag} - {UserEndpointTag}");
-        group.MapHttpGet<GetFileContentQuery>("/Content");
-        group.MapHttpGet<GetTextFileContentQuery>("/TextContent");
-        group.MapHttpDelete<DeleteFileCommand>("/");
-        group.MapHttpPut<WriteToBinaryFileCommand>("/Write");
-        group.MapHttpPut<WriteToTextFileCommand>("/WriteText");
-        
+        var group = app.MapGroup(UserEndpointRoute).WithTags(UserEndpointTag);
+        group.MapHttpGet<GetFileContentQuery>("/Content")
+            .MapHttpGet<GetTextFileContentQuery>("/TextContent")
+            .MapHttpDelete<DeleteFileCommand>("/")
+            .MapHttpPut<WriteToBinaryFileCommand>("/Write")
+            .MapHttpPut<WriteToTextFileCommand>("/WriteText");
+
         return app;
     }
 }

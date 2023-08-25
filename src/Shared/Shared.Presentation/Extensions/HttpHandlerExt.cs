@@ -9,7 +9,7 @@ namespace Shared.Presentation.Extensions;
 
 public static class HttpHandlerExt
 {
-    public static RouteHandlerBuilder MapHttpGet<TRequest>(this IEndpointRouteBuilder endpoints, string template,
+    public static IEndpointRouteBuilder MapHttpGet<TRequest>(this IEndpointRouteBuilder endpoints, string template,
         Func<MapHttpConfiguration>? config = null)
         where TRequest : IHttpRequest
     {
@@ -22,10 +22,10 @@ public static class HttpHandlerExt
             SetConfiguration(endpoint, config.Invoke());
         }
 
-        return endpoint;
+        return endpoints;
     }
 
-    public static RouteHandlerBuilder MapHttpPost<TRequest>(this IEndpointRouteBuilder endpoints, string template,
+    public static IEndpointRouteBuilder MapHttpPost<TRequest>(this IEndpointRouteBuilder endpoints, string template,
         Func<MapHttpConfiguration>? config = null)
         where TRequest : IHttpRequest
     {
@@ -38,10 +38,10 @@ public static class HttpHandlerExt
             SetConfiguration(endpoint, config.Invoke());
         }
 
-        return endpoint;
+        return endpoints;
     }
 
-    public static RouteHandlerBuilder MapHttpPut<TRequest>(this IEndpointRouteBuilder endpoints, string template,
+    public static IEndpointRouteBuilder MapHttpPut<TRequest>(this IEndpointRouteBuilder endpoints, string template,
         Func<MapHttpConfiguration>? config = null)
         where TRequest : IHttpRequest
     {
@@ -54,10 +54,10 @@ public static class HttpHandlerExt
             SetConfiguration(endpoint, config.Invoke());
         }
 
-        return endpoint;
+        return endpoints;
     }
 
-    public static RouteHandlerBuilder MapHttpDelete<TRequest>(this IEndpointRouteBuilder endpoints, string template,
+    public static IEndpointRouteBuilder MapHttpDelete<TRequest>(this IEndpointRouteBuilder endpoints, string template,
         Func<MapHttpConfiguration>? config = null)
         where TRequest : IHttpRequest
     {
@@ -70,7 +70,7 @@ public static class HttpHandlerExt
             SetConfiguration(endpoint, config.Invoke());
         }
 
-        return endpoint;
+        return endpoints;
     }
 
     private static void SetConfiguration(IEndpointConventionBuilder endpoint, MapHttpConfiguration configuration)
