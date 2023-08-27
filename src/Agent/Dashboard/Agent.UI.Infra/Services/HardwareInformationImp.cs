@@ -1,5 +1,5 @@
 using Agent.UI.Application.Abstractions.Interfaces;
-using Agent.UI.Domain.Models.HardwareInfo;
+using Agent.UI.Application.Abstractions.Models.HardwareInfo;
 using Agent.UI.Infra.Interfaces;
 using Microsoft.Extensions.Logging;
 using Shared.Domain.Base.Results;

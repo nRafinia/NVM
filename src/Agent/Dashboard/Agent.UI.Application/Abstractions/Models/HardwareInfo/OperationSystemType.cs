@@ -1,4 +1,4 @@
-namespace Agent.UI.Domain.Models.HardwareInfo;
+namespace Agent.UI.Application.Abstractions.Models.HardwareInfo;
 
 public enum OperationSystemType
 {

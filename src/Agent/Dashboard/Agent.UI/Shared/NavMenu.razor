@@ -1,8 +1,10 @@
 ﻿@using Agent.UI.Application.Abstractions.Interfaces
 @using Agent.UI.Application.Abstractions.Models
+@using Agent.UI.Application.Services
+@using Agent.UI.Application.Services.Models
 @using Agent.UI.Domain.Models
 
-@inject IService Service;
+@inject IServiceLogic Service;
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
@@ -20,8 +22,8 @@
                 <span class="oi oi-home" aria-hidden="true"></span> Home
             </NavLink>
         </div>
-        
-        @foreach (var service in _services??new List<ServiceInformation>(0))
+
+        @foreach (var service in _services.OrderBy(s => s.Order))
         {
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="@service.Key" Match="NavLinkMatch.All">
@@ -36,7 +38,7 @@
     private bool _collapseNavMenu = true;
 
     private string? NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
-    private IList<ServiceInformation>? _services;
+    private List<AvailableServiceResponse> _services = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -51,7 +53,8 @@
             return;
         }
 
-        _services = servicesResponse.Value!;
+        _services.Clear();
+        _services.AddRange(servicesResponse.Value!);
         await InvokeAsync(StateHasChanged);
     }
 

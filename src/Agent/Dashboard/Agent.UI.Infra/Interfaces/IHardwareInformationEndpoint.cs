@@ -1,4 +1,4 @@
-using Agent.UI.Domain.Models.HardwareInfo;
+using Agent.UI.Application.Abstractions.Models.HardwareInfo;
 using Refit;
 
 namespace Agent.UI.Infra.Interfaces;
