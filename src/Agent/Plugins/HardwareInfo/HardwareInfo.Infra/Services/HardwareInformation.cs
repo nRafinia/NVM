@@ -1,3 +1,4 @@
+using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using Hardware.Info;
 using HardwareInfo.Application.Abstraction.Interfaces;
@@ -164,17 +165,31 @@ public class HardwareInformation : IHardwareInformation
         try
         {
             _hardwareInfo.RefreshNetworkAdapterList();
+            var networksInformation = NetworkInterface.GetAllNetworkInterfaces();
 
-            var result = _hardwareInfo.NetworkAdapterList
-                .Select(n => new NetworkAdapterInformation(
-                    n.Name,
-                    n.AdapterType,
-                    n.MACAddress,
-                    n.IPAddressList.Select(i => i.ToString()).ToList(),
-                    n.DHCPServer.ToString(),
-                    n.DNSServerSearchOrderList.Select(i => i.ToString()).ToList(),
-                    n.IPSubnetList.Select(i => i.ToString()).ToList()))
-                .ToList();
+            var result = new List<NetworkAdapterInformation>();
+            foreach (var network in _hardwareInfo.NetworkAdapterList)
+            {
+                var otherAdapterInformation = networksInformation
+                    .Where(n => !string.IsNullOrWhiteSpace(n.ToString()))
+                    .First(a => a.GetPhysicalAddress().ToString() == network.MACAddress.Replace(":", ""));
+
+                var item = new NetworkAdapterInformation(
+                    otherAdapterInformation.Name,
+                    network.Name,
+                    otherAdapterInformation.NetworkInterfaceType.ToString(),
+                    network.MACAddress,
+                    //network.IPAddressList.Select(i => i.ToString()).ToList(),
+                    otherAdapterInformation.GetIPProperties().UnicastAddresses
+                        .Select(addr => $"{addr.Address}/{addr.PrefixLength}").ToList(),
+                    network.DHCPServer.ToString(),
+                    network.DNSServerSearchOrderList.Select(i => i.ToString()).ToList(),
+                    otherAdapterInformation.Speed == -1 ? 0 : otherAdapterInformation.Speed
+                );
+
+                result.Add(item);
+            }
+
             return result;
         }
         catch (Exception e)
