@@ -1,5 +1,9 @@
 ﻿@page "/"
 
+@using Agent.UI.Domain.Models
+
+@inject TargetServiceDomain TargetDomain;
+
 <PageTitle>Index</PageTitle>
 
 <h1>Hello, world!</h1>
@@ -7,3 +11,10 @@
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?"/>
+
+@code {
+    protected override void OnInitialized()
+    {
+        TargetDomain.SetDomain("https://localhost:7051/");
+    }
+}

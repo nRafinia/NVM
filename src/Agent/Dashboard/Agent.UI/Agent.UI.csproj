@@ -13,4 +13,9 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Agent.UI.Application\Agent.UI.Application.csproj" />
+      <ProjectReference Include="..\Agent.UI.Infra\Agent.UI.Infra.csproj" />
+    </ItemGroup>
+
 </Project>
