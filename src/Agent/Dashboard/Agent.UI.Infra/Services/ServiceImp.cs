@@ -1,4 +1,5 @@
 using Agent.UI.Application.Abstractions.Interfaces;
+using Agent.UI.Application.Abstractions.Models;
 using Agent.UI.Domain.Models;
 using Agent.UI.Infra.Interfaces;
 using Microsoft.Extensions.Logging;

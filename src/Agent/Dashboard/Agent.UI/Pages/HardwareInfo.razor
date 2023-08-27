@@ -1,0 +1,29 @@
+﻿@page "/HardwareInfo"
+@using Agent.UI.Application.Abstractions.Interfaces
+@using Agent.UI.Domain.Models.HardwareInfo
+
+@inject IHardwareInformation HardwareInformation;
+
+<PageTitle>Hardware info</PageTitle>
+
+<h1>@(_hardwareInformation?.MachineName)</h1>
+
+@* <p role="status">Current count: @currentCount</p> *@
+
+
+@code {
+    private OperationSystemInformation? _hardwareInformation;
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        var getOsResponse= await HardwareInformation.GetOs();
+        if (getOsResponse.IsFailure)
+        {
+            return;
+        }
+
+        _hardwareInformation = getOsResponse.Value!;
+        
+    }
+
+}

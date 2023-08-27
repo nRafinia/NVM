@@ -1,3 +1,4 @@
+using System.Net;
 using Agent.UI.Domain.Models;
 
 namespace Agent.UI.Infra.Handlers;
@@ -16,6 +17,14 @@ public class ServiceEndpointHandler : DelegatingHandler
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
         CancellationToken cancellationToken)
     {
+        if (string.IsNullOrWhiteSpace(_target.Domain))
+        {
+            return new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.BadRequest
+            };
+        }
+
         var relativeUrl = request.RequestUri!.AbsoluteUri[FakeBaseAddress.Length..];
         var newUri = Combine(_target.Domain, relativeUrl);
         request.RequestUri = new Uri(newUri);

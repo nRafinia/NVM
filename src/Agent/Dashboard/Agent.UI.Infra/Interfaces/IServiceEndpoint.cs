@@ -1,4 +1,4 @@
-using Agent.UI.Infra.Models;
+using Agent.UI.Application.Abstractions.Models;
 using Refit;
 
 namespace Agent.UI.Infra.Interfaces;
@@ -6,5 +6,5 @@ namespace Agent.UI.Infra.Interfaces;
 public interface IServiceEndpoint
 {
     [Get("/service")]
-    Task<List<GetServicesResponse>> GetAvailableService();
+    Task<List<ServiceInformation>> GetAvailableService();
 }

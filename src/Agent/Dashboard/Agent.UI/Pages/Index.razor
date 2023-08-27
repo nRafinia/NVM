@@ -3,18 +3,34 @@
 @using Agent.UI.Domain.Models
 
 @inject TargetServiceDomain TargetDomain;
+@inject NavigationManager NavigationManager;
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Target</h1>
 
-Welcome to your new app.
+Set target domain:<br/>
+<input type="text" @bind="_domain"/>
+<input type="button" class="btn btn-primary" value="Set" @onclick="SetDomain"/>
 
 <SurveyPrompt Title="How is Blazor working for you?"/>
 
 @code {
+    private string _domain = string.Empty;
+
+    [CascadingParameter]
+    public MainLayout? Layout { get; set; }
+    
     protected override void OnInitialized()
     {
-        TargetDomain.SetDomain("https://localhost:7051/");
+    //TargetDomain.SetDomain("https://localhost:7051/");
+        _domain = "http://localhost:5000/";
     }
+
+    private async Task SetDomain()
+    {
+        TargetDomain.SetDomain(_domain);
+        await Layout!.RefreshNavbar();
+    }
+
 }

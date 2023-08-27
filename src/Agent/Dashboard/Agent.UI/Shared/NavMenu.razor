@@ -1,8 +1,8 @@
 ﻿@using Agent.UI.Application.Abstractions.Interfaces
+@using Agent.UI.Application.Abstractions.Models
 @using Agent.UI.Domain.Models
-@inject IService Service;
 
-@inject TargetServiceDomain TargetDomain;
+@inject IService Service;
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
@@ -24,7 +24,7 @@
         @foreach (var service in _services??new List<ServiceInformation>(0))
         {
             <div class="nav-item px-3">
-                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <NavLink class="nav-link" href="@service.Key" Match="NavLinkMatch.All">
                     <span class="oi oi-home" aria-hidden="true"></span> @service.Name
                 </NavLink>
             </div>
@@ -40,11 +40,11 @@
 
     protected override async Task OnInitializedAsync()
     {
-        if (string.IsNullOrWhiteSpace(TargetDomain.Domain))
-        {
-            return;
-        }
-        
+        await RefreshMenu();
+    }
+
+    public async Task RefreshMenu()
+    {
         var servicesResponse = await Service.GetAvailable();
         if (servicesResponse.IsFailure)
         {
@@ -52,6 +52,7 @@
         }
 
         _services = servicesResponse.Value!;
+        await InvokeAsync(StateHasChanged);
     }
 
     private void ToggleNavMenu()

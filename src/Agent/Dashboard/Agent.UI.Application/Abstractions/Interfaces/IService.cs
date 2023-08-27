@@ -1,3 +1,4 @@
+using Agent.UI.Application.Abstractions.Models;
 using Agent.UI.Domain.Models;
 using Shared.Domain.Base.Results;
 

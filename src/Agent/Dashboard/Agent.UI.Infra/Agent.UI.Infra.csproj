@@ -13,7 +13,13 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Agent.UI.Application\Agent.UI.Application.csproj"/>
+
+    <ItemGroup>
+      <Folder Include="Models\" />
     </ItemGroup>
+
+    </ItemGroup>
+
 
 
 
