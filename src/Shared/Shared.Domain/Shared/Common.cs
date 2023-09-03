@@ -5,18 +5,19 @@ namespace Shared.Domain.Shared;
 
 public static class Common
 {
-    public static IEnumerable<T?> GetImplementedInterfaceOf<T>(Assembly assembly)
+    public static IEnumerable<T?> GetImplementedInterfaceOf<T>(params Assembly[] assemblies)
         where T : class
-
     {
-        return GetImplementedInterfaceOf(typeof(T), assembly).ToList()
+        return GetImplementedInterfaceOf(typeof(T), assemblies)
+            .ToList()
             .Select(t => t as T);
     }
 
-    public static IEnumerable<Type> GetImplementedInterfaceOf(Type type, Assembly assembly)
+    public static IEnumerable<Type> GetImplementedInterfaceOf(Type type, params Assembly[] assemblies)
     {
-        return assembly
-            .GetExportedTypes()
+        return assemblies
+            .Select(a => a.GetExportedTypes())
+            .SelectMany(t => t)
             .Where(t => type.IsAssignableFrom(t) && !t.IsInterface)
             .GroupBy(a => a)
             .Select(a => a.Key);
@@ -25,10 +26,11 @@ public static class Common
     public static string GetMimeType(string fileName)
     {
         var fileExtension = Path.GetExtension(fileName).ToLower();
-        if (!ContentTypes.TryGetValue(fileExtension,out var contentType))
+        if (!ContentTypes.TryGetValue(fileExtension, out var contentType))
         {
             contentType = "application/octet-stream";
         }
+
         return contentType;
     }
 

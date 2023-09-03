@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Shared\Shared.Infra\Shared.Infra.csproj" />
+      <ProjectReference Include="..\..\Plugins\FileManager\FileManager.API\FileManager.API.csproj" />
+      <ProjectReference Include="..\..\Plugins\HardwareInfo\HardwareInfo.API\HardwareInfo.API.csproj" />
+      <ProjectReference Include="..\..\Plugins\Service\Service.API\Service.API.csproj" />
+    </ItemGroup>
+
+
+</Project>
