@@ -18,4 +18,11 @@
       <ProjectReference Include="..\Agent.UI.Infra\Agent.UI.Infra.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css.map" />
+    </ItemGroup>
+
+
+
 </Project>

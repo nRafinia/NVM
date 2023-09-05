@@ -3,26 +3,47 @@
 <PageTitle>Agent.UI</PageTitle>
 
 <CascadingValue Value="this">
-    <div class="page">
-        <div class="sidebar">
-            <NavMenu @ref="_navMenu"/>
+    @*-- Layout wrapper --*@
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            @*-- Menu --*@
+            <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+                <NavMenu @ref="_navMenu"/>
+            </aside>
+            @*-- / Menu --*@
+
+            <div class="layout-page">
+                @*-- Navbar --*@
+                <NavBar/>
+                @*-- / Navbar --*@
+
+                @*-- Content wrapper --*@
+                <div class="content-wrapper">
+                    @*-- Content --*@
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <div class="row">
+                            @Body
+                        </div>
+                    </div>
+                    @*-- / Content --*@
+
+                    @*-- Footer --*@
+                    <Footer/>
+                    @*-- / Footer --*@
+                    <div class="content-backdrop fade"></div>
+                </div>
+            </div>
         </div>
 
-        <main>
-            <div class="top-row px-4">
-                <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-            </div>
-
-            <article class="content px-4">
-                @Body
-            </article>
-        </main>
+        @*-- Overlay --*@
+        <div class="layout-overlay layout-menu-toggle"></div>
     </div>
 </CascadingValue>
 
 @code
 {
     private NavMenu? _navMenu;
+
     public async Task RefreshNavbar()
     {
         await _navMenu!.RefreshMenu();
