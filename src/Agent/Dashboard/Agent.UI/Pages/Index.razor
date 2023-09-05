@@ -1,36 +1,115 @@
 ﻿@page "/"
-
 @using Agent.UI.Domain.Models
+@using Agent.UI.Application.HardwareInfo
+@using Agent.UI.Application.Abstractions.Models.HardwareInfo
 
 @inject TargetServiceDomain TargetDomain;
 @inject NavigationManager NavigationManager;
+@inject IHardwareInformationLogic HardwareInformation;
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Dashboard</PageTitle>
 
-<h1>Target</h1>
+<h4 class="fw-bold py-3 mb-4">
+    @(_hardwareInformation?.MachineName)
+</h4>
 
-Set target domain:<br/>
-<input type="text" @bind="_domain"/>
-<input type="button" class="btn btn-primary" value="Set" @onclick="SetDomain"/>
+<div class="row">
+    <div class="col-lg-8 mb-4 order-0">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-striped table-borderless border-bottom">
+                    <tbody>
+                    <tr>
+                        <td class="text-nowrap">OS</td>
+                        <td>@(_hardwareInformation?.Name) (@(_hardwareInformation?.Version))</td>
+                    </tr>
 
-<SurveyPrompt Title="How is Blazor working for you?"/>
+                    <tr>
+                        <td class="text-nowrap">Type</td>
+                        <td>@(_hardwareInformation?.Type)</td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-nowrap">Is x64 OS</td>
+                        <td >
+                            <input class="form-check-input" type="checkbox" disabled="disabled" checked="@(_hardwareInformation?.Isx64.ToString().ToLower())">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-nowrap">Is x64 processors</td>
+                        <td >
+                            <input class="form-check-input" type="checkbox" disabled="disabled" checked="@(_hardwareInformation?.Isx64Processor.ToString().ToLower())">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-nowrap">Username</td>
+                        <td class="text-nowrap">@(_hardwareInformation?.UserName)</td>
+                    </tr>
+
+                    @if ((_hardwareInformation?.Type ?? OperationSystemType.Other) == OperationSystemType.Windows)
+                    {
+                        <tr>
+                            <td class="text-nowrap"></td>
+                            <td></td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 mb-4 order-1">
+        <div class="card">
+            <div class="row row-bordered g-0">
+                <div class="col-8">
+                    <div class="card-header">
+                        <h5 class="m-0 me-2 pb-3">CPU</h5>
+                        <small class="text-muted">42.82k Total Sales</small>
+                    </div>
+                    <div class="">
+                    </div>
+                </div>
+                <div class="col-4">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @code {
-    private string _domain = string.Empty;
+    private OperationSystemInformation? _hardwareInformation;
 
-    [CascadingParameter]
-    public MainLayout? Layout { get; set; }
-    
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-    //TargetDomain.SetDomain("https://localhost:7051/");
-        _domain = "http://localhost:5000/";
+        await base.OnInitializedAsync();
+
+        if (!TargetDomain.IsReady)
+        {
+            NavigationManager.NavigateTo("/addServer");
+            return;
+        }
+
+        GetInformation();
     }
 
-    private async Task SetDomain()
+    private void GetInformation()
     {
-        TargetDomain.SetDomain(_domain);
-        await Layout!.RefreshNavbar();
+        _ = GetOsInformation();
+    }
+
+    private async Task GetOsInformation()
+    {
+        var getOsResponse = await HardwareInformation.GetOs();
+        if (getOsResponse.IsFailure)
+        {
+            return;
+        }
+
+        _hardwareInformation = getOsResponse.Value!;
+        await InvokeAsync(StateHasChanged);
     }
 
 }
