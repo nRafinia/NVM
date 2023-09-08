@@ -2,6 +2,7 @@
 @using Agent.UI.Domain.Models
 @using Agent.UI.Application.HardwareInfo
 @using Agent.UI.Application.Abstractions.Models.HardwareInfo
+@using Agent.UI.Models.Components.Toasts
 
 @inject TargetServiceDomain TargetDomain;
 @inject NavigationManager NavigationManager;
@@ -60,7 +61,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-6 mb-4 order-1">
+    <div class="col-lg-4 mb-4 order-1">
         <div class="card">
             <div class="row row-bordered g-0">
                 <div class="col-8">
@@ -78,8 +79,12 @@
         </div>
     </div>
 </div>
+<button @onclick="ShowToast">click</button>
+
+<Toast @ref="_toast"/>
 
 @code {
+    private Toast? _toast;
     private OperationSystemInformation? _hardwareInformation;
 
     protected override async Task OnInitializedAsync()
@@ -110,6 +115,11 @@
 
         _hardwareInformation = getOsResponse.Value!;
         await InvokeAsync(StateHasChanged);
+    }
+
+    private void ShowToast()
+    {
+        _toast.Show("test", null, "test description", ToastType.Info, ToastPlacement.TopRight);
     }
 
 }
