@@ -12,6 +12,7 @@ public static class SharedErrors
     public static readonly Error AuthorizationIsEmpty = new("Authorization.IsEmpty", "Authorization token is empty");
     public static readonly Error AuthorizationIsFailed = new("Authorization.IsEmpty", "Invalid authorization token");
     public static readonly Error InternalError = new(InternalErrorCode, "An internal error has occurred");
+    public static Error ConnectToServer(string message) => new("Server.Error", message);
     public static readonly Error ProviderError = new("Provider.Error", "An error occurred in the service provider");
     public static readonly Error SaveToDiskError = new("Disk.SaveError", "Error in save file to disk.");
     public static readonly Error AccessDenied = new("Access.Denied", "Access denied.");

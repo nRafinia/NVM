@@ -1,11 +1,14 @@
-@page "/AddServer"
+@page "/ConnectToServer"
 @using Agent.UI.Domain.Models
+@using Agent.UI.Application.Services
+@using Agent.UI.Models.Components.Toasts
 @layout BlankLayout
 
 @inject TargetServiceDomain TargetDomain;
 @inject NavigationManager NavigationManager;
+@inject IServiceLogic Service;
 
-<PageTitle>Add server</PageTitle>
+<PageTitle>Connect to the server</PageTitle>
 
 <div class="card">
     <div class="card-body">
@@ -22,10 +25,10 @@
         <form>
             <div class="mb-3">
                 <label for="address" class="form-label">Address</label>
-                <input type="text" class="form-control" id="address" 
+                <input type="text" class="form-control" id="address"
                        placeholder="IP or FQDN" autofocus @bind="_domain"/>
             </div>
-            
+
             <div class="mb-3">
                 <button class="btn btn-primary d-grid w-100" type="button" @onclick="SetDomain">Connect</button>
             </div>
@@ -40,17 +43,32 @@
     </div>
 </div>
 
+<Toast @ref="_toast"></Toast>
+
 @code {
+    private Toast _toast;
     private string _domain = string.Empty;
-    
+
     protected override void OnInitialized()
     {
         _domain = "http://localhost:5000/";
     }
-    
-    private void SetDomain()
+
+    private Task SetDomain()
     {
         TargetDomain.SetDomain(_domain);
+        return TryToConnect();
+    }
+
+    private async Task TryToConnect()
+    {
+        var servicesResponse = await Service.GetAvailable();
+        if (servicesResponse.IsFailure)
+        {
+            _toast.Show("Could not connect!", servicesResponse.Error!.Message, ToastType.Danger);
+            return;
+        }
+
         NavigationManager.NavigateTo("/");
     }
 

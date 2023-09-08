@@ -25,6 +25,16 @@
 
     private Timer? _timer;
 
+    public void Show(string? title, string? text, ToastType showingType, int delay = 5000)
+    {
+        Show(title, null, text, showingType, ToastPlacement.TopRight, delay);
+    }    
+    
+    public void Show(string? title, string? note, string? text, ToastType showingType, int delay = 5000)
+    {
+        Show(title, note, text, showingType, ToastPlacement.TopRight, delay);
+    }
+
     public void Show(string? title, string? note, string? text, ToastType showingType, ToastPlacement placement, int delay = 5000)
     {
         _title = title;

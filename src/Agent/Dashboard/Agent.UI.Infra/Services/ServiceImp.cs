@@ -32,7 +32,7 @@ public class ServiceImp : IService
         catch (Exception e)
         {
             _logger.LogError(e, e.Message);
-            return Result.Failure<IList<ServiceInformation>>(SharedErrors.ProviderError);
+            return Result.Failure<IList<ServiceInformation>>(SharedErrors.ConnectToServer(e.Message));
         }
     }
 }
