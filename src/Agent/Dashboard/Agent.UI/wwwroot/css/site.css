@@ -80,6 +80,10 @@
     display: block !important;
 }
 
+.hidden{
+    display: none !important;
+}
+
 /*
 * Layout demo
 ******************************************************************************/

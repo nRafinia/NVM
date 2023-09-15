@@ -19,6 +19,19 @@ public static class FileSizeFormatter
         }
 
         return $"{number:n1} {Suffixes[counter]}";
+    }  
+    
+    public static string FormatSize(this uint bytes)
+    {
+        var counter = 0;
+        var number = (decimal)bytes;
+        while (Math.Round(number / 1024) >= 1)
+        {
+            number /= 1024;
+            counter++;
+        }
+
+        return $"{number:n1} {Suffixes[counter]}";
     }    
     
     public static string FormatSize(this long bytes)
@@ -31,6 +44,19 @@ public static class FileSizeFormatter
             counter++;
         }
 
-        return $"{number:n1}{Suffixes[counter]}";
+        return $"{number:n1} {Suffixes[counter]}";
+    }
+    
+    public static string FormatSize(this ulong bytes)
+    {
+        var counter = 0;
+        var number = (decimal)bytes;
+        while (Math.Round(number / 1024) >= 1)
+        {
+            number /= 1024;
+            counter++;
+        }
+
+        return $"{number:n1} {Suffixes[counter]}";
     }
 }
