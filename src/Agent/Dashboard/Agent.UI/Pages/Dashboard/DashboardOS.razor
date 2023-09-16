@@ -12,7 +12,10 @@
 
             <tr>
                 <td class="text-nowrap">Type</td>
-                <td>@(_information?.Type)</td>
+                <td>
+                    <img src="img/os/@(OperationSystemName)_32.png" alt="cpu" class="rounded me-2"/>
+                    @(_information?.Type)
+                </td>
             </tr>
 
             <tr>
@@ -68,5 +71,14 @@
     }
 
     public string? GetMachineName => _information?.MachineName;
+
+    private string OperationSystemName => _information?.Type switch{
+        OperationSystemType.Windows=>"windows",
+        OperationSystemType.Linux=>"linux",
+        OperationSystemType.OSX=>"apple",
+        OperationSystemType.FreeBSD=>"freebsd",
+        OperationSystemType.Android=>"android",
+        _=>"unknown"
+        };
 
 }

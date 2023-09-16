@@ -43,7 +43,7 @@ public static class ConfigureServices
             });
         }
 
-        app.UseHttpsRedirection();
+        //app.UseHttpsRedirection();
 
         app.UseMiddleware<UnhandledExceptionMiddleware>();
 
