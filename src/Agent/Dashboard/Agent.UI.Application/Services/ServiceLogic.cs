@@ -1,5 +1,6 @@
 using Agent.UI.Application.Abstractions.Interfaces;
 using Agent.UI.Application.Abstractions.Models;
+using Agent.UI.Application.Const;
 using Agent.UI.Application.Services.Models;
 using Agent.UI.Domain.Models;
 using Shared.Domain.Base.Results;

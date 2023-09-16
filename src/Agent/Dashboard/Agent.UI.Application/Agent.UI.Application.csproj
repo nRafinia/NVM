@@ -13,6 +13,9 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Agent.UI.Domain\Agent.UI.Domain.csproj" />
+
+
+
     </ItemGroup>
 
 

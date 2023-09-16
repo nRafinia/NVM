@@ -1,0 +1,151 @@
+@page "/FileManager"
+@using Agent.UI.Application.FileManager
+@using Agent.UI.Application.Abstractions.Models.FileManager
+@using Agent.UI.Application.Abstractions.Interfaces
+
+@inject IFileManagerLogic FileManagerLogic
+@inject IHardwareInformation HardwareInformation
+
+<PageTitle>File manager - @CommonConst.AppName</PageTitle>
+
+<h4 class="fw-bold py-3 mb-4">
+    File manager
+</h4>
+
+<div class="card mb-4">
+    <div class="card-body ms-1">
+        <h5>
+            <span class="text-muted fw-light">Path:</span>
+            @_path
+        </h5>
+    </div>
+</div>
+
+<div class="card">
+    <div class="table-responsive text-nowrap">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Size</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (_currentRoot != _path)
+            {
+                <tr>
+                    <td class="cell-fit">
+                        <i class="fa-regular @FileTypeIcon.Get("Directory")"></i>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0)" @onclick="GoUp">..</a>
+                    </td>
+                    <td class="cell-fit"></td>
+                    <td class="cell-fit"></td>
+                    <td class="cell-fit"></td>
+                </tr>
+            }
+
+            @foreach (var item in _pathItems ?? new List<FileListItem>(0))
+            {
+                <tr @key="item">
+                    <td class="cell-fit">
+                        <i class="fa-regular @FileTypeIcon.Get(item.MimeType)"></i>
+                    </td>
+                    <td>
+                        @if (item.Type == FileType.File)
+                        {
+                            @item.Name
+                        }
+                        else
+                        {
+                            <a href="javascript:void(0)" @onclick="() => ChangePath(item.Name)">@item.Name</a>
+                        }
+                    </td>
+                    <td class="cell-fit">@item.MimeType</td>
+                    <td class="cell-fit">@(item.Type == FileType.File ? item.Size.FormatSize() : "")</td>
+                    <td class="cell-fit">x</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code {
+    private IList<FileListItem>? _pathItems;
+    private string? _path;
+    private OperationSystemType _systemType;
+    private string _currentRoot = "/";
+    private char _pathSeparator = '/';
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        await SetOsInformation();
+
+        _currentRoot = _systemType switch{
+            OperationSystemType.Windows=>"d:\\",
+            _=>"/"
+            };
+        _pathSeparator = _systemType == OperationSystemType.Windows ? '\\' : '/';
+    
+        await LoadPath(_currentRoot, string.Empty);
+    }
+
+    private async Task SetOsInformation()
+    {
+        var osInformationResponse = await HardwareInformation.GetOs();
+        if (osInformationResponse.IsFailure)
+        {
+            return;
+        }
+
+        _systemType = osInformationResponse.Value!.Type;
+    }
+
+    private async Task ChangePath(string path)
+    {
+        var pathBegin = _path!.Remove(0, _currentRoot.Length);
+
+        if (!string.IsNullOrWhiteSpace(pathBegin))
+        {
+            pathBegin += "\\";
+        }
+
+        await LoadPath(_currentRoot, pathBegin + path);
+    }
+
+    private async Task GoUp()
+    {
+        var path = _path!
+            .Remove(0, _currentRoot.Length)
+            .Split(_pathSeparator);
+
+        if (path.Length == 1)
+        {
+            await LoadPath(_currentRoot, string.Empty);
+        }
+        
+        var targetPath = string.Join(_pathSeparator, path[..^1]);
+
+        await LoadPath(_currentRoot, targetPath);
+    }
+
+    private async Task LoadPath(string root, string? path)
+    {
+        var getPathResponse = await FileManagerLogic.GetPath(new GetPathRequest(root, path));
+        if (getPathResponse.IsFailure)
+        {
+            return;
+        }
+
+        _path = getPathResponse.Value!.Path;
+        _pathItems = getPathResponse.Value!.Items;
+    }
+
+}

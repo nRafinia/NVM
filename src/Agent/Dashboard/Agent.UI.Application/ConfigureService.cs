@@ -1,4 +1,6 @@
 using System.Reflection;
+using Agent.UI.Application.Abstractions.Interfaces;
+using Agent.UI.Application.FileManager;
 using Agent.UI.Application.HardwareInfo;
 using Agent.UI.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +13,7 @@ public static class ConfigureServices
     {
         services.AddTransient<IServiceLogic, ServiceLogic>();
         services.AddTransient<IHardwareInformationLogic, HardwareInformationLogic>();
+        services.AddTransient<IFileManagerLogic, FileManagerLogic>();
 
         return services;
     }

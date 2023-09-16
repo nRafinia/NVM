@@ -16,6 +16,7 @@ public static class ConfigureServices
 
         services.AddTransient<IService, ServiceImp>();
         services.AddTransient<IHardwareInformation, HardwareInformationImp>();
+        services.AddTransient<IFileManager, FileManagerImp>();
 
         AddRefitServices(services);
 
@@ -30,6 +31,10 @@ public static class ConfigureServices
             .AddHttpMessageHandler<ServiceEndpointHandler>();
         services
             .AddRefitClient<IHardwareInformationEndpoint>()
+            .ConfigureHttpClient(c => c.BaseAddress = new Uri(ServiceEndpointHandler.FakeBaseAddress))
+            .AddHttpMessageHandler<ServiceEndpointHandler>();        
+        services
+            .AddRefitClient<IFileManagerEndpoint>()
             .ConfigureHttpClient(c => c.BaseAddress = new Uri(ServiceEndpointHandler.FakeBaseAddress))
             .AddHttpMessageHandler<ServiceEndpointHandler>();
     }

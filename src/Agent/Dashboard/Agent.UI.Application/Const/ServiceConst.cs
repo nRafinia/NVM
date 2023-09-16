@@ -1,6 +1,6 @@
-namespace Agent.UI.Application.Services;
+namespace Agent.UI.Application.Const;
 
-public class ServiceConst
+public static class ServiceConst
 {
     public const string HardwareInfo = "HardwareInfo";
     public const string FileManager = "FileManager";
