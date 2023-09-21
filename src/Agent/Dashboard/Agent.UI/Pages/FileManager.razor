@@ -25,7 +25,7 @@
                             <select class="form-select" id="sb_ChangeDrive" @onchange="ChangeDrive">
                                 @foreach (var item in _logicalDrives)
                                 {
-                                    <option value="@item" >@item</option>
+                                    <option value="@item">@item</option>
                                 }
                             </select>
                         </div>
@@ -103,11 +103,19 @@
                                         <a class="dropdown-item" href="javascript:void(0)">Show content</a>
 
                                     </li>
-                                    <li><hr class="dropdown-divider"/></li>
+                                    <li>
+                                        <hr class="dropdown-divider"/>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item text-danger" href="javascript:void(0)">Delete</a>
+                                    </li>
                                 }
-                                <li>
-                                    <a class="dropdown-item" href="javascript:void(0)">Delete</a>
-                                </li>
+                                else
+                                {
+                                    <li>
+                                        <a class="dropdown-item text-danger" href="javascript:void(0)">Delete</a>
+                                    </li>
+                                }
                             </ul>
                         </div>
                     </td>
@@ -122,7 +130,7 @@
     private IList<FileListItem>? _pathItems;
     private string? _path;
     private OperationSystemType _systemType;
-    private IList<string> _logicalDrives;
+    private IList<string> _logicalDrives = new List<string>(0);
     private string _currentRoot = "/";
     private char _pathSeparator = '/';
 
@@ -150,7 +158,7 @@
         _logicalDrives = osInformationResponse.Value!.LogicalDrives;
     }
 
-    private async Task ChangePath(string path)
+    private async Task ChangePath(string folderName)
     {
         var pathBegin = _path!.Remove(0, _currentRoot.Length);
 
@@ -159,7 +167,7 @@
             pathBegin += "\\";
         }
 
-        await LoadPath(_currentRoot, pathBegin + path);
+        await LoadPath(_currentRoot, pathBegin + folderName);
     }
 
     private async Task GoUp()
@@ -200,4 +208,33 @@
         _currentRoot = selectedDrive;
         return LoadPath(_currentRoot, string.Empty);
     }
+
+    #region Folder
+
+    private async Task DeleteFolder(string folderName)
+    {
+        var pathBegin = _path!.Remove(0, _currentRoot.Length);
+
+        if (!string.IsNullOrWhiteSpace(pathBegin))
+        {
+            pathBegin += "\\";
+        }
+
+        await FileManagerLogic.DeleteFolder(new DeleteFolderRequest(_currentRoot, pathBegin + folderName));
+    }
+
+    private async Task CreateFolder(string folderName)
+    {
+        var pathBegin = _path!.Remove(0, _currentRoot.Length);
+
+        if (!string.IsNullOrWhiteSpace(pathBegin))
+        {
+            pathBegin += "\\";
+        }
+
+        await FileManagerLogic.CreateFolder(new CreateFolderRequest(_currentRoot, pathBegin + folderName));
+    }
+
+    #endregion
+
 }

@@ -14,5 +14,11 @@ public class FileManagerLogic : IFileManagerLogic
     }
 
     public Task<Result<GetPathResponse?>> GetPath(GetPathRequest request)
-        => _fileManager.GetPath(request);    
+        => _fileManager.GetPath(request);
+
+    public Task<Result> CreateFolder(CreateFolderRequest request)
+        => _fileManager.CreateFolder(request);
+
+    public Task<Result> DeleteFolder(DeleteFolderRequest request)
+        => _fileManager.DeleteFolder(request);
 }

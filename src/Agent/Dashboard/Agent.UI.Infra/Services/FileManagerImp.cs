@@ -31,5 +31,33 @@ public class FileManagerImp : IFileManager
             _logger.LogError(e, e.Message);
             return Result.Failure<GetPathResponse>(SharedErrors.ProviderError);
         }
+    }    
+    
+    public async Task<Result> CreateFolder(CreateFolderRequest request)
+    {
+        try
+        {
+            await _service.CreateFolder(request);
+            return Result.Success();
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, e.Message);
+            return Result.Failure(SharedErrors.ProviderError);
+        }
+    }    
+    
+    public async Task<Result> DeleteFolder(DeleteFolderRequest request)
+    {
+        try
+        {
+            await _service.DeleteFolder(request);
+            return Result.Success();
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, e.Message);
+            return Result.Failure(SharedErrors.ProviderError);
+        }
     }
 }
