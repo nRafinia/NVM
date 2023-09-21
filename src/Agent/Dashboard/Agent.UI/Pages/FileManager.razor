@@ -14,10 +14,31 @@
 
 <div class="card mb-4">
     <div class="card-body ms-1">
-        <h5>
-            <span class="text-muted fw-light">Path:</span>
-            @_path
-        </h5>
+        @* <h5> *@
+        <div class="row mb-0">
+            @if (_systemType == OperationSystemType.Windows)
+            {
+                <div class="col-12 col-lg-4">
+                    <div class="row mb-3">
+                        <label class="text-muted fw-light col-form-label col-3" for="sb_ChangeDrive">Drive:</label>
+                        <div class="col-7">
+                            <select class="form-select" id="sb_ChangeDrive" @onchange="ChangeDrive">
+                                @foreach (var item in _logicalDrives)
+                                {
+                                    <option value="@item" >@item</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="col-12 col-lg-8">
+                <span class="text-muted fw-light">Current Path:</span>
+                @_path
+            </div>
+
+            @* </h5> *@
+        </div>
     </div>
 </div>
 
@@ -67,7 +88,29 @@
                     </td>
                     <td class="cell-fit">@item.MimeType</td>
                     <td class="cell-fit">@(item.Type == FileType.File ? item.Size.FormatSize() : "")</td>
-                    <td class="cell-fit">x</td>
+                    <td class="cell-fit">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-outline-dark btn-icon rounded-pill dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                <i class="bx bx-dots-vertical-rounded"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                @if (item.Type == FileType.File)
+                                {
+                                    <li>
+                                        <a class="dropdown-item" href="javascript:void(0)">Download</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="javascript:void(0)">Show content</a>
+
+                                    </li>
+                                    <li><hr class="dropdown-divider"/></li>
+                                }
+                                <li>
+                                    <a class="dropdown-item" href="javascript:void(0)">Delete</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
                 </tr>
             }
             </tbody>
@@ -79,6 +122,7 @@
     private IList<FileListItem>? _pathItems;
     private string? _path;
     private OperationSystemType _systemType;
+    private IList<string> _logicalDrives;
     private string _currentRoot = "/";
     private char _pathSeparator = '/';
 
@@ -88,12 +132,9 @@
 
         await SetOsInformation();
 
-        _currentRoot = _systemType switch{
-            OperationSystemType.Windows=>"d:\\",
-            _=>"/"
-            };
+        _currentRoot = _logicalDrives.First();
         _pathSeparator = _systemType == OperationSystemType.Windows ? '\\' : '/';
-    
+
         await LoadPath(_currentRoot, string.Empty);
     }
 
@@ -106,6 +147,7 @@
         }
 
         _systemType = osInformationResponse.Value!.Type;
+        _logicalDrives = osInformationResponse.Value!.LogicalDrives;
     }
 
     private async Task ChangePath(string path)
@@ -130,7 +172,7 @@
         {
             await LoadPath(_currentRoot, string.Empty);
         }
-        
+
         var targetPath = string.Join(_pathSeparator, path[..^1]);
 
         await LoadPath(_currentRoot, targetPath);
@@ -148,4 +190,14 @@
         _pathItems = getPathResponse.Value!.Items;
     }
 
+    private Task ChangeDrive(ChangeEventArgs e)
+    {
+        var selectedDrive = e.Value?.ToString();
+        if (string.IsNullOrWhiteSpace(selectedDrive))
+        {
+            return Task.CompletedTask;
+        }
+        _currentRoot = selectedDrive;
+        return LoadPath(_currentRoot, string.Empty);
+    }
 }
