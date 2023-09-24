@@ -13,5 +13,5 @@ public interface IFileManagerEndpoint
     Task CreateFolder([Body] CreateFolderRequest request);    
     
     [Delete("/FileManager/Directory")]
-    Task DeleteFolder([Body] DeleteFolderRequest request);
+    Task DeleteFolder([Query] DeleteFolderRequest request);
 }

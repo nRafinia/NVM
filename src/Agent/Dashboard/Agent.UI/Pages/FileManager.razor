@@ -5,6 +5,7 @@
 
 @inject IFileManagerLogic FileManagerLogic
 @inject IHardwareInformation HardwareInformation
+@inject SweetAlertService Swal
 
 <PageTitle>File manager - @CommonConst.AppName</PageTitle>
 
@@ -113,7 +114,7 @@
                                 else
                                 {
                                     <li>
-                                        <a class="dropdown-item text-danger" href="javascript:void(0)">Delete</a>
+                                        <a class="dropdown-item text-danger" href="javascript:void(0)" @onclick="() => DeleteFolder(item.Name)">Delete</a>
                                     </li>
                                 }
                             </ul>
@@ -186,6 +187,11 @@
         await LoadPath(_currentRoot, targetPath);
     }
 
+    private Task RefreshCurrentFolder()
+    {
+        return LoadPath(_currentRoot, string.Empty);
+    }
+    
     private async Task LoadPath(string root, string? path)
     {
         var getPathResponse = await FileManagerLogic.GetPath(new GetPathRequest(root, path));
@@ -213,6 +219,20 @@
 
     private async Task DeleteFolder(string folderName)
     {
+        var confirmDelete = await Swal.FireAsync(new SweetAlertOptions()
+        {
+            Title = "Delete",
+            Text = $"Are you sure for delete folder '{folderName}'?",
+            Icon = SweetAlertIcon.Warning,
+            ShowCancelButton = true,
+            ConfirmButtonText = "Yes"
+        });
+
+        if (!confirmDelete.IsConfirmed)
+        {
+            return;
+        }
+
         var pathBegin = _path!.Remove(0, _currentRoot.Length);
 
         if (!string.IsNullOrWhiteSpace(pathBegin))
@@ -220,7 +240,15 @@
             pathBegin += "\\";
         }
 
-        await FileManagerLogic.DeleteFolder(new DeleteFolderRequest(_currentRoot, pathBegin + folderName));
+        var deleteFolderResponse = await FileManagerLogic.DeleteFolder(new DeleteFolderRequest(_currentRoot, pathBegin + folderName));
+        if (deleteFolderResponse.IsSuccess)
+        {
+            await Swal.FireAsync(null, $"Folder '{folderName}' removed.", SweetAlertIcon.Success);
+            await RefreshCurrentFolder();
+            return;
+        }
+
+        await Swal.FireAsync("Error", deleteFolderResponse.Error!.Message, SweetAlertIcon.Error);
     }
 
     private async Task CreateFolder(string folderName)

@@ -1,5 +1,6 @@
 using Agent.UI.Application.Abstractions.Interfaces;
 using Agent.UI.Application.Abstractions.Models.FileManager;
+using Agent.UI.Domain.Errors;
 using Agent.UI.Infra.Interfaces;
 using Microsoft.Extensions.Logging;
 using Shared.Domain.Base.Results;
@@ -29,7 +30,7 @@ public class FileManagerImp : IFileManager
         catch (Exception e)
         {
             _logger.LogError(e, e.Message);
-            return Result.Failure<GetPathResponse>(SharedErrors.ProviderError);
+            return Result.Failure<GetPathResponse>(FileManagerErrors.GetPathError(e.Message));
         }
     }    
     
@@ -43,7 +44,7 @@ public class FileManagerImp : IFileManager
         catch (Exception e)
         {
             _logger.LogError(e, e.Message);
-            return Result.Failure(SharedErrors.ProviderError);
+            return Result.Failure(FileManagerErrors.CreateFolderError(e.Message));
         }
     }    
     
@@ -57,7 +58,7 @@ public class FileManagerImp : IFileManager
         catch (Exception e)
         {
             _logger.LogError(e, e.Message);
-            return Result.Failure(SharedErrors.ProviderError);
+            return Result.Failure(FileManagerErrors.DeleteFolderError(e.Message));
         }
     }
 }

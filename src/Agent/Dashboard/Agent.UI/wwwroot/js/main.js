@@ -117,7 +117,7 @@ let menu, animate;
     window.Helpers.setCollapsed(true, false);
 })();
 
-function setMenuToggled(){
+function setMenuToggled() {
     // Initialize menu togglers and bind click on each
     let menuToggler = document.querySelectorAll('.layout-menu-toggle');
     menuToggler.forEach(item => {
@@ -128,3 +128,4 @@ function setMenuToggled(){
         });
     });
 }
+

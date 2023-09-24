@@ -1,5 +1,3 @@
-using Agent.UI.Data;
-
 namespace Agent.UI;
 
 public static class ConfigureServices
@@ -9,7 +7,7 @@ public static class ConfigureServices
         services.AddRazorPages();
         services.AddServerSideBlazor();
 
-        services.AddSingleton<WeatherForecastService>();
+        services.AddSweetAlert2();
         
         return services;
     }
@@ -23,7 +21,7 @@ public static class ConfigureServices
             app.UseHsts();
         }
 
-        app.UseHttpsRedirection();
+        // app.UseHttpsRedirection();
 
         app.UseStaticFiles();
 

@@ -75,13 +75,15 @@ public static class FileTypeIcon
             {"application/x-csh", "fa-file-code"},
             
             {"application/gzip", "fa-file-archive"},
+            {"application/x-gzip", "fa-file-archive"},
             {"application/x-bzip", "fa-file-archive"},
             {"application/x-bzip2", "fa-file-archive"},
             {"application/x-freearc", "fa-file-archive"},
             {"application/x-tar", "fa-file-archive"},
             {"application/vnd.rar", "fa-file-archive"},
             {"application/x-7z-compressed", "fa-file-archive"},
-            {"application/zip", "fa-file-zip"}
+            {"application/zip", "fa-file-archive"},
+            {"application/x-zip-compressed", "fa-file-archive"}
         };
 
         return iconMapping.ContainsKey(mimeType) ? iconMapping[mimeType] : "fa-file";
