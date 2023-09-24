@@ -1,10 +1,13 @@
 ﻿using System.Reflection;
+using System.Text.Json;
 
 
 namespace Shared.Domain.Shared;
 
 public static class Common
 {
+    private static Dictionary<string, string>? _contentTypes = null;
+
     public static IEnumerable<T?> GetImplementedInterfaceOf<T>(params Assembly[] assemblies)
         where T : class
     {
@@ -25,8 +28,13 @@ public static class Common
 
     public static string GetMimeType(string fileName)
     {
+        if (_contentTypes is null)
+        {
+            LoadContentTypes();
+        }
+
         var fileExtension = Path.GetExtension(fileName).ToLower();
-        if (!ContentTypes.TryGetValue(fileExtension, out var contentType))
+        if (!_contentTypes!.TryGetValue(fileExtension, out var contentType))
         {
             contentType = "application/octet-stream";
         }
@@ -34,10 +42,25 @@ public static class Common
         return contentType;
     }
 
+    private static void LoadContentTypes()
+    {
+        var executePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ??
+                          Environment.CurrentDirectory;
+        var mimeTypePath = Path.Combine(executePath, "Shared", "mime-types.json");
+        if (!File.Exists(mimeTypePath))
+        {
+            _contentTypes = DefaultContentTypes;
+            return;
+        }
+
+        var mimeTypesText = File.ReadAllText(mimeTypePath);
+        _contentTypes = JsonSerializer.Deserialize<Dictionary<string, string>>(mimeTypesText);
+    }
+
     #region private
 
     // ReSharper disable StringLiteralTypo
-    private static readonly Dictionary<string, string> ContentTypes = new()
+    private static readonly Dictionary<string, string> DefaultContentTypes = new()
     {
         { ".323", "text/h323" },
         { ".3g2", "video/3gpp2" },
@@ -462,6 +485,9 @@ public static class Common
         { ".swf", "application/x-shockwave-flash" },
         { ".t", "application/x-troff" },
         { ".tar", "application/x-tar" },
+        { ".tar.gz", "application/x-tar" },
+        { ".tar.bz2", "application/x-tar" },
+        { ".tar.xy", "application/x-tar" },
         { ".tcl", "application/x-tcl" },
         { ".testrunconfig", "application/xml" },
         { ".testsettings", "application/xml" },
