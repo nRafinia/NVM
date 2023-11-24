@@ -1,4 +1,4 @@
-﻿@inherits LayoutComponentBase
+﻿@inherits LayoutComponentBase 
 
 @inject IJSRuntime JsRuntime
 
@@ -33,14 +33,10 @@
 @code
 {
     private NavMenu? _navMenu;
-
+  
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!firstRender)
-        {
-            return;
-        }
-        await JsRuntime.InvokeVoidAsync("setMenuToggled");
+        await JsRuntime.InvokeVoidAsync("AfterLoadPage");
     }
 
     public async Task RefreshNavbar()

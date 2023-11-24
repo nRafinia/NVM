@@ -8,6 +8,8 @@ public static class ConfigureServices
         services.AddServerSideBlazor();
 
         services.AddSweetAlert2();
+
+        services.AddTransient<IJavaScriptLoader, JavaScriptLoader>();
         
         return services;
     }
