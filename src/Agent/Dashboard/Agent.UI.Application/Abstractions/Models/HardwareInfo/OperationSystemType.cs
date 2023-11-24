@@ -6,5 +6,6 @@ public enum OperationSystemType
     Linux,
     OSX,
     Windows,
+    Android,
     Other
 }

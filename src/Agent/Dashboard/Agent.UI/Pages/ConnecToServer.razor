@@ -1,0 +1,75 @@
+@page "/ConnectToServer"
+@using Agent.UI.Domain.Models
+@using Agent.UI.Application.Services
+@using Agent.UI.Models.Components.Toasts
+@layout BlankLayout
+
+@inject TargetServiceDomain TargetDomain;
+@inject NavigationManager NavigationManager;
+@inject IServiceLogic Service;
+
+<PageTitle>Connect to the server</PageTitle>
+
+<div class="card">
+    <div class="card-body">
+        <!-- Logo -->
+        <div class="app-brand justify-content-center">
+            <a href="/" class="app-brand-link gap-2">
+                <span class="app-brand-text demo text-body fw-bolder">NVM</span>
+            </a>
+        </div>
+        <!-- /Logo -->
+        <h4 class="mb-2">Connect to the server</h4>
+        <p class="mb-4">Please enter server information to connect</p>
+
+        <form>
+            <div class="mb-3">
+                <label for="address" class="form-label">Address</label>
+                <input type="text" class="form-control" id="address"
+                       placeholder="IP or FQDN" autofocus @bind="_domain"/>
+            </div>
+
+            <div class="mb-3">
+                <button class="btn btn-primary d-grid w-100" type="button" @onclick="SetDomain">Connect</button>
+            </div>
+        </form>
+
+        <p class="text-center">
+            <span>Back to the </span>
+            <a href="/">
+                <span>Dashboard</span>
+            </a>
+        </p>
+    </div>
+</div>
+
+<Toast @ref="_toast"></Toast>
+
+@code {
+    private Toast _toast;
+    private string _domain = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        _domain = "http://localhost:5000/";
+    }
+
+    private Task SetDomain()
+    {
+        TargetDomain.SetDomain(_domain);
+        return TryToConnect();
+    }
+
+    private async Task TryToConnect()
+    {
+        var servicesResponse = await Service.GetAvailable();
+        if (servicesResponse.IsFailure)
+        {
+            _toast.Show("Could not connect!", servicesResponse.Error!.Message, ToastType.Danger);
+            return;
+        }
+
+        NavigationManager.NavigateTo("/");
+    }
+
+}

@@ -1,6 +1,5 @@
 using Agent.UI.Application.Abstractions.Interfaces;
 using Agent.UI.Application.Abstractions.Models;
-using Agent.UI.Domain.Models;
 using Agent.UI.Infra.Interfaces;
 using Microsoft.Extensions.Logging;
 using Shared.Domain.Base.Results;
@@ -33,7 +32,7 @@ public class ServiceImp : IService
         catch (Exception e)
         {
             _logger.LogError(e, e.Message);
-            return Result.Failure<IList<ServiceInformation>>(SharedErrors.ProviderError);
+            return Result.Failure<IList<ServiceInformation>>(SharedErrors.ConnectToServer(e.Message));
         }
     }
 }

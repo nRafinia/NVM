@@ -14,7 +14,23 @@ public class HardwareInformationLogic : IHardwareInformationLogic
     }
 
     public Task<Result<OperationSystemInformation?>> GetOs()
-    {
-        return _hardwareInformation.GetOs();
-    }
+        => _hardwareInformation.GetOs();    
+    
+    public Task<Result<MemoryInformation?>> GetMemory()
+        => _hardwareInformation.GetMemory();    
+    
+    public Task<Result<IList<BiosInformation>?>> GetBios()
+        => _hardwareInformation.GetBios();    
+    
+    public Task<Result<IList<CpuInformation>?>> GetCpu()
+        => _hardwareInformation.GetCpu();    
+    
+    public Task<Result<IList<MemoryHwInformation>?>> GetMemorySlot()
+        => _hardwareInformation.GetMemorySlot();    
+    
+    public Task<Result<IList<MotherboardInformation>?>> GetMotherboard()
+        => _hardwareInformation.GetMotherboard();    
+    
+    public Task<Result<IList<NetworkAdapterInformation>?>> GetNetworkAdapter()
+        => _hardwareInformation.GetNetworkAdapter();
 }

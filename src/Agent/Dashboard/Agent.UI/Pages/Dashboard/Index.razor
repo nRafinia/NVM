@@ -1,0 +1,93 @@
+﻿@page "/"
+@using Agent.UI.Domain.Models
+@using Agent.UI.Application.HardwareInfo
+
+@inject TargetServiceDomain TargetDomain;
+@inject NavigationManager NavigationManager;
+@inject IHardwareInformationLogic HardwareInformation;
+
+<PageTitle>Dashboard - @CommonConst.AppName</PageTitle>
+
+<h4 class="fw-bold py-3 mb-4">
+    @_machineName
+</h4>
+
+<div class="row mb-5">
+    <div class="col-12 order-0">
+        <DashboardOS @ref="_dashboardOs" GettingFinishedCallback="ComponentFinishedCallback"/>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="@(_dashboardCpu?.GetColSize ?? "col-12") order-0 mb-5 @((_dashboardCpu?.IsVisible ?? false) ? "" : "hidden")">
+        <DashboardCPU @ref="_dashboardCpu" GettingFinishedCallback="ComponentFinishedCallback"/>
+    </div>
+
+    <div class="@(_dashboardRam?.GetColSize ?? "col-12") order-1 mb-5 @((_dashboardRam?.IsVisible ?? false) ? "" : "hidden")">
+        <DashboardRAM @ref="_dashboardRam" GettingFinishedCallback="ComponentFinishedCallback"/>
+    </div>
+
+    <div class="@(_dashboardMotherboard?.GetColSize ?? "col-12") order-2 mb-5 @((_dashboardMotherboard?.IsVisible ?? false) ? "" : "hidden")">
+        <DashboardMotherboard @ref="_dashboardMotherboard" GettingFinishedCallback="ComponentFinishedCallback"/>
+    </div>
+
+    <div class="@(_dashboardBios?.GetColSize ?? "col-12") order-3 mb-5 @((_dashboardBios?.IsVisible ?? false) ? "" : "hidden")" >
+        <DashboardBios @ref="_dashboardBios" GettingFinishedCallback="ComponentFinishedCallback"/>
+    </div>
+
+    <div class="@(_dashboardNetwork?.GetColSize ?? "col-12") order-4 mb-5 @((_dashboardNetwork?.IsVisible ?? false) ? "" : "hidden")">
+        <DashboardNetwork @ref="_dashboardNetwork" GettingFinishedCallback="ComponentFinishedCallback"/>
+    </div>
+
+</div>
+
+@code {
+    private DashboardBios? _dashboardBios;
+    private DashboardCPU? _dashboardCpu;
+    private DashboardMotherboard? _dashboardMotherboard;
+    private DashboardNetwork? _dashboardNetwork;
+    private DashboardOS? _dashboardOs;
+    private DashboardRAM? _dashboardRam;
+
+    private string? _machineName;
+
+    protected override void OnInitialized()
+    {
+        if (TargetDomain.IsReady)
+        {
+            return;
+        }
+
+        NavigationManager.NavigateTo("/connectToServer");
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (!firstRender)
+        {
+            return;
+        }
+
+        _ = GetInformation();
+    }
+
+    private async Task GetInformation()
+    {
+        await _dashboardOs!.GetInformation(HardwareInformation);
+        _machineName = _dashboardOs?.GetMachineName;
+
+        _ = _dashboardBios!.GetInformation(HardwareInformation);
+        _ = _dashboardCpu!.GetInformation(HardwareInformation);
+        _ = _dashboardMotherboard!.GetInformation(HardwareInformation);
+        _ = _dashboardNetwork!.GetInformation(HardwareInformation);
+        _ = _dashboardRam!.GetInformation(HardwareInformation);
+        StateHasChanged();
+    }
+
+    private Task ComponentFinishedCallback()
+        => InvokeAsync(StateHasChanged);
+
+}

@@ -1,0 +1,144 @@
+@implements IDashboardComponent
+
+<div class="card">
+    <div class="card-header pb-0">
+        <div class="d-flex align-items-center mb-2 pb-1">
+            <div class="avatar me-2">
+                <img src="img/hardware/network_64.png" alt="network" class="rounded"/>
+            </div>
+            <h5 class="ms-1 mb-0">Network</h5>
+        </div>
+    </div>
+
+    <div class="row row-bordered g-0">
+        @foreach (var network in _information ?? new List<NetworkAdapterInformation>(0))
+        {
+            <div class="@_internalColSize">
+                <h5 class="card-header m-0 me-2 pb-3">@network.Id</h5>
+                <ul class="p-1 m-3">
+                    <li class="d-flex pb-1">
+                        <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                                <h6 class="mb-0">Name</h6>
+                            </div>
+                            <div class="user-progress">@network.Name</div>
+                        </div>
+                    </li>
+                    <li class="d-flex pb-1">
+                        <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                                <h6 class="mb-0">Type</h6>
+                            </div>
+                            <div class="user-progress">@network.Type</div>
+                        </div>
+                    </li>
+
+                    <li class="d-flex pb-1">
+                        <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                                <h6 class="mb-0">MAC address</h6>
+                            </div>
+                            <div class="user-progress">@network.MacAddress</div>
+                        </div>
+                    </li>
+
+                    <li class="d-flex pb-2 border-dashed border-0 border-bottom">
+                        <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                                <h6 class="mb-0">Speed</h6>
+                            </div>
+                            <div class="user-progress">@(network.Speed.FormatSize())</div>
+                        </div>
+                    </li>
+
+                    <li class="d-flex pb-1 pt-2">
+                        <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                                <h6 class="mb-0">IP</h6>
+                            </div>
+                            <div class="user-progress">
+                                <ul class="p-0 m-0">
+                                    @foreach (var ip in network.Ip)
+                                    {
+                                        <li class="d-flex pb-1 justify-content-end">@ip</li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="d-flex pb-1">
+                        <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                                <h6 class="mb-0">DNS server</h6>
+                            </div>
+                            <div class="user-progress">
+                                <ul class="p-0 m-0">
+                                    @foreach (var dns in network.Dns)
+                                    {
+                                        <li class="d-flex pb-1 justify-content-end">@dns</li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="d-flex pb-1">
+                        <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                                <h6 class="mb-0">DHCP server</h6>
+                            </div>
+                            <div class="user-progress">@network.Dhcp</div>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+        }
+
+    </div>
+</div>
+
+@code {
+    private IList<NetworkAdapterInformation>? _information;
+    private string _internalColSize = "col-4";
+    private string _externalColSize = "col-12";
+
+    [Parameter]
+    public EventCallback GettingFinishedCallback { get; set; }
+
+    public async Task GetInformation(IHardwareInformationLogic hardwareInformation)
+    {
+        var getInformationResponse = await hardwareInformation.GetNetworkAdapter();
+        if (getInformationResponse.IsFailure)
+        {
+            return;
+        }
+
+        _information = getInformationResponse.Value!;
+
+        _internalColSize = _information.Count switch
+        {
+            1=>"col-12",
+            2=>"col-12 col-lg-6",
+            _=>"col-12 col-lg-4"
+            };
+
+        _externalColSize = _information.Count switch
+        {
+            1=>"col-4",
+            2=>"col-12 col-lg-6",
+            _=>"col-12"
+            };
+
+        await InvokeAsync(StateHasChanged);
+        await GettingFinishedCallback.InvokeAsync();
+    }
+
+    public string GetColSize => _externalColSize;
+
+    public bool IsVisible =>
+        _information is not null &&
+        _information.Any();
+
+}
