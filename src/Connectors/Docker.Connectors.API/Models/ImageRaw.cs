@@ -11,14 +11,14 @@ public class ImageRaw
     public List<string> RepoTags { get; set; }
     
     [JsonPropertyName("Created")]
-    public int Created { get; set; }
+    public long Created { get; set; }
 
     [JsonPropertyName("Size")]
-    public int Size { get; set; }
+    public long Size { get; set; }
 
     [JsonPropertyName("SharedSize")]
-    public int SharedSize { get; set; }
+    public long SharedSize { get; set; }
 
     [JsonPropertyName("VirtualSize")]
-    public int VirtualSize { get; set; }
+    public long VirtualSize { get; set; }
 }
