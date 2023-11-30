@@ -1,0 +1,92 @@
+[
+  {
+    "Id": "0ebda6ef1109e1e1d1447222508dbf6f545e494aff377e0afafae4294983506e",
+    "Names": [
+      "/embyserver"
+    ],
+    "Image": "emby/embyserver:latest",
+    "ImageID": "sha256:2552cbe87d6db5ffe84a9d2053b1728905be28a82b0effd114bdc1897eaa362b",
+    "Command": "/init",
+    "Created": 1697136949,
+    "Ports": [],
+    "Labels": {
+      "com.docker.compose.config-hash": "7bde31b5e030b18f41fb9cdc0c398e9f90650ef70d07e2391a8c24f88bbb161b",
+      "com.docker.compose.container-number": "1",
+      "com.docker.compose.depends_on": "",
+      "com.docker.compose.image": "sha256:2552cbe87d6db5ffe84a9d2053b1728905be28a82b0effd114bdc1897eaa362b",
+      "com.docker.compose.oneoff": "False",
+      "com.docker.compose.project": "emby",
+      "com.docker.compose.project.config_files": "/home/naser/dockers/emby/docker-compose.yml",
+      "com.docker.compose.project.working_dir": "/home/naser/dockers/emby",
+      "com.docker.compose.service": "emby",
+      "com.docker.compose.version": "2.21.0",
+      "maintainer": "Emby LLC <apps@emby.media>"
+    },
+    "State": "running",
+    "Status": "Up 2 days",
+    "HostConfig": {
+      "NetworkMode": "host"
+    },
+    "NetworkSettings": {
+      "Networks": {
+        "host": {
+          "IPAMConfig": null,
+          "Links": null,
+          "Aliases": null,
+          "NetworkID": "d83269a8ec4711ed8860ee0dec37cb03e0c5c01fec688478c419af7f9ce0d885",
+          "EndpointID": "0ecda90b78cf74b25cf64ac75ae2d83d32efe420a0e87a94731321462a6710f3",
+          "Gateway": "",
+          "IPAddress": "",
+          "IPPrefixLen": 0,
+          "IPv6Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "MacAddress": "",
+          "DriverOpts": null
+        }
+      }
+    },
+    "Mounts": [
+      {
+        "Type": "bind",
+        "Source": "/home/naser/dockers/emby/emby",
+        "Destination": "/config",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "bind",
+        "Source": "/media/disk700/Movie",
+        "Destination": "/media/disk700/Movie",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "bind",
+        "Source": "/media/disk700/Music",
+        "Destination": "/media/disk700/Music",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "bind",
+        "Source": "/media/disk700/TV Show",
+        "Destination": "/media/disk700/TV Show",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "bind",
+        "Source": "/media/disk700/picture",
+        "Destination": "/media/disk700/picture",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": "rprivate"
+      }
+    ]
+  }
+]

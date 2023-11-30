@@ -2,4 +2,6 @@
 GET {{host}}/v1.43/images/json?all=true
 Accept: application/json
 
-###
+### Get all containers
+GET {{host}}/v1.43/containers/json?all=true
+Accept: application/json

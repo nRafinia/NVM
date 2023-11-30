@@ -30,5 +30,21 @@
     "Size": "0B",
     "State": "exited",
     "Status": "Exited (255) About an hour ago"
+  },
+  {
+    "Command": "\"/init\"",
+    "CreatedAt": "2023-10-12 22:25:49 +0330 +0330",
+    "ID": "0ebda6ef1109",
+    "Image": "emby/embyserver:latest",
+    "Labels": "com.docker.compose.container-number=1,com.docker.compose.image=sha256:2552cbe87d6db5ffe84a9d2053b1728905be28a82b0effd114bdc1897eaa362b,com.docker.compose.oneoff=False,com.docker.compose.project.config_files=/home/naser/dockers/emby/docker-compose.yml,com.docker.compose.project.working_dir=/home/naser/dockers/emby,com.docker.compose.version=2.21.0,com.docker.compose.config-hash=7bde31b5e030b18f41fb9cdc0c398e9f90650ef70d07e2391a8c24f88bbb161b,com.docker.compose.project=emby,com.docker.compose.service=emby,maintainer=Emby LLC <apps@emby.media>,com.docker.compose.depends_on=",
+    "LocalVolumes": "0",
+    "Mounts": "/home/naser/do…,/media/disk700…,/media/disk700…,/media/disk700…,/media/disk700…",
+    "Names": "embyserver",
+    "Networks": "host",
+    "Ports": "",
+    "RunningFor": "7 weeks ago",
+    "Size": "6.53kB (virtual 571MB)",
+    "State": "running",
+    "Status": "Up 2 days"
   }
 ]
