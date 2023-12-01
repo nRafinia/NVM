@@ -10,6 +10,11 @@ public static class ImagesListParser
 {
     internal static IList<Image> Parse(string imageJsonText)
     {
+        if (imageJsonText[^1] == '\n')
+        {
+            imageJsonText = imageJsonText[..^1];
+        }
+        
         var jsonString = $"[{imageJsonText.Replace('\n', ',')}]";
         var imageListRaw = JsonSerializer.Deserialize<List<ImageJsonRaw>>(jsonString);
 

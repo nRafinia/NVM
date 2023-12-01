@@ -11,9 +11,9 @@ public class SshConnector : IConnector
 {
     private readonly SshClient _client;
 
-    public SshConnector(ISshAuthenticate authenticate, string host)
+    public SshConnector(ISshAuthenticate authenticate)
     {
-        var connection = authenticate.GetCredentials(host);
+        var connection = authenticate.GetCredentials();
         _client = new SshClient(connection);
     }
 
@@ -34,8 +34,8 @@ public class SshConnector : IConnector
     private string RunCommand(string command)
     {
         _client.Connect();
-        using var cmd = _client.CreateCommand(command);
-        var result = cmd.Execute();
+        using var cmd = _client.RunCommand(command);
+        var result= cmd.Result;
         _client.Disconnect();
         return result;
     }
