@@ -14,7 +14,7 @@ public class BasicAuthenticate : IApiAuthenticate
         Password = password;
     }
 
-    public Credentials? GetCredentials()
+    public Credentials GetCredentials()
     {
         return new BasicAuthCredentials(Username, Password);
     }
