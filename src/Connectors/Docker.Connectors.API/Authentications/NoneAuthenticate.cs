@@ -5,8 +5,15 @@ namespace Docker.Connectors.API.Authentications;
 
 public class NoneAuthenticate : IApiAuthenticate
 {
-    public Credentials? GetCredentials()
+    private readonly Uri _endpoint;
+
+    public NoneAuthenticate(Uri endpoint)
     {
-        return default;
+        _endpoint = endpoint;
+    }
+
+    public DockerClientConfiguration GetCredentials()
+    {
+        return new DockerClientConfiguration(_endpoint);
     }
 }

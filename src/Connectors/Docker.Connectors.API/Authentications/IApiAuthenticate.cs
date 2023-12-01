@@ -5,5 +5,5 @@ namespace Docker.Connectors.API.Authentications;
 
 public interface IApiAuthenticate : IAuthenticate
 {
-    Credentials? GetCredentials();
+    DockerClientConfiguration GetCredentials();
 }

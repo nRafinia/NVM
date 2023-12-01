@@ -12,9 +12,9 @@ public class ApiConnector : IConnector
 {
     private readonly DockerClient _client;
 
-    public ApiConnector(IApiAuthenticate authenticate, Uri endpoint)
+    public ApiConnector(IApiAuthenticate authenticate)
     {
-        _client = new DockerClientConfiguration(endpoint, authenticate.GetCredentials()).CreateClient();
+        _client = authenticate.GetCredentials().CreateClient();
     }
 
     public async Task<IList<Image>> GetImages(bool all = false)
