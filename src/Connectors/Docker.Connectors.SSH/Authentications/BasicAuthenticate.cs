@@ -1,13 +1,20 @@
+using Renci.SshNet;
+
 namespace Docker.Connectors.SSH.Authentications;
 
 public class BasicAuthenticate : ISshAuthenticate
 {
-    public string Username { get; }
-    public string Password { get; }
+    private readonly string _userName;
+    private readonly string _password;
 
-    public BasicAuthenticate(string username, string password)
+    public BasicAuthenticate(string userName, string password)
     {
-        Username = username;
-        Password = password;
+        _userName = userName;
+        _password = password;
+    }
+
+    public ConnectionInfo GetCredentials(string host)
+    {
+        return new ConnectionInfo(host, _userName, new PasswordAuthenticationMethod(_userName, _password));
     }
 }

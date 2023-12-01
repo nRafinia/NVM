@@ -7,7 +7,7 @@ namespace Docker.Connectors.SSH.Helpers;
 
 internal static class ContainersListParser
 {
-    public static List<Container> Parse(string containerJsonText)
+    public static IList<Container> Parse(string containerJsonText)
     {
         var jsonString = $"[{containerJsonText.Replace('\n', ',')}]";
         var containerListRaw = JsonSerializer.Deserialize<List<ContainerJsonRaw>>(jsonString);
