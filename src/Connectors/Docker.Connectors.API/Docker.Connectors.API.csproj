@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>Docker.Connectors.API.Test</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Docker.DotNet" Version="3.125.15" />
+      <PackageReference Include="Docker.DotNet.BasicAuth" Version="3.125.15" />
+      <PackageReference Include="Docker.DotNet.X509" Version="3.125.15" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Docker.Connectors.Common\Docker.Connectors.Common.csproj" />
+    </ItemGroup>
+
+</Project>

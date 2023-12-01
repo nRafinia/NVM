@@ -1,0 +1,2 @@
+docker images --format='{{json .}}'
+docker ps -a --format='{{json .}}'
