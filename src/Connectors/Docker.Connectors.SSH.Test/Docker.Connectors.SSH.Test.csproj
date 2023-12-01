@@ -8,8 +8,18 @@
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
     </PropertyGroup>
+    
+    <PropertyGroup>
+        <UserSecretsId>serverip-7499668f-4426-473f-91e7-e376241effd1</UserSecretsId>
+        <UserSecretsId>username-87828027-e997-462f-b9c0-17a968d9ecf3</UserSecretsId>
+        <UserSecretsId>password-f30ac564-b2d9-4bc3-ab31-d09a592ab294</UserSecretsId>
+    </PropertyGroup>
 
     <ItemGroup>
+        <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.1" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
         <PackageReference Include="xunit" Version="2.6.2" />
         <PackageReference Include="Moq" Version="4.20.70" />
