@@ -1,6 +1,7 @@
 using Connectors.Docker.Abstractions;
 using Connectors.Docker.Containers;
 using Connectors.Docker.Images;
+using Connectors.Docker.Networks;
 using Docker.Connectors.SSH.Authentications;
 using Docker.Connectors.SSH.Helpers;
 using Renci.SshNet;
@@ -31,6 +32,15 @@ public class SshConnector : IConnector
         return Task.FromResult(result);
     }
 
+    public Task<IList<Network>> GetNetworks()
+    {
+        var response = RunCommand(CommandGenerator.ListNetworks());
+        var result = NetworksParser.List(response);
+        return Task.FromResult(result);
+    }
+
+    #region private methods
+    
     private string RunCommand(string command)
     {
         _client.Connect();
@@ -39,4 +49,6 @@ public class SshConnector : IConnector
         _client.Disconnect();
         return result;
     }
+    
+    #endregion
 }

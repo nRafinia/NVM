@@ -5,6 +5,7 @@ using Docker.Connectors.API.Authentications;
 using Docker.Connectors.API.Helpers;
 using Docker.DotNet;
 using Docker.DotNet.Models;
+using Network = Connectors.Docker.Networks.Network;
 
 namespace Docker.Connectors.API.Services;
 
@@ -35,5 +36,12 @@ public class ApiConnector : IConnector
         });
 
         return ContainersParser.List(containers);
+    }    
+    
+    public async Task<IList<Network>> GetNetworks()
+    {
+        var containers = await _client.Networks.ListNetworksAsync();
+
+        return NetworksParser.List(containers);
     }
 }
