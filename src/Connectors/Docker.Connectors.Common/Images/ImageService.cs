@@ -1,5 +1,4 @@
 using Connectors.Docker.Abstractions;
-using Connectors.Docker.Containers;
 using Microsoft.Extensions.Logging;
 
 namespace Connectors.Docker.Images;
@@ -13,7 +12,7 @@ public class ImageService : IImageService
         _logger = logger;
     }
 
-    public Task<IList<Image>> GetImages(IConnector connector, bool all = false)
+    public Task<IList<Image>> GetList(IConnector connector, bool all = false)
     {
         try
         {
@@ -22,19 +21,6 @@ public class ImageService : IImageService
         catch (Exception e)
         {
             _logger.LogError(e, "Failed to get images, exception={Exception}", e.Message);
-            throw;
-        }
-    }
-
-    public Task<IList<Container>> GetContainers(IConnector connector, bool all = false)
-    {
-        try
-        {
-            return connector.GetContainers(all);
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e, "Failed to get containers, exception={Exception}", e.Message);
             throw;
         }
     }

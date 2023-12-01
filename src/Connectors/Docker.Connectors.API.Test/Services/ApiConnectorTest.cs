@@ -52,5 +52,23 @@ public class ApiConnectorTest
 
         //assert
         Assert.NotEmpty(images);
+    }    
+    
+    [Fact]
+    public async Task GetNetworks_Success()
+    {
+        //arrange
+        var dockerClientConfiguration =
+            new DockerClientConfiguration(new Uri($"http://{_configuration["serverip"]}:2375"), new AnonymousCredentials());
+        var authenticator = new Mock<IApiAuthenticate>();
+        authenticator.Setup(a => a.GetCredentials())
+            .Returns(dockerClientConfiguration);
+
+        //act
+        var connector = new ApiConnector(authenticator.Object);
+        var networks = await connector.GetNetworks();
+
+        //assert
+        Assert.NotEmpty(networks);
     }
 }
