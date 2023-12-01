@@ -5,17 +5,17 @@ namespace Docker.Connectors.API.Authentications;
 
 public class BasicAuthenticate : IApiAuthenticate
 {
-    public string Username { get; }
-    public string Password { get; }
+    private readonly string _username;
+    private readonly string _password;
 
     public BasicAuthenticate(string username, string password)
     {
-        Username = username;
-        Password = password;
+        _username = username;
+        _password = password;
     }
 
     public Credentials GetCredentials()
     {
-        return new BasicAuthCredentials(Username, Password);
+        return new BasicAuthCredentials(_username, _password);
     }
 }
