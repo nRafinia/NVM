@@ -47,12 +47,19 @@ public static class ContainersListParser
         var portList = ports.Split(',', StringSplitOptions.RemoveEmptyEntries);
 
         return portList
-            .Select(addr => addr.Split(':', StringSplitOptions.RemoveEmptyEntries)[1])
-            .Select(portPair => new Port(
-                int.Parse(portPair.Split("->")[0]),
-                int.Parse(portPair.Split("->")[1].Split('/')[0]),
-                portPair.Split('/')[1]
-            )).ToList();
-        
+            .Select(ParsePort).ToList();
+    }
+
+    private static Port ParsePort(string port)
+    {
+        var protocol = port.Split('/', StringSplitOptions.RemoveEmptyEntries);
+        var ipParts = protocol[0].Split(':', StringSplitOptions.RemoveEmptyEntries);
+        var ports=ipParts[1].Split("->");
+        return new Port(
+            ipParts[0],
+            int.Parse(ports[0]),
+            int.Parse(ports[1]),
+            protocol[1]
+        );
     }
 }
