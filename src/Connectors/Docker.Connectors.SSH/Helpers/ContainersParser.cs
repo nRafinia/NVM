@@ -9,6 +9,11 @@ internal static class ContainersParser
 {
     public static IList<Container> List(string containerJsonText)
     {
+        if (string.IsNullOrWhiteSpace(containerJsonText))
+        {
+            return new List<Container>(0);
+        }
+        
         if (containerJsonText[^1] == '\n')
         {
             containerJsonText = containerJsonText[..^1];

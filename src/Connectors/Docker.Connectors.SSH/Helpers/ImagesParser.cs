@@ -10,6 +10,11 @@ public static class ImagesParser
 {
     internal static IList<Image> List(string imageJsonText)
     {
+        if (string.IsNullOrWhiteSpace(imageJsonText))
+        {
+            return new List<Image>(0);
+        }
+        
         if (imageJsonText[^1] == '\n')
         {
             imageJsonText = imageJsonText[..^1];
