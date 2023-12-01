@@ -5,9 +5,9 @@ using Docker.Connectors.SSH.Models;
 
 namespace Docker.Connectors.SSH.Helpers;
 
-internal static class ContainersListParser
+internal static class ContainersParser
 {
-    public static IList<Container> Parse(string containerJsonText)
+    public static IList<Container> List(string containerJsonText)
     {
         if (containerJsonText[^1] == '\n')
         {
@@ -38,6 +38,8 @@ internal static class ContainersListParser
         return result;
     }
 
+    #region private methods
+    
     private static Dictionary<string, string> ParseLabels(string labels)
     {
         var labelList = labels.Split(',', StringSplitOptions.RemoveEmptyEntries);
@@ -67,4 +69,6 @@ internal static class ContainersListParser
             protocol[1]
         );
     }
+    
+    #endregion
 }

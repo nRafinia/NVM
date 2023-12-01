@@ -3,9 +3,9 @@ using Docker.DotNet.Models;
 
 namespace Docker.Connectors.API.Helpers;
 
-internal static class ImagesListParser
+internal static class ImagesParser
 {
-    public static IList<Image> Parse(IEnumerable<ImagesListResponse> serviceImages)
+    public static IList<Image> List(IEnumerable<ImagesListResponse> serviceImages)
     {
         return serviceImages.Select(item => new Image(
                 item.ID,

@@ -50,7 +50,7 @@ public class ContainersListParserTests
         };
         
         //act
-        var convertor = ContainersListParser.Parse(containerData);
+        var convertor = ContainersParser.List(containerData);
 
         //assert
         Assert.NotEmpty(convertor);
@@ -66,7 +66,7 @@ public class ContainersListParserTests
         //arrange
 
         //act
-        var convertor = ContainersListParser.Parse(new List<ContainerListResponse>(0));
+        var convertor = ContainersParser.List(new List<ContainerListResponse>(0));
 
         //assert
         Assert.Empty(convertor);

@@ -15,7 +15,7 @@ public class ImagesListParserTests
         //arrange
 
         //act
-        var convertor = ImagesListParser.Parse(RawResultMultiple);
+        var convertor = ImagesParser.List(RawResultMultiple);
 
         //assert
         Assert.NotEmpty(convertor);
@@ -32,7 +32,7 @@ public class ImagesListParserTests
         //arrange
 
         //act
-        var convertor = ImagesListParser.Parse(RawResultSingle);
+        var convertor = ImagesParser.List(RawResultSingle);
 
         //assert
         Assert.NotEmpty(convertor);
@@ -50,7 +50,7 @@ public class ImagesListParserTests
         const string emptyList = "";
 
         //act
-        var convertor = ImagesListParser.Parse(emptyList);
+        var convertor = ImagesParser.List(emptyList);
 
         //assert
         Assert.Empty(convertor);

@@ -15,7 +15,7 @@ public class ContainersListParserTests
         //arrange
 
         //act
-        var convertor = ContainersListParser.Parse(RawResultMultiple);
+        var convertor = ContainersParser.List(RawResultMultiple);
 
         //assert
         Assert.NotEmpty(convertor);
@@ -33,7 +33,7 @@ public class ContainersListParserTests
         //arrange
 
         //act
-        var convertor = ContainersListParser.Parse(RawResultSingle);
+        var convertor = ContainersParser.List(RawResultSingle);
 
         //assert
         Assert.NotEmpty(convertor);
@@ -51,7 +51,7 @@ public class ContainersListParserTests
         const string emptyList = "";
 
         //act
-        var convertor = ContainersListParser.Parse(emptyList);
+        var convertor = ContainersParser.List(emptyList);
 
         //assert
         Assert.Empty(convertor);

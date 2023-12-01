@@ -20,14 +20,14 @@ public class SshConnector : IConnector
     public Task<IList<Image>> GetImages(bool all = false)
     {
         var response = RunCommand(CommandGenerator.ListImages(all));
-        var result = ImagesListParser.Parse(response);
+        var result = ImagesParser.List(response);
         return Task.FromResult(result);
     }
 
     public Task<IList<Container>> GetContainers(bool all = false)
     {
         var response = RunCommand(CommandGenerator.ListContainers(all));
-        var result = ContainersListParser.Parse(response);
+        var result = ContainersParser.List(response);
         return Task.FromResult(result);
     }
 

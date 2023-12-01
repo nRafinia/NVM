@@ -4,9 +4,9 @@ using Port= Connectors.Docker.Containers.Port;
 
 namespace Docker.Connectors.API.Helpers;
 
-internal static class ContainersListParser
+internal static class ContainersParser
 {
-    public static List<Container> Parse(IEnumerable<ContainerListResponse> serviceContainers)
+    public static List<Container> List(IEnumerable<ContainerListResponse> serviceContainers)
     {
         return serviceContainers.Select(c => new Container(
             c.ID,

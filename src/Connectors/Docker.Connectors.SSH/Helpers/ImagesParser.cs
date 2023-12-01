@@ -6,9 +6,9 @@ using Docker.Connectors.SSH.Models;
 
 namespace Docker.Connectors.SSH.Helpers;
 
-public static class ImagesListParser
+public static class ImagesParser
 {
-    internal static IList<Image> Parse(string imageJsonText)
+    internal static IList<Image> List(string imageJsonText)
     {
         if (imageJsonText[^1] == '\n')
         {

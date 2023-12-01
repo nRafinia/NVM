@@ -39,7 +39,7 @@ public class ImagesListParserTests
         };
 
         //act
-        var convertor = ImagesListParser.Parse(jsonData!);
+        var convertor = ImagesParser.List(jsonData!);
 
         //assert
         Assert.NotEmpty(convertor);
@@ -57,7 +57,7 @@ public class ImagesListParserTests
 
 
         //act
-        var convertor = ImagesListParser.Parse(jsonDataEmpty);
+        var convertor = ImagesParser.List(jsonDataEmpty);
 
         //assert
         Assert.Empty(convertor);

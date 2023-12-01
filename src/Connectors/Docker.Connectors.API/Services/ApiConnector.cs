@@ -24,7 +24,7 @@ public class ApiConnector : IConnector
             All = all
         });
         
-        return ImagesListParser.Parse(images);
+        return ImagesParser.List(images);
     }
 
     public async Task<IList<Container>> GetContainers(bool all = false)
@@ -34,6 +34,6 @@ public class ApiConnector : IConnector
             All = all
         });
 
-        return ContainersListParser.Parse(containers);
+        return ContainersParser.List(containers);
     }
 }
