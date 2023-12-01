@@ -1,0 +1,52 @@
+[
+  {
+    "CreatedAt": "2023-11-28 18:27:38.970389872 +0330 +0330",
+    "Driver": "bridge",
+    "ID": "ec229d658c19",
+    "Internal": "false",
+    "IPv6": "false",
+    "Labels": "",
+    "Name": "bridge",
+    "Scope": "local"
+  },
+  {
+    "CreatedAt": "2022-12-29 23:41:33.00244105 +0330 +0330",
+    "Driver": "host",
+    "ID": "d83269a8ec47",
+    "Internal": "false",
+    "IPv6": "false",
+    "Labels": "",
+    "Name": "host",
+    "Scope": "local"
+  },
+  {
+    "CreatedAt": "2023-12-01 18:28:00.393931884 +0330 +0330",
+    "Driver": "bridge",
+    "ID": "1ed1270c3350",
+    "Internal": "false",
+    "IPv6": "false",
+    "Labels": "",
+    "Name": "my-network",
+    "Scope": "local"
+  },
+  {
+    "CreatedAt": "2022-12-29 23:41:32.958262113 +0330 +0330",
+    "Driver": "null",
+    "ID": "936c3308bce8",
+    "Internal": "false",
+    "IPv6": "false",
+    "Labels": "",
+    "Name": "none",
+    "Scope": "local"
+  },
+  {
+    "CreatedAt": "2023-12-01 11:05:08.505954863 +0330 +0330",
+    "Driver": "bridge",
+    "ID": "3e1687d10884",
+    "Internal": "false",
+    "IPv6": "false",
+    "Labels": "com.docker.compose.network=default,com.docker.compose.project=redis,com.docker.compose.version=2.21.0",
+    "Name": "redis_default",
+    "Scope": "local"
+  }
+]

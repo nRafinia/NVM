@@ -12,7 +12,7 @@ public class Network
     public bool IPv6 { get; }
 
     public Network(string id, string name, string driver, string scope, bool @internal,
-        IDictionary<string, string> labels, DateTime createdAt, bool pv6)
+        IDictionary<string, string> labels, DateTime createdAt, bool ipv6)
     {
         Id = id;
         Name = name;
@@ -21,6 +21,6 @@ public class Network
         Internal = @internal;
         Labels = labels;
         CreatedAt = createdAt;
-        IPv6 = pv6;
+        IPv6 = ipv6;
     }
 }

@@ -20,6 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{
 		Documents\docker-image-api.json = Documents\docker-image-api.json
 		Documents\note.txt = Documents\note.txt
 		Documents\docker-container-api.json = Documents\docker-container-api.json
+		Documents\docker-network.json = Documents\docker-network.json
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Shared\Common\Common.csproj", "{C37F5DFA-7C22-468D-BD36-F185E48E1877}"
