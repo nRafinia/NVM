@@ -1,5 +1,76 @@
 [
   {
+    "Id": "5cd808b82e0e732f53a44e7d3b92e68e5dd502cba10540ea6ff49f7d7a5c000b",
+    "Names": [
+      "/redis"
+    ],
+    "Image": "redis:latest",
+    "ImageID": "sha256:961dda256baa7a35297d34cca06bc2bce8397b0ef8b68d8064c30e338afc5a7d",
+    "Command": "docker-entrypoint.sh redis-server",
+    "Created": 1701416108,
+    "Ports": [
+      {
+        "IP": "0.0.0.0",
+        "PrivatePort": 6379,
+        "PublicPort": 6379,
+        "Type": "tcp"
+      },
+      {
+        "IP": "::",
+        "PrivatePort": 6379,
+        "PublicPort": 6379,
+        "Type": "tcp"
+      }
+    ],
+    "Labels": {
+      "com.docker.compose.config-hash": "d63b91d8bd0a08703bad6840822c844a44a01110bf6ea70a8f73f211f63b3242",
+      "com.docker.compose.container-number": "1",
+      "com.docker.compose.depends_on": "",
+      "com.docker.compose.image": "sha256:961dda256baa7a35297d34cca06bc2bce8397b0ef8b68d8064c30e338afc5a7d",
+      "com.docker.compose.oneoff": "False",
+      "com.docker.compose.project": "redis",
+      "com.docker.compose.project.config_files": "/home/naser/dockers/redis/docker-compose.yml",
+      "com.docker.compose.project.working_dir": "/home/naser/dockers/redis",
+      "com.docker.compose.replace": "08d2097466a7664b45319772636969b392221ab55ae767109f1ccb34a4525000",
+      "com.docker.compose.service": "redis",
+      "com.docker.compose.version": "2.21.0"
+    },
+    "State": "running",
+    "Status": "Up 3 seconds",
+    "HostConfig": {
+      "NetworkMode": "redis_default"
+    },
+    "NetworkSettings": {
+      "Networks": {
+        "redis_default": {
+          "IPAMConfig": null,
+          "Links": null,
+          "Aliases": null,
+          "NetworkID": "3e1687d10884c55152aa0cc27e623d5acb1cc971b666486d8809d4b98e189fe2",
+          "EndpointID": "0a317e44ad75f8b622459850fb64cd3d32209f12c5a4059962c29a5e5529605c",
+          "Gateway": "172.18.0.1",
+          "IPAddress": "172.18.0.2",
+          "IPPrefixLen": 16,
+          "IPv6Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "MacAddress": "02:42:ac:12:00:02",
+          "DriverOpts": null
+        }
+      }
+    },
+    "Mounts": [
+      {
+        "Type": "bind",
+        "Source": "/home/naser/dockers/redis/data",
+        "Destination": "/data",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": "rprivate"
+      }
+    ]
+  },
+  {
     "Id": "0ebda6ef1109e1e1d1447222508dbf6f545e494aff377e0afafae4294983506e",
     "Names": [
       "/embyserver"
@@ -49,6 +120,14 @@
     "Mounts": [
       {
         "Type": "bind",
+        "Source": "/media/disk700/picture",
+        "Destination": "/media/disk700/picture",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "bind",
         "Source": "/home/naser/dockers/emby/emby",
         "Destination": "/config",
         "Mode": "rw",
@@ -75,14 +154,6 @@
         "Type": "bind",
         "Source": "/media/disk700/TV Show",
         "Destination": "/media/disk700/TV Show",
-        "Mode": "rw",
-        "RW": true,
-        "Propagation": "rprivate"
-      },
-      {
-        "Type": "bind",
-        "Source": "/media/disk700/picture",
-        "Destination": "/media/disk700/picture",
         "Mode": "rw",
         "RW": true,
         "Propagation": "rprivate"
