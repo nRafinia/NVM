@@ -3,7 +3,7 @@ using Docker.Connectors.API.Models;
 
 namespace Docker.Connectors.API.Helpers;
 
-public static class ContainersListParser
+internal static class ContainersListParser
 {
     public static List<Container> Parse(IEnumerable<ContainerRaw> rawContainers)
     {

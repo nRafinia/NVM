@@ -5,7 +5,7 @@ using Docker.Connectors.SSH.Models;
 
 namespace Docker.Connectors.SSH.Helpers;
 
-public static class ContainersListParser
+internal static class ContainersListParser
 {
     public static List<Container> Parse(string containerJsonText)
     {

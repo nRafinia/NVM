@@ -7,6 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>Docker.Connectors.SSH.Test</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+    
+    <ItemGroup>
       <PackageReference Include="SSH.NET" Version="2023.0.0" />
     </ItemGroup>
 

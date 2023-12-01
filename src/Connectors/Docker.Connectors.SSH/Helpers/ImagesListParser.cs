@@ -8,7 +8,7 @@ namespace Docker.Connectors.SSH.Helpers;
 
 public static class ImagesListParser
 {
-    public static IList<Image> Parse(string imageJsonText)
+    internal static IList<Image> Parse(string imageJsonText)
     {
         var jsonString = $"[{imageJsonText.Replace('\n', ',')}]";
         var imageListRaw = JsonSerializer.Deserialize<List<ImageJsonRaw>>(jsonString);

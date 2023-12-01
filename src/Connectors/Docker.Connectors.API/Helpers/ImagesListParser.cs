@@ -3,7 +3,7 @@ using Docker.Connectors.API.Models;
 
 namespace Docker.Connectors.API.Helpers;
 
-public static class ImagesListParser
+internal static class ImagesListParser
 {
     public static IList<Image> Parse(IEnumerable<ImageRaw> rawImages)
     {

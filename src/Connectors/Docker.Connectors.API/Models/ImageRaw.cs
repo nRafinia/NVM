@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace Docker.Connectors.API.Models;
 
-public class ImageRaw
+internal class ImageRaw
 {
     [JsonPropertyName("Id")]
     public string Id { get; set; }

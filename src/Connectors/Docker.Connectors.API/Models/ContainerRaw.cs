@@ -2,7 +2,7 @@ using Connectors.Docker.Containers;
 
 namespace Docker.Connectors.API.Models;
 
-public class ContainerRaw
+internal class ContainerRaw
 {
     public string Id { get; set; }
     public long Created { get; set; }

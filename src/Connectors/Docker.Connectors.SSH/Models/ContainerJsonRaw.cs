@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace Docker.Connectors.SSH.Models;
 
-public class ContainerJsonRaw
+internal class ContainerJsonRaw
 {
     [JsonPropertyName("CreatedAt")]
     public string CreatedAt { get; set; } = null!;
