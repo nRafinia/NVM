@@ -9,6 +9,11 @@ internal static class ContainersListParser
 {
     public static IList<Container> Parse(string containerJsonText)
     {
+        if (containerJsonText[^1] == '\n')
+        {
+            containerJsonText = containerJsonText[..^1];
+        }
+        
         var jsonString = $"[{containerJsonText.Replace('\n', ',')}]";
         var containerListRaw = JsonSerializer.Deserialize<List<ContainerJsonRaw>>(jsonString);
 
