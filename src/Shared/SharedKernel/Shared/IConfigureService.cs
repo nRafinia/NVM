@@ -1,8 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace SharedKernel;
+namespace SharedKernel.Shared;
 
 public interface IConfigureService
 {
-    void AddSharedDomainServices(IServiceCollection services);
+    void AddServices(IServiceCollection services);
 }

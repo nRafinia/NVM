@@ -1,3 +1,5 @@
+using SharedKernel.Shared;
+
 namespace SharedKernel.Test;
 
 public class SizeConverterTests
