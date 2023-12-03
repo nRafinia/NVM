@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace SharedKernel;
+namespace SharedKernel.Shared;
 
 public static class Common
 {
@@ -12,13 +12,13 @@ public static class Common
             .Select(t => t as T);
     }
 
-    public static IEnumerable<Type> GetImplementedInterfaceOf(Type type, params Assembly[] assemblies)
+    public static IEnumerable<object?> GetImplementedInterfaceOf(Type type, params Assembly[] assemblies)
     {
         return assemblies
             .Select(a => a.GetExportedTypes())
             .SelectMany(t => t)
             .Where(t => type.IsAssignableFrom(t) && !t.IsInterface)
             .GroupBy(a => a)
-            .Select(a => a.Key);
+            .Select(a => Activator.CreateInstance(a.Key));
     }
 }
