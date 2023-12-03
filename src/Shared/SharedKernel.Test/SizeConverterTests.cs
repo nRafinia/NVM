@@ -1,4 +1,4 @@
-namespace Common.Test;
+namespace SharedKernel.Test;
 
 public class SizeConverterTests
 {

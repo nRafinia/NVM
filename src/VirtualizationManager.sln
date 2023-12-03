@@ -23,15 +23,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{
 		Documents\docker-network.json = Documents\docker-network.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Shared\Common\Common.csproj", "{C37F5DFA-7C22-468D-BD36-F185E48E1877}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel", "Shared\SharedKernel\SharedKernel.csproj", "{C37F5DFA-7C22-468D-BD36-F185E48E1877}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Docker.Connectors.SSH.Test", "Connectors\Docker.Connectors.SSH.Test\Docker.Connectors.SSH.Test.csproj", "{B3E49117-84C7-4E5A-8183-75C87ECF6EF0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Docker.Connectors.API.Test", "Connectors\Docker.Connectors.API.Test\Docker.Connectors.API.Test.csproj", "{02953124-9C42-4A89-A5BA-76E0A8C39B8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Test", "Shared\Common.Test\Common.Test.csproj", "{6B51C7FD-4EA9-4757-912F-CAE1DBCD72C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.Test", "Shared\SharedKernel.Test\SharedKernel.Test.csproj", "{6B51C7FD-4EA9-4757-912F-CAE1DBCD72C3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Docker.Connectors.Common.Test", "Connectors\Docker.Connectors.Common.Test\Docker.Connectors.Common.Test.csproj", "{412CEDB0-7B2F-44E6-835A-5CE4A7F5AC44}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dashboards", "Dashboards", "{975F8E19-2A61-4360-836F-A8317DD60DA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dashboard", "Dashboards\Dashboard\Dashboard.csproj", "{F24DA6EC-EA76-4AD4-9AED-658B60F831C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dashboard.Application", "Dashboards\Dashboard.Application\Dashboard.Application.csproj", "{11D62FC0-94E9-42DF-8F6F-D1296264593E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dashboard.Domain", "Dashboards\Dashboard.Domain\Dashboard.Domain.csproj", "{BEB4E454-B5F4-4EE7-B97F-295BF066BEE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +79,18 @@ Global
 		{412CEDB0-7B2F-44E6-835A-5CE4A7F5AC44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{412CEDB0-7B2F-44E6-835A-5CE4A7F5AC44}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{412CEDB0-7B2F-44E6-835A-5CE4A7F5AC44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F24DA6EC-EA76-4AD4-9AED-658B60F831C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F24DA6EC-EA76-4AD4-9AED-658B60F831C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F24DA6EC-EA76-4AD4-9AED-658B60F831C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F24DA6EC-EA76-4AD4-9AED-658B60F831C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11D62FC0-94E9-42DF-8F6F-D1296264593E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11D62FC0-94E9-42DF-8F6F-D1296264593E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11D62FC0-94E9-42DF-8F6F-D1296264593E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11D62FC0-94E9-42DF-8F6F-D1296264593E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEB4E454-B5F4-4EE7-B97F-295BF066BEE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEB4E454-B5F4-4EE7-B97F-295BF066BEE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEB4E454-B5F4-4EE7-B97F-295BF066BEE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEB4E454-B5F4-4EE7-B97F-295BF066BEE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EE9EEAD3-3633-4B34-A558-FCAC750B5D5B} = {917984C1-1DA1-43E6-849B-0E89781EA525}
@@ -81,5 +101,8 @@ Global
 		{02953124-9C42-4A89-A5BA-76E0A8C39B8B} = {917984C1-1DA1-43E6-849B-0E89781EA525}
 		{6B51C7FD-4EA9-4757-912F-CAE1DBCD72C3} = {C7C51C2E-31B1-4147-A020-276C7AE73065}
 		{412CEDB0-7B2F-44E6-835A-5CE4A7F5AC44} = {917984C1-1DA1-43E6-849B-0E89781EA525}
+		{F24DA6EC-EA76-4AD4-9AED-658B60F831C3} = {975F8E19-2A61-4360-836F-A8317DD60DA9}
+		{11D62FC0-94E9-42DF-8F6F-D1296264593E} = {975F8E19-2A61-4360-836F-A8317DD60DA9}
+		{BEB4E454-B5F4-4EE7-B97F-295BF066BEE0} = {975F8E19-2A61-4360-836F-A8317DD60DA9}
 	EndGlobalSection
 EndGlobal

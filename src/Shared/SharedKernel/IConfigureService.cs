@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Common;
+namespace SharedKernel;
 
 public interface IConfigureService
 {
