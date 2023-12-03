@@ -1,0 +1,44 @@
+@page "/Login"
+@using Microsoft.AspNetCore.WebUtilities
+@using Dashboard.Extensions
+@attribute [AllowAnonymous]
+
+@inject DashboardAuthentication WebsiteAuthenticator
+@inject NavigationManager NavigationManager
+
+<EditForm Model="LoginFormModel" Context="Login">
+    <div>
+        <label>
+            Username:
+            <InputText @bind-Value="LoginFormModel.UserName"></InputText>
+        </label>
+    </div>
+    <div>
+        <label>
+            Password:
+            <InputText type="password" @bind-Value="LoginFormModel.Password"></InputText>
+        </label>
+    </div>
+    <div>
+        <button @onclick="TryLogin">Submit</button>
+    </div>
+</EditForm>
+
+@code {
+    private LoginFormModel LoginFormModel { get; set; } = new();
+
+    private async Task TryLogin()
+    {
+        var loginIsOk = await WebsiteAuthenticator.LoginAsync(LoginFormModel);
+        if (!loginIsOk)
+        {
+            return;
+        }
+        
+        var returnUrl = NavigationManager.TryGetQueryString("returnUrl", out var returnPath)
+            ? returnPath.ToString()
+            : "/";
+        NavigationManager.NavigateTo(returnUrl);
+    }
+
+}

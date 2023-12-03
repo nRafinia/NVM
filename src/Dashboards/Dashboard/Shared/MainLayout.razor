@@ -1,0 +1,53 @@
+﻿@inherits LayoutComponentBase
+
+@inject NavigationManager NavigationManager
+@inject DashboardAuthentication Authenticator
+
+<PageTitle>Dashboard</PageTitle>
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu/>
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+            
+            <AuthorizeView Context="Account">
+                <NotAuthorized>
+                    <a href="/Login" ></a>
+                </NotAuthorized>
+                <Authorized>
+                    <button type="button" class="btn btn-primary" @onclick="TryLogout">Logout</button>
+                </Authorized>
+            </AuthorizeView>
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+@code{
+    [CascadingParameter] 
+    protected Task<AuthenticationState> AuthStat { get; set; }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        
+        var user = (await AuthStat).User;
+        if(!(user.Identity?.IsAuthenticated??false))
+        {
+            NavigationManager.NavigateTo($"/login?returnUrl={Uri.EscapeDataString(NavigationManager.Uri)}");
+        }
+    }
+    
+    private Task TryLogout()
+    {
+        return Authenticator.LogoutAsync();
+    }
+
+}
