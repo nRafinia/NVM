@@ -1,12 +1,12 @@
 @page "/Login"
-@using Microsoft.AspNetCore.WebUtilities
+
 @using Dashboard.Extensions
 @attribute [AllowAnonymous]
 
 @inject DashboardAuthentication WebsiteAuthenticator
 @inject NavigationManager NavigationManager
 
-<EditForm Model="LoginFormModel" Context="Login">
+<EditForm Model="LoginFormModel">
     <div>
         <label>
             Username:
@@ -25,8 +25,22 @@
 </EditForm>
 
 @code {
+    [CascadingParameter]
+    protected Task<AuthenticationState> AuthStat { get; set; }
+    
     private LoginFormModel LoginFormModel { get; set; } = new();
 
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        var user = (await AuthStat).User;
+        if ((user.Identity?.IsAuthenticated ?? false))
+        {
+            NavigationManager.NavigateTo("/");
+        }
+    }
+    
     private async Task TryLogin()
     {
         var loginIsOk = await WebsiteAuthenticator.LoginAsync(LoginFormModel);
@@ -38,7 +52,7 @@
         var returnUrl = NavigationManager.TryGetQueryString("returnUrl", out var returnPath)
             ? returnPath.ToString()
             : "/";
-        NavigationManager.NavigateTo(returnUrl);
+        NavigationManager.NavigateTo(returnUrl,true);
     }
 
 }

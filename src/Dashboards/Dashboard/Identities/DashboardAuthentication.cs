@@ -69,7 +69,8 @@ public class DashboardAuthentication : AuthenticationStateProvider
         var claimsIdentity = new ClaimsIdentity(new Claim[]
         {
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new(ClaimTypes.Name, user.UserName)
+            new(ClaimTypes.Name, user.UserName),
+            new(ClaimTypes.GivenName, user.Name)
         }, IdentityConst.AuthenticationType);
 
         var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);

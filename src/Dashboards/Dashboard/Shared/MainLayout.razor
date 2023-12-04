@@ -1,4 +1,6 @@
-﻿@inherits LayoutComponentBase
+﻿@using Dashboard.Domain.Entities
+@using System.Security.Claims
+@inherits LayoutComponentBase
 
 @inject NavigationManager NavigationManager
 @inject DashboardAuthentication Authenticator
@@ -13,12 +15,13 @@
     <main>
         <div class="top-row px-4">
             <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-            
+
             <AuthorizeView Context="Account">
                 <NotAuthorized>
-                    <a href="/Login" ></a>
+                    <a href="/Login"></a>
                 </NotAuthorized>
                 <Authorized>
+                    <label>@_currentUserGivenName</label>
                     <button type="button" class="btn btn-primary" @onclick="TryLogout">Logout</button>
                 </Authorized>
             </AuthorizeView>
@@ -31,23 +34,29 @@
 </div>
 
 @code{
-    [CascadingParameter] 
+
+    [CascadingParameter]
     protected Task<AuthenticationState> AuthStat { get; set; }
-    
+
+    private string _currentUserGivenName = string.Empty;
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        
+
         var user = (await AuthStat).User;
-        if(!(user.Identity?.IsAuthenticated??false))
+        if (!(user.Identity?.IsAuthenticated ?? false))
         {
             NavigationManager.NavigateTo($"/login?returnUrl={Uri.EscapeDataString(NavigationManager.Uri)}");
         }
+
+        _currentUserGivenName = user.FindFirst(ClaimTypes.GivenName)?.Value ?? string.Empty;
     }
-    
-    private Task TryLogout()
+
+    private async Task TryLogout()
     {
-        return Authenticator.LogoutAsync();
+        await Authenticator.LogoutAsync();
+        NavigationManager.NavigateTo("/login", true);
     }
 
 }
