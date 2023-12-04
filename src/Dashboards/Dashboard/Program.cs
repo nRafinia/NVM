@@ -1,24 +1,14 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Dashboard.Data;
-using Microsoft.AspNetCore.Components.Authorization;
 using SharedKernel.Shared;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
-
-builder.Services.AddScoped<DashboardAuthentication>();
-builder.Services.AddScoped<AuthenticationStateProvider, DashboardAuthentication>();
-builder.Services.AddHttpContextAccessor();
 
 builder.Services.RegisterServices(
     typeof(Program).Assembly,
-    typeof(Dashboard.Application.ConfigureServices).Assembly
-    );
+    typeof(Dashboard.Application.ConfigureServices).Assembly,
+    typeof(Connectors.Docker.ConfigureServices).Assembly
+);
 
 var app = builder.Build();
 
