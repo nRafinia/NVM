@@ -1,0 +1,44 @@
+﻿@typeparam T
+@inherits Dashboard.Components.Models.TreeViewBase<T>
+@using Dashboard.Components.Models
+
+@if (Items == null)
+{
+    return;
+}
+
+<style>
+    .default-tree-view-ul {
+        list-style-type: none;
+        padding-inline-start: .5em;
+    }
+    .dashboard-treeview-item svg path {
+        stroke: black;
+        fill: transparent;
+        stroke-width: 2;
+    }
+    .dashboard-treeview-item-disabled svg path {
+        stroke: gray;
+    }
+    .dashboard-treeview-item-nochildren svg path {
+        visibility: hidden;
+    }
+    .dashboard-treeview-item-expanded {
+    }
+    .dashboard-treeview-item-collapsed {
+    }
+</style>
+<CascadingValue Value="this" IsFixed="true">
+    @if (GetParent != null)
+    {
+        var filtered = FilterBy?.Invoke(Items).ToList();
+        var rootElements = filtered?.Where(i => GetParent(i) == null).ToList();
+        var nonRootElements = filtered?.Where(i => GetParent(i) != null).ToList();
+        <OrderedListByGetParent Parental="rootElements" Remaining="nonRootElements" GetParent="GetParent" />
+    }
+    else if (GetChildren != null)
+    {
+        var filtered = FilterBy?.Invoke(Items).ToList();
+        <OrderedListByGetChildren Parental="filtered" GetChildren="GetChildren" />
+    }
+</CascadingValue>
