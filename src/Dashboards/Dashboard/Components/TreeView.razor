@@ -29,16 +29,8 @@
     }
 </style>
 <CascadingValue Value="this" IsFixed="true">
-    @if (GetParent != null)
+    @if (GetChildren != null)
     {
-        var filtered = FilterBy?.Invoke(Items).ToList();
-        var rootElements = filtered?.Where(i => GetParent(i) == null).ToList();
-        var nonRootElements = filtered?.Where(i => GetParent(i) != null).ToList();
-        <OrderedListByGetParent Parental="rootElements" Remaining="nonRootElements" GetParent="GetParent" />
-    }
-    else if (GetChildren != null)
-    {
-        var filtered = FilterBy?.Invoke(Items).ToList();
-        <OrderedListByGetChildren Parental="filtered" GetChildren="GetChildren" />
+        <TreeList Parental="Items" GetChildren="GetChildren" />
     }
 </CascadingValue>

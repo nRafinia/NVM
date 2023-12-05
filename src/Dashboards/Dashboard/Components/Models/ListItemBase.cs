@@ -2,7 +2,7 @@
 
 namespace Dashboard.Components.Models
 {
-    public class ListItemBase : ComponentBase
+    public class TreeItemBase : ComponentBase
     {
         [Parameter] 
         public int Level { get; set; }

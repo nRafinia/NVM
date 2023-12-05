@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Dashboard.Components
 {
-    public sealed partial class ListItem<T> : ListItemBase, IDisposable
+    public sealed partial class TreeItem<T> : TreeItemBase, IDisposable
     {
         [Parameter] public T Item { get; set; }
         private bool Selected { get; set; }
@@ -63,14 +63,21 @@ namespace Dashboard.Components
         }
 
         private event Action<bool>? OnSelectedChanged;
-        [CascadingParameter] private TreeViewBase<T>? TreeView { get; set; }
+        
+        [CascadingParameter] 
+        private TreeViewBase<T>? TreeView { get; set; }
 
-        [CascadingParameter] private ListItem<T>? Parent { get; set; }
-        private HashSet<ListItem<T>> _children = new HashSet<ListItem<T>>();
+        [CascadingParameter] 
+        private TreeItem<T>? Parent { get; set; }
+        
+        private HashSet<TreeItem<T>> _children = new HashSet<TreeItem<T>>();
         private string? Class => TreeView?.ItemClass;
-        [Parameter] public EventCallback<bool>? CollapseHasChanged { get; set; }
+        
+        [Parameter] 
+        public EventCallback<bool>? CollapseHasChanged { get; set; }
 
-        [Parameter] public bool LoadingChild { get; set; }
+        [Parameter] 
+        public bool LoadingChild { get; set; }
 
         private bool _disabled;
         public bool Disabled => TreeView?.Disabled == true || Parent?.Disabled == true || _disabled;

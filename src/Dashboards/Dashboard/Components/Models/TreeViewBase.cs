@@ -24,18 +24,6 @@ public class TreeViewBase<T> : ComponentBase
     public string? ItemClass { get; set; }
 
     /// <summary>
-    /// Controls in which order the items are displayed. Sorting affects each level.
-    /// </summary>
-    [Parameter]
-    public Func<IEnumerable<T>, IEnumerable<T>>? SortBy { get; set; } = (e) => e;
-
-    /// <summary>
-    /// Controls which items are ignored. When an item is filtered, it and all its children are not displayed.
-    /// </summary>
-    [Parameter]
-    public Func<IEnumerable<T>, IEnumerable<T>>? FilterBy { get; set; } = (e) => e;
-
-    /// <summary>
     /// When set to true, the checkboxes are disabled and the tree will not respond to user's actions.
     /// </summary>
     [Parameter]
