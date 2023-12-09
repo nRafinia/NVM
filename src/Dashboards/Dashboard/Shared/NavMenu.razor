@@ -13,12 +13,6 @@
 <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
 
     <div>
-        <TreeView TValue="MailItem" DataSource="@MyFolder" Id="Id" Text="FolderName" ParentId="ParentId"
-                  Expanded="Expanded" HasChildren="HasSubFolder">
-        </TreeView>
-    </div>
-
-    <div>
         <TreeViewList Items="_items2"/>
     </div>
 
@@ -52,34 +46,15 @@
     }
 
 
-    protected class MailItem
-    {
-        public int Id { get; set; }
-        public string ParentId { get; set; }
-        public bool HasSubFolder { get; set; }
-        public string FolderName { get; set; }
-        public bool Expanded { get; set; }
-    }
-
     protected class TestClass
     {
         public string Alaki { get; set; }
     }
 
-    List<MailItem> MyFolder = new List<MailItem>();
-
     List<TreeItemData<TestClass>>? _items2;
 
     protected override Task OnInitializedAsync()
     {
-        MyFolder.Add(new MailItem { Id = 1, FolderName = "Inbox", HasSubFolder = true, Expanded = true, ParentId = "" });
-        MyFolder.Add(new MailItem { Id = 2, FolderName = "Category", ParentId = "1", HasSubFolder = true, Expanded = true });
-        MyFolder.Add(new MailItem { Id = 3, FolderName = "Primary", ParentId = "2", HasSubFolder = false, Expanded = true });
-        MyFolder.Add(new MailItem { Id = 6, FolderName = "Demo", ParentId = "2", HasSubFolder = true, Expanded = true });
-        MyFolder.Add(new MailItem { Id = 4, FolderName = "Social", ParentId = "6", HasSubFolder = false, Expanded = true });
-        MyFolder.Add(new MailItem { Id = 5, FolderName = "Promotion", ParentId = "6", HasSubFolder = true, Expanded = true });
-
-
         var root = new TreeItemData<TestClass>("0", "Root", null, true);
         var item1 = new TreeItemData<TestClass>("1", "Inbox", null, true);
         var item2 = new TreeItemData<TestClass>("2", "Category", null, true);
