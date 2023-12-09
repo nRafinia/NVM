@@ -1,0 +1,46 @@
+@using Dashboard.Components.Models
+
+@typeparam TData
+
+<ul class="@ItemClass">
+    @foreach (var item in Items ?? new List<TreeItemData<TData>>(0))
+    {
+        @if (item.HasChildren)
+        {
+            <li>
+                <span @onclick="() => SpanToggle(item)" class="caret @(item.IsExpanded ? "caret-down" : "")">@item.Text</span>
+
+                <TreeViewItems Items="item.Children" Class="@(item.IsExpanded ? "active" : "nested")"/>
+
+            </li>
+        }
+        else
+        {
+            <li>@item.Text</li>
+        }
+    }
+</ul>
+
+@code {
+    [Parameter] 
+    public IEnumerable<TreeItemData<TData>>? Items { get; set; }
+
+    [Parameter] 
+    public string? Class { get; set; }
+
+    private string? ItemClass => Items?.Count()>1? "parentTree " + Class : Class;
+
+    private void SpanToggle(TreeItemData<TData> item)
+    {
+        if (item.IsExpanded)
+        {
+            item.Collapse();
+        }
+        else
+        {
+            item.Expand();
+        }
+        StateHasChanged();
+    }
+
+}

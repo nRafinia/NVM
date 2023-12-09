@@ -1,0 +1,25 @@
+@using Dashboard.Components.Models
+
+@typeparam TData
+
+
+@if (Items is null || !Items.Any())
+{
+    return;
+}
+
+
+<TreeViewItems Items="Items" Class="@TreeViewClass"/>
+
+
+@code {
+    [Parameter] 
+    public List<TreeItemData<TData>>? Items { get; set; }
+
+    [Parameter] 
+    public string? Class { get; set; }
+
+    private string TreeViewClass => $"treeViewList {Class}";
+    
+
+}

@@ -1,4 +1,5 @@
 ﻿@using Dashboard.Components
+@using Dashboard.Components.Models
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
@@ -10,13 +11,15 @@
 </div>
 
 <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
-    
+
     <div>
-        <TreeView Items="Nested" GetChildren="(item) => item.Children" AllowSelection="true">
-            <ItemTemplate>
-                @context.Item.Self
-            </ItemTemplate>
+        <TreeView TValue="MailItem" DataSource="@MyFolder" Id="Id" Text="FolderName" ParentId="ParentId"
+                  Expanded="Expanded" HasChildren="HasSubFolder">
         </TreeView>
+    </div>
+
+    <div>
+        <TreeViewList Items="_items2"/>
     </div>
 
     <nav class="flex-column">
@@ -48,57 +51,64 @@
         collapseNavMenu = !collapseNavMenu;
     }
 
-    
-    
-    private static readonly List<Item> AllItems = new List<Item>
+
+    protected class MailItem
     {
-        new Item
-        {
-            Self = "1",
-            Children = new List<Item>
-            {
-                new Item
-                {
-                    Self = "1.1"
-                },
-                new Item
-                {
-                    Self = "1.2"
-                }
-            }
-        },
-        new Item
-        {
-            Self = "2"
-        },
-        new Item
-        {
-            Self = "3",
-            Children = new List<Item>
-            {
-                new Item
-                {
-                    Self = "3.1",
-                    Children = new List<Item>
-                    {
-                        new Item
-                        {
-                            Self = "3.1.1"
-                        },
-                        new Item
-                        {
-                            Self = "3.1.2"
-                        }
-                    }
-                },
-            }
-        }
-    };
-    private class Item
-    {
-        public string Self { get; set; }
-        public List<Item> Children { get; set; }
+        public int Id { get; set; }
+        public string ParentId { get; set; }
+        public bool HasSubFolder { get; set; }
+        public string FolderName { get; set; }
+        public bool Expanded { get; set; }
     }
-    private List<Item> Nested = AllItems.ToList();
-    
+
+    protected class TestClass
+    {
+        public string Alaki { get; set; }
+    }
+
+    List<MailItem> MyFolder = new List<MailItem>();
+
+    List<TreeItemData<TestClass>>? _items2;
+
+    protected override Task OnInitializedAsync()
+    {
+        MyFolder.Add(new MailItem { Id = 1, FolderName = "Inbox", HasSubFolder = true, Expanded = true, ParentId = "" });
+        MyFolder.Add(new MailItem { Id = 2, FolderName = "Category", ParentId = "1", HasSubFolder = true, Expanded = true });
+        MyFolder.Add(new MailItem { Id = 3, FolderName = "Primary", ParentId = "2", HasSubFolder = false, Expanded = true });
+        MyFolder.Add(new MailItem { Id = 6, FolderName = "Demo", ParentId = "2", HasSubFolder = true, Expanded = true });
+        MyFolder.Add(new MailItem { Id = 4, FolderName = "Social", ParentId = "6", HasSubFolder = false, Expanded = true });
+        MyFolder.Add(new MailItem { Id = 5, FolderName = "Promotion", ParentId = "6", HasSubFolder = true, Expanded = true });
+
+
+        var root = new TreeItemData<TestClass>("0", "Root", null, true);
+        var item1 = new TreeItemData<TestClass>("1", "Inbox", null, true);
+        var item2 = new TreeItemData<TestClass>("2", "Category", null, true);
+        var item3 = new TreeItemData<TestClass>("3", "Primary", null);
+        var item4 = new TreeItemData<TestClass>("4", "Demo", null, true);
+        var item5 = new TreeItemData<TestClass>("5", "Social", null);
+        var item6 = new TreeItemData<TestClass>("6", "Promotion", null, true);
+        var item7 = new TreeItemData<TestClass>("7", "Alaki", null);
+
+        var item21 = new TreeItemData<TestClass>("21", "Inbox2", null);
+        var item22 = new TreeItemData<TestClass>("22", "Category 2", null);
+
+        root.AddChild(item1);
+        root.AddChild(item21);
+
+        item1.AddChild(item2);
+        item2.AddChild(item3, item4);
+        item4.AddChild(item5, item6);
+        item6.AddChild(item7);
+
+        item21.AddChild(item22);
+
+        _items2 = new List<TreeItemData<TestClass>>()
+        {
+            root
+        };
+
+        return base.OnInitializedAsync();
+    }
+
+
 }

@@ -1,0 +1,73 @@
+/*css reference W3schools. "with small modification."*/
+/* css begin*/
+.treeViewList li ul {
+    /*border-left: dashed 2px black;*/
+    height: fit-content;
+    /*border-start-end-radius: 2px;*/
+}
+
+ul, .treeViewList {
+    list-style-type: none;
+}
+
+.treeViewList ul li {
+    position: relative;
+    color: silver;
+}
+
+.treeViewList ul li:before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: -28px;
+    width: 24px;
+    height: 20px;
+    /*border-bottom: dashed 1px black;*/
+    /*border-left: dashed 1px black;*/
+}
+
+.treeViewList {
+    margin: 0;
+    padding: 0;
+}
+
+.treeViewList ul{
+    padding-left:1rem;
+}
+
+.caret {
+    cursor: pointer;
+    -webkit-user-select: none; /* Safari 3.1+ */
+    -moz-user-select: none; /* Firefox 2+ */
+    -ms-user-select: none; /* IE 10+ */
+    user-select: none;
+    color:white;
+}
+
+.caret::before {
+    content: "\276F";
+    color: silver;
+    display: inline-block;
+    margin-right: 6px;
+    transition: all 0.45s;
+}
+
+.caret-down::before {
+    -ms-transform: rotate(90deg); /* IE 9 */
+    -webkit-transform: rotate(90deg); /* Safari */
+    transform: rotate(90deg);
+    transition: all 0.45s;
+}
+
+.nested {
+    display: none;
+    transition: all 0.45s;
+}
+
+.active {
+    display: block;
+    transition: all 0.45s;
+}
+
+
+/*css end*/
