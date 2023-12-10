@@ -36,13 +36,13 @@
 </div>
 
 @code {
-    private bool collapseNavMenu = true;
+    private bool _collapseNavMenu = true;
 
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private string? NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
 
     private void ToggleNavMenu()
     {
-        collapseNavMenu = !collapseNavMenu;
+        _collapseNavMenu = !_collapseNavMenu;
     }
 
 
@@ -55,17 +55,17 @@
 
     protected override Task OnInitializedAsync()
     {
-        var root = new TreeItemData<TestClass>("0", "Root", null, true);
-        var item1 = new TreeItemData<TestClass>("1", "Inbox", null, true);
-        var item2 = new TreeItemData<TestClass>("2", "Category", null, true);
-        var item3 = new TreeItemData<TestClass>("3", "Primary", null);
-        var item4 = new TreeItemData<TestClass>("4", "Demo", null, true);
-        var item5 = new TreeItemData<TestClass>("5", "Social", null);
-        var item6 = new TreeItemData<TestClass>("6", "Promotion", null, true);
-        var item7 = new TreeItemData<TestClass>("7", "Alaki", null);
+        var root = new TreeItemData<TestClass>("Root", null, true);
+        var item1 = new TreeItemData<TestClass>("Inbox", null, true,"/images/icons/datacenter-16.png");
+        var item2 = new TreeItemData<TestClass>("Category", null, true);
+        var item3 = new TreeItemData<TestClass>("Primary", null);
+        var item4 = new TreeItemData<TestClass>("Demo", null, true);
+        var item5 = new TreeItemData<TestClass>("Social", null);
+        var item6 = new TreeItemData<TestClass>("Promotion", null, true);
+        var item7 = new TreeItemData<TestClass>("Alaki", null);
 
-        var item21 = new TreeItemData<TestClass>("21", "Inbox2", null);
-        var item22 = new TreeItemData<TestClass>("22", "Category 2", null);
+        var item21 = new TreeItemData<TestClass>("Inbox2", null);
+        var item22 = new TreeItemData<TestClass>("Category 2", null);
 
         root.AddChild(item1);
         root.AddChild(item21);

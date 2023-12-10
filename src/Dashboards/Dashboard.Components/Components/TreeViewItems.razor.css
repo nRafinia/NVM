@@ -11,8 +11,7 @@ ul, .treeViewList {
 }
 
 .treeViewList ul li {
-    position: relative;
-    color: silver;
+    position: relative;    
 }
 
 .treeViewList ul li:before {
@@ -48,7 +47,7 @@ ul, .treeViewList {
     content: "\276F";
     color: silver;
     display: inline-block;
-    margin-right: 6px;
+    margin-right: 5px;
     transition: all 0.45s;
 }
 
@@ -69,5 +68,12 @@ ul, .treeViewList {
     transition: all 0.45s;
 }
 
+.treeViewList .title{
+    color: silver;
+}
+
+.treeViewList img{
+    padding: 0 3px 0 3px;
+}
 
 /*css end*/
