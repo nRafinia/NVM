@@ -4,19 +4,11 @@
 
 @inject NavigationManager NavigationManager
 @inject DashboardAuthentication Authenticator
+@inject IJSRuntime JsRuntime
 
 <PageTitle>Dashboard</PageTitle>
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu/>
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-
-            <AuthorizeView Context="Account">
+@*<AuthorizeView Context="Account">
                 <NotAuthorized>
                     <a href="/Login"></a>
                 </NotAuthorized>
@@ -24,18 +16,37 @@
                     <label>@_currentUserGivenName</label>
                     <button type="button" class="btn btn-primary" @onclick="TryLogout">Logout</button>
                 </Authorized>
-            </AuthorizeView>
+            </AuthorizeView>*@
+
+<CascadingValue Value="this">
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            <NavMenu/>
+
+            <div class="layout-page">
+                <NavBar/>
+
+                <div class="content-wrapper">
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <div class="row">
+                            @Body
+                        </div>
+                    </div>
+
+                    <FooterPage/>
+                    <div class="content-backdrop fade"></div>
+                </div>
+            </div>
         </div>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+        @*-- Overlay --*@
+        <div class="layout-overlay layout-menu-toggle"></div>
+    </div>
+</CascadingValue>
 
 @code{
 
-    [CascadingParameter]
+    [CascadingParameter] 
     protected Task<AuthenticationState> AuthStat { get; set; }
 
     private string _currentUserGivenName = string.Empty;
@@ -51,6 +62,11 @@
         }
 
         _currentUserGivenName = user.FindFirst(ClaimTypes.GivenName)?.Value ?? string.Empty;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JsRuntime.InvokeVoidAsync("AfterLoadPage");
     }
 
     private async Task TryLogout()

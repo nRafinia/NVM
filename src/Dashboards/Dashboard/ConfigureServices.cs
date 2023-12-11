@@ -1,4 +1,3 @@
-using Dashboard.Data;
 using Microsoft.AspNetCore.Components.Authorization;
 using SharedKernel.Shared;
 
@@ -10,7 +9,6 @@ public class ConfigureServices:IConfigureService
     {
         services.AddRazorPages();
         services.AddServerSideBlazor();
-        services.AddSingleton<WeatherForecastService>();
          
         services.AddScoped<DashboardAuthentication>();
         services.AddScoped<AuthenticationStateProvider, DashboardAuthentication>();

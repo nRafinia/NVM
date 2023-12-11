@@ -20,4 +20,8 @@
       <ProjectReference Include="..\Dashboard.Domain\Dashboard.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\images\icons\datacenter-16.png" />
+    </ItemGroup>
+
 </Project>

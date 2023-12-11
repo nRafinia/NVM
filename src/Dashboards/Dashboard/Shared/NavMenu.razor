@@ -1,20 +1,28 @@
 ﻿@using Dashboard.Components
 @using Dashboard.Components.Models
 
-<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">Dashboard</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</div>
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+    <div class="app-brand demo">
+        <a href="/" class="app-brand-link">
+            <span class="app-brand-logo demo">
 
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
-    <div>
-        <TreeViewList Items="_items2" TData="TestClass" OnSelectNode="@OnNodeSelect"/>
+            </span>
+            <span class="app-brand-text demo menu-text fw-bolder ms-2">NVM</span>
+        </a>
+
+        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+            <i class="bx bx-chevron-left bx-sm align-middle"></i>
+        </a>
     </div>
-</div>
+
+    <div class="menu-inner-shadow"></div>
+
+    <div class="menu-inner py-1">
+        <TreeViewList Items="_treeNodes" TData="int" OnSelectNode="@OnNodeSelect"/>
+    </div>
+</aside>
+
+
 
 @code {
     private bool _collapseNavMenu = true;
@@ -26,47 +34,14 @@
         _collapseNavMenu = !_collapseNavMenu;
     }
 
-
-    protected class TestClass
+    private List<TreeItemData<int>> _treeNodes = new()
     {
-        public string Alaki { get; set; }
-    }
-
-    List<TreeItemData<TestClass>>? _items2;
-
-    protected override Task OnInitializedAsync()
-    {
-        var root = new TreeItemData<TestClass>("Root", null, true);
-        var item1 = new TreeItemData<TestClass>("Inbox", null, true,"/images/icons/datacenter-16.png");
-        var item2 = new TreeItemData<TestClass>("Category", null, true);
-        var item3 = new TreeItemData<TestClass>("Primary", null);
-        var item4 = new TreeItemData<TestClass>("Demo", null, true);
-        var item5 = new TreeItemData<TestClass>("Social", null);
-        var item6 = new TreeItemData<TestClass>("Promotion", null, true);
-        var item7 = new TreeItemData<TestClass>("Alaki", null);
-
-        var item21 = new TreeItemData<TestClass>("Inbox2", null);
-        var item22 = new TreeItemData<TestClass>("Category 2", null);
-
-        root.AddChild(item1);
-        root.AddChild(item21);
-
-        item1.AddChild(item2);
-        item2.AddChild(item3, item4);
-        item4.AddChild(item5, item6);
-        item6.AddChild(item7);
-
-        item21.AddChild(item22);
-
-        _items2 = new List<TreeItemData<TestClass>>()
+        new TreeItemData<int>("NVM",0,true)
         {
-            root
-        };
+        }
+    };
 
-        return base.OnInitializedAsync();
-    }
-
-    private async Task OnNodeSelect(TreeItemData<TestClass> item)
+    private async Task OnNodeSelect(TreeItemData<int> item)
     {
         //Console.WriteLine(item.Text);
     }
