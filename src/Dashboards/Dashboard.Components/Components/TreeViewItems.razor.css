@@ -1,5 +1,3 @@
-/*css reference W3schools. "with small modification."*/
-/* css begin*/
 .treeViewList li ul {
     /*border-left: dashed 2px black;*/
     height: fit-content;
@@ -11,10 +9,10 @@ ul, .treeViewList {
 }
 
 .treeViewList ul li {
-    position: relative;    
+    position: relative;
 }
 
-.treeViewList ul li:before {
+.treeViewList ul span.caret:before {
     content: "";
     position: absolute;
     top: -5px;
@@ -30,8 +28,8 @@ ul, .treeViewList {
     padding: 0;
 }
 
-.treeViewList ul{
-    padding-left:1rem;
+.treeViewList ul {
+    padding-left: 1rem;
 }
 
 .caret {
@@ -39,12 +37,10 @@ ul, .treeViewList {
     -moz-user-select: none; /* Firefox 2+ */
     -ms-user-select: none; /* IE 10+ */
     user-select: none;
-    color:white;
 }
 
 .caret::before {
     content: "\276F";
-    color: silver;
     display: inline-block;
     margin-right: 5px;
     transition: all 0.45s;
@@ -63,28 +59,25 @@ ul, .treeViewList {
 }
 
 .active {
-    display: block;
     transition: all 0.45s;
 }
 
-.treeViewList .title{
-    color: silver;
+.treeViewList .title {
+
 }
 
-.treeViewList .title:hover{
-    text-decoration: underline;
+.treeViewList .title:hover {
     cursor: pointer;
 }
 
-.treeViewList img{
-    padding: 0 3px 0 3px;    
+.treeViewList img {
+    padding: 0 3px 0 3px;
 }
 
 .treeViewList li.node-active {
-    background-color: #6c757d;
-}
-.treeViewList span.node-active {
-    background-color: #6c757d;
+
 }
 
-/*css end*/
+.treeViewList span.node-active {
+
+}

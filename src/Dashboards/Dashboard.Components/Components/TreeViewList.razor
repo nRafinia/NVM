@@ -27,11 +27,15 @@
 
     private Task SelectNodeEvent(TreeItemData<TData> item)
     {
+        SetSelectedNode(item);
+        return OnSelectNode.InvokeAsync(item);
+    }
+    
+    public void SetSelectedNode(TreeItemData<TData> item)
+    {
         Selected?.SetIsSelected(false);
         Selected = item;
         Selected?.SetIsSelected(true);
         StateHasChanged();
-
-        return OnSelectNode.InvokeAsync(item);
     }
 }
