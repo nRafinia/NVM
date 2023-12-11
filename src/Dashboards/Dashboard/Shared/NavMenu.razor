@@ -13,7 +13,7 @@
 <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
 
     <div>
-        <TreeViewList Items="_items2"/>
+        <TreeViewList Items="_items2" TData="TestClass" OnSelectNode="@OnNodeSelect"/>
     </div>
 
     <nav class="flex-column">
@@ -85,5 +85,9 @@
         return base.OnInitializedAsync();
     }
 
+    private async Task OnNodeSelect(TreeItemData<TestClass> item)
+    {
+        //Console.WriteLine(item.Text);
+    }
 
 }

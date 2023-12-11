@@ -8,7 +8,7 @@
         @if (item.HasChildren)
         {
             <li>
-                <span @onclick="() => SpanToggle(item)" class="caret title @(item.IsExpanded ? "caret-down" : "")">
+                <span @onclick="() => SpanToggle(item)" class="caret title @(item.IsExpanded ? "caret-down" : "") @(item.IsSelected ? "node-active" : "")">
                     @if (!string.IsNullOrEmpty(item.Icon))
                     {
                         <img src="@item.Icon" alt="@item.Text" class="icon"/>
@@ -16,12 +16,12 @@
                     @item.Text
                 </span>
 
-                <TreeViewItems Items="item.Children" Class="@(item.IsExpanded ? "active" : "nested")"/>
+                <TreeViewItems Items="item.Children" Class="@(item.IsExpanded ? "active" : "nested")" TData="TData" OnSelectNode="@OnSelectNode"/>
             </li>
         }
         else
         {
-            <li class="title">
+            <li class="title @(item.IsSelected ? "node-active" : "")" @onclick="() => OnSelectNode.InvokeAsync(item)">
                 @if (!string.IsNullOrEmpty(item.Icon))
                 {
                     <img src="@item.Icon" alt="@item.Text" class="icon"/>
@@ -37,9 +37,11 @@
 
     [Parameter] public string? Class { get; set; }
 
+    [Parameter] public EventCallback<TreeItemData<TData>> OnSelectNode { get; set; }
+
     private string? ItemClass => Items?.Count() > 1 ? "parentTree " + Class : Class;
 
-    private void SpanToggle(TreeItemData<TData> item)
+    private Task SpanToggle(TreeItemData<TData> item)
     {
         if (item.IsExpanded)
         {
@@ -51,6 +53,13 @@
         }
 
         StateHasChanged();
+
+        return SelectNodeEvent(item);
+    }
+
+    private Task SelectNodeEvent(TreeItemData<TData> item)
+    {
+        return OnSelectNode.InvokeAsync(item);
     }
 
 }

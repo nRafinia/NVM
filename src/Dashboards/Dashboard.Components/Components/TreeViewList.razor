@@ -9,8 +9,7 @@
 }
 
 
-<TreeViewItems Items="Items" Class="@TreeViewClass"/>
-
+<TreeViewItems Items="Items" Class="@TreeViewClass" TData="TData" OnSelectNode="@SelectNodeEvent"/>
 
 @code {
     [Parameter] 
@@ -19,7 +18,20 @@
     [Parameter] 
     public string? Class { get; set; }
 
+    [Parameter]
+    public EventCallback<TreeItemData<TData>> OnSelectNode { get; set; }    
+    
     private string TreeViewClass => $"treeViewList {Class}";
     
+    public TreeItemData<TData>? Selected { get; private set; }
 
+    private Task SelectNodeEvent(TreeItemData<TData> item)
+    {
+        Selected?.SetIsSelected(false);
+        Selected = item;
+        Selected?.SetIsSelected(true);
+        StateHasChanged();
+
+        return OnSelectNode.InvokeAsync(item);
+    }
 }

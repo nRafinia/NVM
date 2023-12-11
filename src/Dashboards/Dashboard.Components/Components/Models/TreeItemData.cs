@@ -11,6 +11,8 @@ public class TreeItemData<T>
     private readonly List<TreeItemData<T>> _children= new();
     public IReadOnlyList<TreeItemData<T>> Children => _children.AsReadOnly();
     public bool HasChildren => _children.Any();
+    
+    public bool IsSelected { get; private set; }
 
     public TreeItemData(string text, T? data, bool isExpanded = false, string? icon = null)
     {
@@ -42,5 +44,10 @@ public class TreeItemData<T>
             child.Parent = this;
             _children.Add(child);
         }
+    }
+    
+    internal void SetIsSelected(bool isSelected)
+    {
+        IsSelected = isSelected;
     }
 }
