@@ -87,11 +87,11 @@
                     </a>*@
                 </div>
                 <div class="input-group input-group-merge">
-                    <input type="password" id="password" class="form-control" name="password"
+                    <input type="@(_showPassword?"text":"password")" id="password" class="form-control" name="password"
                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                            aria-describedby="password" @bind="LoginFormModel.Password"/>
-                    <span class="input-group-text cursor-pointer">
-                        <i class="bx bx-hide"></i>
+                    <span class="input-group-text cursor-pointer" @onclick="ShowPassword">
+                        <i class="bx @(_showPassword?"bx-hide":"bx-show")"></i>
                     </span>
                 </div>
             </div>
@@ -117,9 +117,11 @@
 
 
 @code {
-    [CascadingParameter] protected Task<AuthenticationState> AuthStat { get; set; }
+    [CascadingParameter] 
+    protected Task<AuthenticationState> AuthStat { get; set; }
 
     private LoginFormModel LoginFormModel { get; set; } = new();
+    private bool _showPassword = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -146,4 +148,9 @@
         NavigationManager.NavigateTo(returnUrl, true);
     }
 
+    private void ShowPassword()
+    {
+        _showPassword = !_showPassword;
+    }
+    
 }
