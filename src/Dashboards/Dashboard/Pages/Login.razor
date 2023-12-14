@@ -87,12 +87,7 @@
                     </a>*@
                 </div>
                 <div class="input-group input-group-merge">
-                    <input type="@(_showPassword?"text":"password")" id="password" class="form-control" name="password"
-                           placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                           aria-describedby="password" @bind="LoginFormModel.Password"/>
-                    <span class="input-group-text cursor-pointer" @onclick="ShowPassword">
-                        <i class="bx @(_showPassword?"bx-hide":"bx-show")"></i>
-                    </span>
+                    <Password Value="@LoginFormModel.Password" Id="password"/>
                 </div>
             </div>
             <div class="mb-3">
