@@ -1,0 +1,41 @@
+@using Dashboard.Components.Models
+
+@typeparam TData
+
+
+@if (Items is null || !Items.Any())
+{
+    return;
+}
+
+
+<TreeViewItems Items="Items" Class="@TreeViewClass" TData="TData" OnSelectNode="@SelectNodeEvent"/>
+
+@code {
+    [Parameter] 
+    public List<TreeItemData<TData>>? Items { get; set; }
+
+    [Parameter] 
+    public string? Class { get; set; }
+
+    [Parameter]
+    public EventCallback<TreeItemData<TData>> OnSelectNode { get; set; }    
+    
+    private string TreeViewClass => $"treeViewList {Class}";
+    
+    public TreeItemData<TData>? Selected { get; private set; }
+
+    private Task SelectNodeEvent(TreeItemData<TData> item)
+    {
+        SetSelectedNode(item);
+        return OnSelectNode.InvokeAsync(item);
+    }
+    
+    public void SetSelectedNode(TreeItemData<TData> item)
+    {
+        Selected?.SetIsSelected(false);
+        Selected = item;
+        Selected?.SetIsSelected(true);
+        StateHasChanged();
+    }
+}

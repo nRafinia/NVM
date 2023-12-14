@@ -1,8 +1,9 @@
 using System.Globalization;
 using System.Text.Json;
-using Common;
+using SharedKernel;
 using Connectors.Docker.Images;
 using Docker.Connectors.SSH.Models;
+using SharedKernel.Shared;
 
 namespace Docker.Connectors.SSH.Helpers;
 

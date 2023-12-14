@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace Common;
+namespace SharedKernel.Shared;
 
 public static class SizeConverter
 {
