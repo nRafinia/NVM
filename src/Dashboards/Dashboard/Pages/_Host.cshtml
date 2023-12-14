@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using Microsoft.AspNetCore.Components.Web
+@using RenderMode = Microsoft.AspNetCore.Mvc.Rendering.RenderMode
 @namespace Dashboard.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
@@ -38,7 +39,7 @@
 </head>
 <body>
 @* <component type="typeof(App)" render-mode="ServerPrerendered"/> *@
-@(await Html.RenderComponentAsync<App>(RenderMode.Server))
+@(await Html.RenderComponentAsync<App>(RenderMode.Server)) 
 
 <div id="blazor-error-ui">
     <environment include="Staging,Production">
