@@ -1,0 +1,67 @@
+@using Dashboard.Components.Models
+
+@typeparam TData
+
+<ul class="@ItemClass">
+    @foreach (var item in Items ?? new List<TreeItemData<TData>>(0))
+    {
+        @if (item.HasChildren)
+        {
+            <li>
+                <span @onclick="() => SpanToggle(item)" class="caret title @(item.IsExpanded ? "caret-down" : "") @(item.IsSelected ? "node-active" : "")">
+                    @if (!string.IsNullOrEmpty(item.Icon))
+                    {
+                        <img src="@item.Icon" alt="@item.Text" class="icon"/>
+                    }
+                    @item.Text
+                </span>
+
+                <TreeViewItems Items="item.Children" Class="@(item.IsExpanded ? "active" : "nested")" TData="TData" OnSelectNode="@OnSelectNode"/>
+            </li>
+        }
+        else
+        {
+            <li class=" " @onclick="() => OnSelectNode.InvokeAsync(item)">
+                <span class="title @(item.IsSelected ? "node-active" : "")">
+                    @if (!string.IsNullOrEmpty(item.Icon))
+                    {
+                        <img src="@item.Icon" alt="@item.Text" class="icon"/>
+                    }
+                    @item.Text
+                </span>
+            </li>
+        }
+    }
+</ul>
+
+@code {
+    [Parameter] public IEnumerable<TreeItemData<TData>>? Items { get; set; }
+
+    [Parameter] public string? Class { get; set; }
+
+    [Parameter] public EventCallback<TreeItemData<TData>> OnSelectNode { get; set; }
+
+    private string? ItemClass => Items?.Count() > 1 ? "parentTree " + Class : Class;
+
+    private Task SpanToggle(TreeItemData<TData> item)
+    {
+        if (item.IsExpanded)
+        {
+            item.Collapse();
+        }
+        else
+        {
+            item.Expand();
+        }
+
+        StateHasChanged();
+
+        return SelectNodeEvent(item);
+    }
+
+    private Task SelectNodeEvent(TreeItemData<TData> item)
+    {
+        return OnSelectNode.InvokeAsync(item);
+    }
+
+}
