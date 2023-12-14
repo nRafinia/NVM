@@ -2,16 +2,10 @@
 
 <PageTitle>@Title</PageTitle>
 
-<h3>@Title 1</h3>
-
-
+<h4>@Title</h4>
 
 @code {
-    public virtual Guid? Id { get; protected set; }
-    public virtual string? Title { get; protected set; }
-    public virtual string? Description { get; protected set; }
-    
-    
+    public string? Title { get; protected set; }
     
     public virtual Task Show()
     {
