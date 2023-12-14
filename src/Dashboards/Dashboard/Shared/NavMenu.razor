@@ -35,7 +35,7 @@
     {
         var rootNode = new TreeItemData<int>("NVM", 0, true);
         _treeViewList?.SetSelectedNode(rootNode);
-        var child1=new TreeItemData<int>("Dashboard", 1, icon:"/img/icons/datacenter-16.png");
+        var child1=new TreeItemData<int>("Main", 1, icon:"/img/icons/datacenter-16.png");
         child1.AddChild(new TreeItemData<int>("Child 1",3,icon:"/img/icons/datacenter-16.png"));
         rootNode.AddChild(child1);
         rootNode.AddChild(new TreeItemData<int>("other", 2, false));

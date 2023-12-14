@@ -1,0 +1,25 @@
+@inherits ComponentBase
+
+<PageTitle>@Title</PageTitle>
+
+<h3>@Title 1</h3>
+
+
+
+@code {
+    public virtual Guid? Id { get; protected set; }
+    public virtual string? Title { get; protected set; }
+    public virtual string? Description { get; protected set; }
+    
+    
+    
+    public virtual Task Show()
+    {
+        return Task.CompletedTask;
+    }
+
+    public virtual Task Hide()
+    {
+        return Task.CompletedTask;
+    }
+}
