@@ -107,4 +107,11 @@ public class Result
 
         return Success();
     }
+
+    public override string ToString()
+    {
+        return IsSuccess 
+            ? "Success" 
+            : Error!.ToString();
+    }
 }

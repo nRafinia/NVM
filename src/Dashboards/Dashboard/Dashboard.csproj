@@ -24,4 +24,10 @@
       <_ContentIncludedByDefault Remove="wwwroot\images\icons\datacenter-16.png" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="license">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

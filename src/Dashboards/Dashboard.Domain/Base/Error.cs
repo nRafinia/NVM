@@ -54,5 +54,10 @@
             yield return Code;
             yield return Message;
         }
+        
+        public override string ToString()
+        {
+            return $"{Code}= {Message}";
+        }
     }
 }

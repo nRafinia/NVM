@@ -1,4 +1,6 @@
-﻿namespace Dashboard.Domain.Base.Results;
+﻿using System.Text.Json;
+
+namespace Dashboard.Domain.Base.Results;
 
 /// <summary>
 /// Represents the result of some operation, with status information and possibly a value and an error.
@@ -21,7 +23,14 @@ public class Result<TValue> : Result
     /// </summary>
     /// <returns>The result value if the result is successful.</returns>
     /// <exception cref="InvalidOperationException"> when <see cref="Result.IsFailure"/> is true.</exception>
-    public TValue? Value { get; } 
+    public TValue? Value { get; }
 
     public static implicit operator Result<TValue>(TValue value) => Success(value);
+
+    public override string ToString()
+    {
+        return IsSuccess
+            ? JsonSerializer.Serialize(Value)
+            : base.ToString();
+    }
 }
