@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using Moq;
 
 namespace Vault.Test;
@@ -12,13 +13,15 @@ public class CredentialManagerTests
         var credentialManager = new CredentialManager(mockFile.Object);
         var data = new Test { Name = "Test", Age = 10 };
         var fileName = "test.dat";
-        var keyFileName = "key.key";
 
+        var key = new byte[AesGcm.TagByteSizes.MaxSize];
+        RandomNumberGenerator.Fill(key);
+        
         // Act
-        await credentialManager.Encrypt(data, fileName, keyFileName);
+        await credentialManager.Encrypt(data, fileName, key);
 
         // Assert
-        mockFile.Verify(f => f.WriteAllBytesAsync(It.IsAny<string>(), It.IsAny<byte[]>(), default), Times.Exactly(2));
+        mockFile.Verify(f => f.WriteAllBytesAsync(It.IsAny<string>(), It.IsAny<byte[]>(), default), Times.Exactly(1));
     }
 
     [Fact]
@@ -26,48 +29,25 @@ public class CredentialManagerTests
     {
         // Arrange
         var fileName = "test.dat";
-        var keyFileName = "key.key";
 
         var data = Array.Empty<byte>();
-        var key = Array.Empty<byte>();
 
         var mockFile = new Mock<IFileUtility>();
         mockFile.Setup(f => f.WriteAllBytesAsync(It.IsAny<string>(), It.IsAny<byte[]>(), It.IsAny<CancellationToken>()))
-            .Callback((string path, byte[] bytes, CancellationToken cancellationToken) =>
-            {
-                if (path == fileName)
-                {
-                    data = bytes;
-                }
-
-                if (path == keyFileName)
-                {
-                    key = bytes;
-                }
-            });
+            .Callback((string path, byte[] bytes, CancellationToken cancellationToken) => { data = bytes; });
 
         mockFile.Setup(f => f.ReadAllBytesAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync((string path, CancellationToken cancellationToken) =>
-            {
-                if (path == fileName)
-                {
-                    return data;
-                }
-
-                if (path == keyFileName)
-                {
-                    return key;
-                }
-
-                return Array.Empty<byte>();
-            });
+            .ReturnsAsync((string path, CancellationToken cancellationToken) => data);
 
         var credentialManager = new CredentialManager(mockFile.Object);
         var targetData = new Test { Name = "Test", Age = 10 };
+        
+        var key = new byte[AesGcm.TagByteSizes.MaxSize];
+        RandomNumberGenerator.Fill(key);
 
         // Act
-        await credentialManager.Encrypt(targetData, fileName, keyFileName);
-        var result = await credentialManager.Decrypt<Test>(fileName, keyFileName);
+        await credentialManager.Encrypt(targetData, fileName, key);
+        var result = await credentialManager.Decrypt<Test>(fileName, key);
 
         // Assert
         Assert.Equal(targetData.Name, result.Name);
