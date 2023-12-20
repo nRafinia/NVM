@@ -10,7 +10,7 @@ public class CredentialManagerTests
     {
         // Arrange
         var mockFile = new Mock<IFileUtility>();
-        var credentialManager = new CredentialManager(mockFile.Object);
+        var credentialManager = new VaultManager(mockFile.Object);
         var data = new Test { Name = "Test", Age = 10 };
         var fileName = "test.dat";
 
@@ -39,7 +39,7 @@ public class CredentialManagerTests
         mockFile.Setup(f => f.ReadAllBytesAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((string path, CancellationToken cancellationToken) => data);
 
-        var credentialManager = new CredentialManager(mockFile.Object);
+        var credentialManager = new VaultManager(mockFile.Object);
         var targetData = new Test { Name = "Test", Age = 10 };
         
         var key = new byte[AesGcm.TagByteSizes.MaxSize];

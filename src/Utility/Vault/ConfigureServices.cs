@@ -8,6 +8,6 @@ public class ConfigureServices : IConfigureService
     public void AddServices(IServiceCollection services)
     {
         services.AddSingleton<IFileUtility, FileUtility>();
-        services.AddSingleton<ICredentialManager, CredentialManager>();
+        services.AddSingleton<IVaultManager, VaultManager>();
     }
 }

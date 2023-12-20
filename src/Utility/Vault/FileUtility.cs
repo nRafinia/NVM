@@ -7,5 +7,7 @@ public class FileUtility : IFileUtility
     
     public Task<byte[]> ReadAllBytesAsync(string path, CancellationToken cancellationToken = default) =>
         File.ReadAllBytesAsync(path, cancellationToken);
-    
+
+    public bool Exists(string path) => File.Exists(path);
+
 }

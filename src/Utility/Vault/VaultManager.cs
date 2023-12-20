@@ -5,7 +5,7 @@ using Vault.Models;
 
 namespace Vault;
 
-public class CredentialManager(IFileUtility file) : ICredentialManager
+public class VaultManager(IFileUtility file) : IVaultManager
 {
     public Task Encrypt<T>(T data, string fileName, byte[] key)
     {
@@ -19,18 +19,23 @@ public class CredentialManager(IFileUtility file) : ICredentialManager
 
         return file.WriteAllBytesAsync(fileName, JsonSerializer.SerializeToUtf8Bytes(encryptData));
     }
-    
-    public async Task<T> Decrypt<T>(string fileName, byte[] key)
+
+    public async Task<T?> Decrypt<T>(string fileName, byte[] key)
     {
+        if (!file.Exists(fileName))
+        {
+            return default;
+        }
+
         var encryptData = JsonSerializer.Deserialize<EncryptDataModel>(await file.ReadAllBytesAsync(fileName));
 
         var json = Decrypt(encryptData, key);
 
         return JsonSerializer.Deserialize<T>(json)!;
     }
-    
+
     #region Private methods
-    
+
     private static EncryptDataModel Encrypt(byte[] plainTextBytes, byte[] nonce, byte[] key)
     {
         var tag = new byte[AesGcm.TagByteSizes.MaxSize];
@@ -41,7 +46,7 @@ public class CredentialManager(IFileUtility file) : ICredentialManager
 
         return new EncryptDataModel(ciphertext, nonce, tag);
     }
-    
+
     private static string Decrypt(EncryptDataModel data, byte[] key)
     {
         using var aes = new AesGcm(key, data.Tag.Length);
@@ -51,6 +56,6 @@ public class CredentialManager(IFileUtility file) : ICredentialManager
 
         return Encoding.UTF8.GetString(plaintextBytes);
     }
-    
+
     #endregion
 }

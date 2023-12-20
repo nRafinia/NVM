@@ -2,9 +2,9 @@ using Dashboard.Domain.Base.Events;
 
 namespace Dashboard.Domain.Base;
 
-public class Entity(string id)
+public class Entity(IdColumn id)
 {
-    public string Id { get; } = Guard.Against.NullOrEmpty(id);
+    public IdColumn Id { get; internal set; } = id;
 
     #region Event collection
 

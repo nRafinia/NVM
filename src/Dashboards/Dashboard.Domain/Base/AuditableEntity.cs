@@ -1,6 +1,8 @@
+using Dashboard.Domain.ValueObjects;
+
 namespace Dashboard.Domain.Base;
 
-public class AuditableEntity(string id) : Entity(id)
+public class AuditableEntity(IdColumn id) : Entity(id)
 {
     public DateTime Created { get; set; }
     public string? CreatedBy { get; set; }
