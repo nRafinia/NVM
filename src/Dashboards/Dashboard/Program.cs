@@ -1,4 +1,6 @@
+using System.Reflection;
 using Dashboard.Domain.Licenses;
+using FluentValidation;
 using SharedKernel.Shared;
 
 var licenseResponse = await LicenseManager.Load();
@@ -15,12 +17,15 @@ Console.WriteLine(licenseResponse.Value!.ToString());
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-builder.Services.RegisterServices(
+var assemblies = new List<Assembly>()
+{
     typeof(Program).Assembly,
     typeof(Dashboard.Application.ConfigureServices).Assembly,
+    typeof(Dashboard.Infra.ConfigureServices).Assembly,
     typeof(Connectors.Docker.ConfigureServices).Assembly
-);
+};
+builder.Services.AddValidatorsFromAssemblies(assemblies);
+builder.Services.RegisterServices(assemblies.ToArray());
 
 var app = builder.Build();
 
