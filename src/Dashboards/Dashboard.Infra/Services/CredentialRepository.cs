@@ -54,11 +54,6 @@ public class CredentialRepository : ICredentialRepository
             throw new Exception("Credential name already exists");
         }
 
-        if (credentials.Any(c => c.Id == credential.Id))
-        {
-            throw new Exception("Credential already exists");
-        }
-        
         credentials.RemoveAll(c => c.Id == credential.Id);
         
         credentials.Add(credential);

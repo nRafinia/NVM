@@ -28,4 +28,10 @@
       <ProjectReference Include="..\Dashboard.Infra\Dashboard.Infra.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="license">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

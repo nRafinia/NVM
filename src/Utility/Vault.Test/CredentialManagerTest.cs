@@ -39,6 +39,8 @@ public class CredentialManagerTests
         mockFile.Setup(f => f.ReadAllBytesAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((string path, CancellationToken cancellationToken) => data);
 
+        mockFile.Setup(f => f.Exists(It.IsAny<string>())).Returns(true);
+        
         var credentialManager = new VaultManager(mockFile.Object);
         var targetData = new Test { Name = "Test", Age = 10 };
         
@@ -50,6 +52,7 @@ public class CredentialManagerTests
         var result = await credentialManager.Decrypt<Test>(fileName, key);
 
         // Assert
+        Assert.NotNull(result);
         Assert.Equal(targetData.Name, result.Name);
         Assert.Equal(targetData.Age, result.Age);
     }
