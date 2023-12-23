@@ -23,7 +23,7 @@ public class CredentialRepositoryTest
     {
         //Arrange
         var name = $"Name-{new Random().Next(1000)}";
-        var credential = new Credential(name, CredentialType.None);
+        var credential = Credential.None(name);
 
         //Act
         await _subject.AddAsync(credential);
@@ -40,7 +40,7 @@ public class CredentialRepositoryTest
         //Arrange
         var name = $"Name-{new Random().Next(1000)}";
         var name2 = $"Name-{new Random().Next(1000)}";
-        var credential = new Credential(name, CredentialType.None);
+        var credential = Credential.None(name);
 
         //Act
         await _subject.AddAsync(credential);
@@ -59,7 +59,7 @@ public class CredentialRepositoryTest
     {
         //Arrange
         var name = $"Name-{new Random().Next(1000)}";
-        var credential = new Credential(name, CredentialType.None);
+        var credential = Credential.None(name);
 
         //Act
         await _subject.AddAsync(credential);
@@ -75,7 +75,7 @@ public class CredentialRepositoryTest
     {
         //Arrange
         var name = $"Name-{new Random().Next(1000)}";
-        var credential = new Credential(name, CredentialType.None);
+        var credential = Credential.None(name);
 
         //Act
         await _subject.AddAsync(credential);
@@ -92,8 +92,8 @@ public class CredentialRepositoryTest
         //arrange
         var name1 = $"Name-{new Random().Next(1000)}";
         var name2 = $"Name-{new Random().Next(1000)}";
-        var credential1 = new Credential(name1, CredentialType.None);
-        var credential2 = new Credential(name2, CredentialType.None);
+        var credential1 = Credential.None(name1);
+        var credential2 = Credential.None(name2);
 
         //Act
         await _subject.AddAsync(credential1);
@@ -109,7 +109,7 @@ public class CredentialRepositoryTest
     {
         //Arrange
         var name = $"Name-{new Random().Next(1000)}";
-        var credential = new Credential(name, CredentialType.None);
+        var credential = Credential.None(name);
 
         //Act
         await _subject.AddAsync(credential);

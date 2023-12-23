@@ -6,21 +6,32 @@ using Dashboard.Domain.Enums;
 
 namespace Dashboard.Domain.Entities;
 
-public class Credential(string name, CredentialType credentialType, string? description = default)
-    : AuditableEntity(IdColumn.New)
+public class Credential : AuditableEntity
 {
-    public string Name { get; private set; } = Guard.Against.NullOrWhiteSpace(name, nameof(name));
-    public string? Description { get; private set; } = description;
-    public CredentialType CredentialType { get; private set; } = credentialType;
+    public string Name { get; private set; }
+    public string? Description { get; private set; }
+    public CredentialType CredentialType { get; private set; }
 
-    public CredentialBasic? Basic { get; private set; }
+    public CredentialBasic? BasicCredential { get; private set; }
 
     [JsonConstructor]
-    private Credential(string id, string name, CredentialType credentialType, string? description,
-        CredentialBasic? basic) : this(name, credentialType, description)
+    private Credential(IdColumn id, string name, CredentialType credentialType, string? description,
+        CredentialBasic? basic) : base(id)
     {
-        Id = id;
-        Basic = basic;
+        BasicCredential = basic;
+        Name = Guard.Against.NullOrWhiteSpace(name, nameof(name));
+        Description = description;
+        CredentialType = credentialType;
+    }
+
+    public static Credential None(string name, string? description = default)
+        => new Credential(IdColumn.New, name, CredentialType.None, description, null);
+    
+    public static Credential Basic(string name, string userName, string password, string? description = default)
+    {
+        var credential = new Credential(IdColumn.New, name, CredentialType.Basic, description, null);
+        credential.AddBasic(userName, password);
+        return credential;
     }
 
     public void UpdateName(string name, string? description = default)
@@ -32,7 +43,7 @@ public class Credential(string name, CredentialType credentialType, string? desc
     public CredentialBasic AddBasic(string userName, string password)
     {
         CredentialType = CredentialType.Basic;
-        Basic = new CredentialBasic(this, userName, password);
-        return Basic;
+        BasicCredential = new CredentialBasic(this, userName, password);
+        return BasicCredential;
     }
 }
