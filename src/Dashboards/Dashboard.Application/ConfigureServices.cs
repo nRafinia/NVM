@@ -1,6 +1,5 @@
 using Dashboard.Application.Behaviors;
 using Dashboard.Application.Users;
-using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Shared;
@@ -13,7 +12,10 @@ public class ConfigureServices : IConfigureService
     {
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviorResult<,>));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-        
+
+        services.AddMediatR(configuration =>
+            configuration.RegisterServicesFromAssemblies(typeof(ConfigureServices).Assembly));
+
         services.AddScoped<IUserLogic, UserLogic>();
     }
 }
