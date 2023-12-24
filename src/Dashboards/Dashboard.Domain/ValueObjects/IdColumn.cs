@@ -4,7 +4,8 @@ public class IdColumn(string value) : ValueObject
 {
     public string Value { get; } = Guard.Against.NullOrEmpty(value);
 
-    public static IdColumn New => new IdColumn(Guid.NewGuid().ToString());
+    public static IdColumn New => new(Guid.NewGuid().ToString());
+    public static IdColumn None => new(Guid.Empty.ToString());
 
     public static implicit operator IdColumn(string value) => new IdColumn(value);
 
