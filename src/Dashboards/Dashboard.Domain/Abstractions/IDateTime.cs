@@ -1,6 +1,6 @@
 namespace Dashboard.Domain.Abstractions;
 
-public interface IDateTimeProvider
+public interface IDateTime
 {
     DateTime Now { get; }
 }
