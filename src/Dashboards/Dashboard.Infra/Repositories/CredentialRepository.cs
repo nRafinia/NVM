@@ -5,9 +5,9 @@ using Dashboard.Domain.Entities;
 using Dashboard.Domain.ValueObjects;
 using Vault;
 
-namespace Dashboard.Infra.Services;
+namespace Dashboard.Infra.Repositories;
 
-public class CredentialRepository(IVaultManager vault, IDateTimeProvider dateTime, IUserProvider userProvider)
+public class CredentialRepository(IVaultManager vault, IDateTime dateTime, IUserProvider userProvider)
     : BaseVaultRepository<Credential>(vault, dateTime, userProvider), ICredentialRepository
 {
     protected override string VaultPath => "credentials";

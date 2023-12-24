@@ -3,19 +3,19 @@ using Dashboard.Domain.Base;
 using Dashboard.Domain.Licenses;
 using Vault;
 
-namespace Dashboard.Infra.Services;
+namespace Dashboard.Infra.Repositories;
 
 public abstract class BaseVaultRepository<T>
 {
     protected virtual string VaultPath => nameof(T);
     private readonly IVaultManager _vault;
-    private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly IDateTime _dateTimeProvider;
     private readonly IUserProvider _userProvider;
     private readonly byte[] _key;
 
     private static List<T>? _records;
 
-    protected BaseVaultRepository(IVaultManager vault, IDateTimeProvider dateTime, IUserProvider userProvider)
+    protected BaseVaultRepository(IVaultManager vault, IDateTime dateTime, IUserProvider userProvider)
     {
         _vault = vault;
         _dateTimeProvider = dateTime;

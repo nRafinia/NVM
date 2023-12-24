@@ -1,5 +1,5 @@
 using Dashboard.Domain.Abstractions.Repositories;
-using Dashboard.Infra.Services;
+using Dashboard.Infra.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Shared;
 
