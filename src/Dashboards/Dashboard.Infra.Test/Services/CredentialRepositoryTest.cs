@@ -1,8 +1,9 @@
+using Dashboard.Domain.Abstractions;
 using Dashboard.Domain.Entities;
 using Moq;
 using Vault;
-using Dashboard.Domain.Enums;
 using Dashboard.Domain.Licenses;
+using Dashboard.Domain.ValueObjects;
 using Dashboard.Infra.Services;
 
 namespace Dashboard.Infra.Test.Services;
@@ -15,7 +16,16 @@ public class CredentialRepositoryTest
     {
         AsyncHelpers.RunSync(LicenseManager.Load);
         var mockVaultManager = new Mock<IVaultManager>();
-        _subject = new CredentialRepository(mockVaultManager.Object);
+
+        var dateTime = new Mock<IDateTimeProvider>();
+        dateTime.Setup(d => d.Now).Returns(DateTime.Now);
+
+        var user = new User(IdColumn.New, "Test", "Test", "Password");
+
+        var userManager = new Mock<IUserProvider>();
+        userManager.Setup(u => u.GetCurrentUser()).Returns(user);
+
+        _subject = new CredentialRepository(mockVaultManager.Object, dateTime.Object, userManager.Object);
     }
 
     [Fact]
