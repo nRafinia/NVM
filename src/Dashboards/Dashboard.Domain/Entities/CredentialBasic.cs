@@ -7,20 +7,15 @@ public class CredentialBasic : Entity
     public string UserName { get; private set; }
     public string Password { get; private set; }
 
-    public Credential Credential { get; }
-
     [JsonConstructor]
-    private CredentialBasic(string id, Credential credential, string userName, string password) : this(credential,
-        userName, password)
+    private CredentialBasic(IdColumn id, string userName, string password) : base(IdColumn.New)
     {
-        Id = id;
-    }
-
-    internal CredentialBasic(Credential credential, string userName, string password) : base(IdColumn.New)
-    {
-        Credential = Guard.Against.Null(credential, nameof(credential));
         UserName = Guard.Against.NullOrEmpty(userName, nameof(userName));
         Password = password;
+    }
+
+    internal CredentialBasic(string userName, string password) : this(IdColumn.New, userName, password)
+    {
     }
 
     public void Update(string userName, string password)

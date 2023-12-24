@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Dashboard.Domain.Base.Events;
 
 namespace Dashboard.Domain.Base;
@@ -10,6 +11,7 @@ public class Entity(IdColumn id)
 
     private readonly List<IDomainEvent> _domainEvents = new();
 
+    [JsonIgnore]
     public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
 
     public void AddDomainEvent(IDomainEvent domainEvent)
