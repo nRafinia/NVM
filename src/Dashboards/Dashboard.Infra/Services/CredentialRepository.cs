@@ -1,3 +1,4 @@
+using System.Data;
 using Dashboard.Domain.Abstractions.Repositories;
 using Dashboard.Domain.Entities;
 using Dashboard.Domain.Licenses;
@@ -32,12 +33,12 @@ public class CredentialRepository : ICredentialRepository
 
         if (credentials.Any(c => c.Id == credential.Id))
         {
-            throw new Exception("Credential already exists");
+            throw new DuplicateNameException("Credential id already exists");
         }
 
         if (credentials.Any(c => c.Name == credential.Name))
         {
-            throw new Exception("Credential name already exists");
+            throw new DuplicateNameException("Credential name already exists");
         }
 
         credentials.Add(credential);
