@@ -32,7 +32,7 @@ namespace Dashboard.Application.Test.Credentials.AddCredentials.AddCredentialsBa
             // Assert
             Assert.True(result.IsSuccess);
             _mockCredentialRepository.Verify(
-                repo => repo.AddAsync(It.IsAny<Credential>(), It.IsAny<CancellationToken>()), Times.Once);
+                repo => repo.AddAsync(It.IsAny<Credential>()), Times.Once);
         }
 
         [Fact]
@@ -41,7 +41,7 @@ namespace Dashboard.Application.Test.Credentials.AddCredentials.AddCredentialsBa
             // Arrange
             var addCredentialRequest = new AddCredentialBasic("Test Name", "Test User", "Test Password");
             _mockCredentialRepository
-                .Setup(repo => repo.AddAsync(It.IsAny<Credential>(), It.IsAny<CancellationToken>()))
+                .Setup(repo => repo.AddAsync(It.IsAny<Credential>()))
                 .Throws(new Exception());
 
             // Act

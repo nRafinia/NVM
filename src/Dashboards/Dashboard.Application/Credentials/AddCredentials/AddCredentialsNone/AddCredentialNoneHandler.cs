@@ -10,7 +10,7 @@ internal class AddCredentialNoneHandler(
         try
         {
             var credential = Credential.None(request.Name, request.Description);
-            await repository.AddAsync(credential, cancellationToken);
+            await repository.AddAsync(credential);
             return Result.Success();
         }
         catch (Exception e)

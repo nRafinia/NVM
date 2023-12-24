@@ -28,7 +28,7 @@ namespace Dashboard.Application.Test.Credentials.AddCredentials.AddCredentialsNo
         {
             // Arrange
             var request = new AddCredentialNone(name, description);
-            _credentialRepositoryMock.Setup(x => x.AddAsync(It.IsAny<Credential>(), default));
+            _credentialRepositoryMock.Setup(x => x.AddAsync(It.IsAny<Credential>()));
 
             // Act
             var result = await _handler.Handle(request, default);
@@ -42,7 +42,7 @@ namespace Dashboard.Application.Test.Credentials.AddCredentials.AddCredentialsNo
         {
             // Arrange
             var request = new AddCredentialNone("name");
-            _credentialRepositoryMock.Setup(x => x.AddAsync(It.IsAny<Credential>(), default))
+            _credentialRepositoryMock.Setup(x => x.AddAsync(It.IsAny<Credential>()))
                 .Throws(new Exception());
 
             // Act
