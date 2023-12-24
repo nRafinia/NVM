@@ -4,5 +4,5 @@ namespace Dashboard.Domain.Abstractions;
 
 public interface IUserProvider
 {
-    User GetCurrentUser();
+    IdColumn GetCurrentUserId();
 }

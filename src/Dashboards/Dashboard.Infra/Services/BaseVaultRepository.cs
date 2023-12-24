@@ -116,12 +116,12 @@ public abstract class BaseVaultRepository<T>
         if (!isUpdate)
         {
             auditableItem.Created = _dateTimeProvider.Now;
-            auditableItem.CreatedBy = _userProvider.GetCurrentUser().Id;
+            auditableItem.CreatedBy = _userProvider.GetCurrentUserId();
             return;
         }
 
         auditableItem.LastUpdated = _dateTimeProvider.Now;
-        auditableItem.LastUpdatedBy = _userProvider.GetCurrentUser().Id;
+        auditableItem.LastUpdatedBy = _userProvider.GetCurrentUserId();
     }
 
     #endregion
