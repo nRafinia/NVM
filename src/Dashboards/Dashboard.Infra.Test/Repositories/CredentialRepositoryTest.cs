@@ -20,8 +20,8 @@ public class CredentialRepositoryTest
         var dateTime = new Mock<IDateTime>();
         dateTime.Setup(d => d.Now).Returns(DateTime.Now);
 
-        var userManager = new Mock<IUserProvider>();
-        userManager.Setup(u => u.GetCurrentUserId()).Returns(IdColumn.New);
+        var userManager = new Mock<ICurrentUser>();
+        userManager.Setup(u => u.GetUserId()).Returns(IdColumn.New);
 
         _subject = new CredentialRepository(mockVaultManager.Object, dateTime.Object, userManager.Object);
     }

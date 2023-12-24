@@ -7,7 +7,7 @@ using Vault;
 
 namespace Dashboard.Infra.Repositories;
 
-public class CredentialRepository(IVaultManager vault, IDateTime dateTime, IUserProvider userProvider)
+public class CredentialRepository(IVaultManager vault, IDateTime dateTime, ICurrentUser userProvider)
     : BaseVaultRepository<Credential>(vault, dateTime, userProvider), ICredentialRepository
 {
     protected override string VaultPath => "credentials";
