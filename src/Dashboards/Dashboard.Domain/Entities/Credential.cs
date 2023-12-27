@@ -38,6 +38,11 @@ public class Credential : AuditableEntity
     {
         Name = Guard.Against.NullOrWhiteSpace(name, nameof(name));
         Description = description;
+    }    
+    
+    public void UpdateDescription(string description)
+    {
+        Description = description;
     }
 
     public CredentialBasic AddBasic(string userName, string password)

@@ -23,4 +23,14 @@ public class CredentialBasic : Entity
         UserName = Guard.Against.NullOrEmpty(userName, nameof(userName));
         Password = password;
     }
+    
+    public void UpdatePassword(string password)
+    {
+        Password = password;
+    }
+    
+    public void UpdateUserName(string userName)
+    {
+        UserName = Guard.Against.NullOrEmpty(userName, nameof(userName));
+    }
 }
