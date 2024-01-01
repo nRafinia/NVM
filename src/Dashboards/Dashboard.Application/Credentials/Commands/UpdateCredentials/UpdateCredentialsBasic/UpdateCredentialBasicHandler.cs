@@ -23,7 +23,7 @@ internal class UpdateCredentialBasicHandler(
         catch (Exception e)
         {
             // ReSharper disable once LogMessageIsSentenceProblem
-            logger.LogError(e, "Error in add api credential basic.");
+            logger.LogError(e, "Error in update basic credential.");
             return e.ToResult();
         }
     }

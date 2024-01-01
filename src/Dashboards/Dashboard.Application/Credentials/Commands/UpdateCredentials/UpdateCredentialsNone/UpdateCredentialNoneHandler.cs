@@ -23,7 +23,7 @@ internal class UpdateCredentialNoneHandler(
         catch (Exception e)
         {
             // ReSharper disable once LogMessageIsSentenceProblem
-            logger.LogError(e, "Error in add api credential none.");
+            logger.LogError(e, "Error in update none  credential.");
             return e.ToResult();
         }
     }
