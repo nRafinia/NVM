@@ -1,7 +1,7 @@
 using Dashboard.Application.Extensions;
 using FluentValidation;
 
-namespace Dashboard.Application.Credentials.UpdateCredentials.UpdateCredentialsNone;
+namespace Dashboard.Application.Credentials.Commands.UpdateCredentials.UpdateCredentialsNone;
 
 public class UpdateCredentialNoneValidator : AbstractValidator<UpdateCredentialNone>
 {

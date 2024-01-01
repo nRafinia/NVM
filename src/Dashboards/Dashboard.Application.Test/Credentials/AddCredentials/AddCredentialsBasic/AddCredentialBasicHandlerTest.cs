@@ -1,4 +1,4 @@
-using Dashboard.Application.Credentials.AddCredentials.AddCredentialsBasic;
+using Dashboard.Application.Credentials.Commands.AddCredentials.AddCredentialsBasic;
 using Dashboard.Domain.Abstractions.Repositories;
 using Dashboard.Domain.Entities;
 using JetBrains.Annotations;

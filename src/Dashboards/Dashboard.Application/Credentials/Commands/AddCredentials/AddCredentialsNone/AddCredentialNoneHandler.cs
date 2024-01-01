@@ -1,4 +1,4 @@
-namespace Dashboard.Application.Credentials.AddCredentials.AddCredentialsNone;
+namespace Dashboard.Application.Credentials.Commands.AddCredentials.AddCredentialsNone;
 
 internal class AddCredentialNoneHandler(
     ICredentialRepository repository,

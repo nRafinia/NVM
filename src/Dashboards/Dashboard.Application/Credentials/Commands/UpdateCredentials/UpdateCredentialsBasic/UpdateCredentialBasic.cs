@@ -1,6 +1,6 @@
 using Dashboard.Domain.ValueObjects;
 
-namespace Dashboard.Application.Credentials.UpdateCredentials.UpdateCredentialsBasic;
+namespace Dashboard.Application.Credentials.Commands.UpdateCredentials.UpdateCredentialsBasic;
 
 public record UpdateCredentialBasic(
     IdColumn Id,

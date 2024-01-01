@@ -1,11 +1,11 @@
-namespace Dashboard.Application.Credentials.UpdateCredentials.UpdateCredentialsBasic;
+namespace Dashboard.Application.Credentials.Commands.UpdateCredentials.UpdateCredentialsNone;
 
-internal class UpdateCredentialBasicHandler(
+internal class UpdateCredentialNoneHandler(
     ICredentialRepository repository,
-    ILogger<UpdateCredentialBasicHandler> logger)
-    : ICommandHandler<UpdateCredentialBasic>
+    ILogger<UpdateCredentialNoneHandler> logger)
+    : ICommandHandler<UpdateCredentialNone>
 {
-    public async Task<Result> Handle(UpdateCredentialBasic request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(UpdateCredentialNone request, CancellationToken cancellationToken)
     {
         try
         {
@@ -23,33 +23,24 @@ internal class UpdateCredentialBasicHandler(
         catch (Exception e)
         {
             // ReSharper disable once LogMessageIsSentenceProblem
-            logger.LogError(e, "Error in add api credential basic.");
+            logger.LogError(e, "Error in add api credential none.");
             return e.ToResult();
         }
     }
 
-    private Credential Update(Credential source, UpdateCredentialBasic request)
+    private Credential Update(Credential source, UpdateCredentialNone request)
     {
         if (!string.IsNullOrWhiteSpace(request.Name))
         {
             source.UpdateName(request.Name);
+            return source;
         }
-
+        
         if (!string.IsNullOrWhiteSpace(request.Description))
         {
             source.UpdateDescription(request.Description);
         }
-
-        if (!string.IsNullOrWhiteSpace(request.UserName))
-        {
-            source.BasicCredential!.UpdateUserName(request.UserName);
-        }
         
-        if (!string.IsNullOrWhiteSpace(request.Password))
-        {
-            source.BasicCredential!.UpdateUserName(request.Password);
-        }
-
         return source;
     }
 }

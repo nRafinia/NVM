@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Dashboard.Application.Credentials.AddCredentials.AddCredentialsNone;
+namespace Dashboard.Application.Credentials.Commands.AddCredentials.AddCredentialsNone;
 
 public class AddCredentialNoneValidator : AbstractValidator<AddCredentialNone>
 {

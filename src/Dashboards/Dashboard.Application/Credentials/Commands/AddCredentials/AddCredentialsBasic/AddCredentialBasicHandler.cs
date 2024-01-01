@@ -1,6 +1,6 @@
 
 
-namespace Dashboard.Application.Credentials.AddCredentials.AddCredentialsBasic;
+namespace Dashboard.Application.Credentials.Commands.AddCredentials.AddCredentialsBasic;
 
 internal class AddCredentialBasicHandler(
     ICredentialRepository repository,

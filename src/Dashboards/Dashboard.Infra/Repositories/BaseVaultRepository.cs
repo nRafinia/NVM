@@ -35,7 +35,6 @@ public abstract class BaseVaultRepository<T>
 
         SetAuditableData(item, false);
         records.Add(item);
-        await SaveRecords();
 
         return item;
     }
@@ -52,7 +51,6 @@ public abstract class BaseVaultRepository<T>
 
         SetAuditableData(item, true);
         records[existCredentialIndex] = item;
-        await SaveRecords();
 
         return item;
     }
@@ -73,10 +71,15 @@ public abstract class BaseVaultRepository<T>
     {
         var records = _records ?? await LoadRecords();
         records.RemoveAll(predicate);
-
-        await SaveRecords();
     }
 
+    public Task SaveChanges()
+    {
+        return _records is null
+            ? Task.CompletedTask
+            : _vault.Encrypt(_records, VaultPath, _key);
+    }
+    
     #region protected methods
 
     protected async Task<List<T>> LoadRecords()
@@ -94,16 +97,9 @@ public abstract class BaseVaultRepository<T>
         }
 
         _records = new List<T>();
-        await SaveRecords();
+        await SaveChanges();
 
         return _records;
-    }
-
-    protected Task SaveRecords()
-    {
-        return _records is null
-            ? Task.CompletedTask
-            : _vault.Encrypt(_records, VaultPath, _key);
     }
 
     private void SetAuditableData(T item, bool isUpdate)
