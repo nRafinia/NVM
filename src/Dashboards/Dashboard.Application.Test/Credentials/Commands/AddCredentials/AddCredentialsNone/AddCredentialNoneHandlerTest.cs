@@ -2,10 +2,10 @@ using Dashboard.Application.Credentials.Commands.AddCredentials.AddCredentialsNo
 using Dashboard.Domain.Abstractions.Repositories;
 using Dashboard.Domain.Entities;
 using JetBrains.Annotations;
-using Moq;
 using Microsoft.Extensions.Logging;
+using Moq;
 
-namespace Dashboard.Application.Test.Credentials.AddCredentials.AddCredentialsNone
+namespace Dashboard.Application.Test.Credentials.Commands.AddCredentials.AddCredentialsNone
 {
     [TestSubject(typeof(AddCredentialNoneHandler))]
     public class AddCredentialNoneHandlerTest

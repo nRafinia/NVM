@@ -2,10 +2,10 @@ using Dashboard.Application.Credentials.Commands.AddCredentials.AddCredentialsBa
 using Dashboard.Domain.Abstractions.Repositories;
 using Dashboard.Domain.Entities;
 using JetBrains.Annotations;
-using Moq;
 using Microsoft.Extensions.Logging;
+using Moq;
 
-namespace Dashboard.Application.Test.Credentials.AddCredentials.AddCredentialsBasic
+namespace Dashboard.Application.Test.Credentials.Commands.AddCredentials.AddCredentialsBasic
 {
     [TestSubject(typeof(AddCredentialBasicHandler))]
     public class AddCredentialBasicHandlerTest
