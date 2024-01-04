@@ -28,8 +28,10 @@ internal class UpdateCredentialNoneHandler(
         }
     }
 
-    private Credential Update(Credential source, UpdateCredentialNone request)
+    private static Credential Update(Credential source, UpdateCredentialNone request)
     {
+        source.RemoveBasic();
+        
         if (!string.IsNullOrWhiteSpace(request.Name))
         {
             source.UpdateName(request.Name);
