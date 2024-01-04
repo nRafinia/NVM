@@ -1,30 +1,32 @@
+using Dashboard.Domain.Enums;
+
 namespace Dashboard.Application.Credentials.Commands.UpdateCredentials.UpdateCredentialsBasic;
 
 internal class UpdateCredentialBasicHandler(
     ICredentialRepository repository,
     ILogger<UpdateCredentialBasicHandler> logger)
-    : ICommandHandler<UpdateCredentialBasic>
+    : ICommandHandler<UpdateCredentialBasic, Credential>
 {
-    public async Task<Result> Handle(UpdateCredentialBasic request, CancellationToken cancellationToken)
+    public async Task<Result<Credential?>> Handle(UpdateCredentialBasic request, CancellationToken cancellationToken)
     {
         try
         {
             var credential = await repository.GetAsync(request.Id);
             if (credential is null)
             {
-                return Result.Failure(SharedErrors.ItemNotFound);
+                return Result.Failure<Credential>(SharedErrors.ItemNotFound);
             }
 
             var updatedCredential = Update(credential, request);
-            
-            await repository.UpdateAsync(updatedCredential);
-            return Result.Success();
+
+            var newCredential = await repository.UpdateAsync(updatedCredential);
+            return newCredential;
         }
         catch (Exception e)
         {
             // ReSharper disable once LogMessageIsSentenceProblem
             logger.LogError(e, "Error in update basic credential.");
-            return e.ToResult();
+            return e.ToResult<Credential>();
         }
     }
 
@@ -40,14 +42,28 @@ internal class UpdateCredentialBasicHandler(
             source.UpdateDescription(request.Description);
         }
 
+        if (string.IsNullOrWhiteSpace(request.UserName) && string.IsNullOrWhiteSpace(request.Password))
+        {
+            return source;
+        }
+
         if (!string.IsNullOrWhiteSpace(request.UserName))
         {
-            source.BasicCredential!.UpdateUserName(request.UserName);
+            if (source.CredentialType == CredentialType.None)
+            {
+                source.AddBasic(request.UserName, request.Password ?? string.Empty);
+                return source;
+            }
+
+            if (!string.IsNullOrWhiteSpace(request.UserName))
+            {
+                source.BasicCredential!.UpdateUserName(request.UserName);
+            }
         }
-        
+
         if (!string.IsNullOrWhiteSpace(request.Password))
         {
-            source.BasicCredential!.UpdateUserName(request.Password);
+            source.BasicCredential!.UpdatePassword(request.Password);
         }
 
         return source;

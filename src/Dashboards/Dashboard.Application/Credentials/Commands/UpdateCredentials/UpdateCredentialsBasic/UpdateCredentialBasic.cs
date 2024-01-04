@@ -7,4 +7,4 @@ public record UpdateCredentialBasic(
     string? Name,
     string? UserName,
     string? Password,
-    string? Description = default) : ICommand;
+    string? Description = default) : ICommand<Credential>;
