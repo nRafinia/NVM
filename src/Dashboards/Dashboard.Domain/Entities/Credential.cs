@@ -50,5 +50,11 @@ public class Credential : AuditableEntity
         CredentialType = CredentialType.Basic;
         BasicCredential = new CredentialBasic(userName, password);
         return BasicCredential;
+    }    
+    
+    public void RemoveBasic()
+    {
+        CredentialType = CredentialType.None;
+        BasicCredential = null;
     }
 }
