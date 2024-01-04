@@ -1,6 +1,6 @@
 namespace Dashboard.Application.Credentials.Commands.UpdateCredentials.UpdateCredentialsNone;
 
-internal class UpdateCredentialNoneHandler(
+public class UpdateCredentialNoneHandler(
     ICredentialRepository repository,
     ILogger<UpdateCredentialNoneHandler> logger)
     : ICommandHandler<UpdateCredentialNone>

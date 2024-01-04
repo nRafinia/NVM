@@ -2,7 +2,7 @@ using Dashboard.Domain.Enums;
 
 namespace Dashboard.Application.Credentials.Commands.UpdateCredentials.UpdateCredentialsBasic;
 
-internal class UpdateCredentialBasicHandler(
+public class UpdateCredentialBasicHandler(
     ICredentialRepository repository,
     ILogger<UpdateCredentialBasicHandler> logger)
     : ICommandHandler<UpdateCredentialBasic, Credential>

@@ -1,6 +1,6 @@
 namespace Dashboard.Application.Credentials.Commands.AddCredentials.AddCredentialsNone;
 
-internal class AddCredentialNoneHandler(
+public class AddCredentialNoneHandler(
     ICredentialRepository repository,
     ILogger<AddCredentialNoneHandler> logger)
     : ICommandHandler<AddCredentialNone, Credential>

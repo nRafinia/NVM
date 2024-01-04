@@ -1,6 +1,6 @@
 namespace Dashboard.Application.Credentials.Commands.DeleteCredentials;
 
-internal class DeleteCredentialCommandHandler(
+public class DeleteCredentialCommandHandler(
     ICredentialRepository repository,
     ILogger<DeleteCredentialCommandHandler> logger) : ICommandHandler<DeleteCredentialCommand>
 {
