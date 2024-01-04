@@ -3,6 +3,9 @@ using Dashboard.Domain.Base;
 using Dashboard.Domain.Licenses;
 using Vault;
 
+// ReSharper disable MemberCanBeProtected.Global
+// ReSharper disable MemberCanBePrivate.Global
+
 namespace Dashboard.Infra.Repositories;
 
 public abstract class BaseVaultRepository<T>
@@ -67,6 +70,16 @@ public abstract class BaseVaultRepository<T>
         return records.AsReadOnly();
     }
 
+    public virtual async Task<IReadOnlyCollection<T>> GetAllAsync(int index, int size)
+    {
+        var records = _records ?? await LoadRecords();
+        return records
+            .Skip(size * index)
+            .Take(size)
+            .ToList()
+            .AsReadOnly();
+    }
+
     public virtual async Task DeleteAsync(Predicate<T> predicate)
     {
         var records = _records ?? await LoadRecords();
@@ -79,7 +92,7 @@ public abstract class BaseVaultRepository<T>
             ? Task.CompletedTask
             : _vault.Encrypt(_records, VaultPath, _key);
     }
-    
+
     #region protected methods
 
     protected async Task<List<T>> LoadRecords()
