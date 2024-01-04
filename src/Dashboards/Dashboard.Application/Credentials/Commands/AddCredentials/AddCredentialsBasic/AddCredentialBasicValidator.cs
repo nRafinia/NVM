@@ -2,7 +2,7 @@ using FluentValidation;
 
 namespace Dashboard.Application.Credentials.Commands.AddCredentials.AddCredentialsBasic;
 
-public class AddCredentialBasicValidator : AbstractValidator<AddCredentialBasic>
+public class AddCredentialBasicValidator : RequestValidator<AddCredentialBasic>
 {
     public AddCredentialBasicValidator()
     {

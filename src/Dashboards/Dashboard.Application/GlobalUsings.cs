@@ -7,3 +7,4 @@ global using Dashboard.Domain.Base.Results;
 global using Dashboard.Domain.Entities;
 global using Dashboard.Domain.Errors;
 global using Microsoft.Extensions.Logging;
+global using Dashboard.Domain.Base;

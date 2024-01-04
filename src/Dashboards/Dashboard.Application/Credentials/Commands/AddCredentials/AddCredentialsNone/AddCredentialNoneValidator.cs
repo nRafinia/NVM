@@ -2,7 +2,7 @@ using FluentValidation;
 
 namespace Dashboard.Application.Credentials.Commands.AddCredentials.AddCredentialsNone;
 
-public class AddCredentialNoneValidator : AbstractValidator<AddCredentialNone>
+public class AddCredentialNoneValidator : RequestValidator<AddCredentialNone>
 {
     public AddCredentialNoneValidator()
     {

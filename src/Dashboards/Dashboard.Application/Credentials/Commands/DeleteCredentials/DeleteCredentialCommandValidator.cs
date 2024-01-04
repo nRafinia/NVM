@@ -2,7 +2,7 @@ using FluentValidation;
 
 namespace Dashboard.Application.Credentials.Commands.DeleteCredentials;
 
-public class DeleteCredentialCommandValidator : AbstractValidator<DeleteCredentialCommand>
+public class DeleteCredentialCommandValidator : RequestValidator<DeleteCredentialCommand>
 {
     public DeleteCredentialCommandValidator()
     {

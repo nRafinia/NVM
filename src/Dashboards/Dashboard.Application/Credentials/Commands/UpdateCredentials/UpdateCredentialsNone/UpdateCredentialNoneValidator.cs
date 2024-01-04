@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Dashboard.Application.Credentials.Commands.UpdateCredentials.UpdateCredentialsNone;
 
-public class UpdateCredentialNoneValidator : AbstractValidator<UpdateCredentialNone>
+public class UpdateCredentialNoneValidator : RequestValidator<UpdateCredentialNone>
 {
     public UpdateCredentialNoneValidator()
     {
