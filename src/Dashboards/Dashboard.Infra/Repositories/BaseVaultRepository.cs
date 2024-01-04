@@ -64,13 +64,13 @@ public abstract class BaseVaultRepository<T>
         return records.FirstOrDefault(predicate);
     }
 
-    public virtual async Task<IReadOnlyCollection<T>> GetAllAsync()
+    public virtual async Task<IReadOnlyList<T>> GetAllAsync()
     {
         var records = _records ?? await LoadRecords();
         return records.AsReadOnly();
     }
 
-    public virtual async Task<IReadOnlyCollection<T>> GetAllAsync(int index, int size)
+    public virtual async Task<IReadOnlyList<T>> GetAllAsync(int index, int size)
     {
         var records = _records ?? await LoadRecords();
         return records
