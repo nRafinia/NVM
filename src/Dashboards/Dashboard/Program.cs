@@ -22,7 +22,8 @@ var assemblies = new List<Assembly>()
     typeof(Program).Assembly,
     typeof(Dashboard.Application.ConfigureServices).Assembly,
     typeof(Dashboard.Infra.ConfigureServices).Assembly,
-    typeof(Connectors.Docker.ConfigureServices).Assembly
+    typeof(Connectors.Docker.ConfigureServices).Assembly,
+    typeof(Vault.ConfigureServices).Assembly
 };
 builder.Services.AddValidatorsFromAssemblies(assemblies);
 builder.Services.RegisterServices(assemblies.ToArray());

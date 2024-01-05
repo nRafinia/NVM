@@ -42,7 +42,6 @@
     private Task OnNodeSelect(TreeItemData<MainTreeModel> item)
     {
         MainTreeViewService.Selected = item;
-        Console.WriteLine(MainTreeViewService.Selected.Data.Id);
         StateHasChanged();
         return Task.CompletedTask;
     }

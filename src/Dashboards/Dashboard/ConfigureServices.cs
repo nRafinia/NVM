@@ -1,4 +1,6 @@
+using Dashboard.Domain.Abstractions;
 using Dashboard.Providers;
+using Dashboard.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using SharedKernel.Shared;
 
@@ -15,6 +17,7 @@ public class ConfigureServices:IConfigureService
         services.AddScoped<DashboardAuthentication>();
         services.AddScoped<AuthenticationStateProvider, DashboardAuthentication>();
         services.AddScoped<IMainTreeViewService, MainTreeViewService>();
+        services.AddSingleton<ICurrentUser, CurrentUserProvider>();
 
     }
 }
