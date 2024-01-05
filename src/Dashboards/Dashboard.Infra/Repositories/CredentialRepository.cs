@@ -47,9 +47,9 @@ public class CredentialRepository(IVaultManager vault, IDateTime dateTime, ICurr
         return await base.GetAsync(c => c.Id == id);
     }
 
-    public async Task<Credential?> GetAsync(string name)
+    public async Task<IReadOnlyList<Credential?>> GetAsync(string name)
     {
-        return await base.GetAsync(c => c.Name.Contains(name));
+        return await base.GetAllAsync(c => c.Name.Contains(name));
     }
 
     public async Task DeleteAsync(IdColumn id)

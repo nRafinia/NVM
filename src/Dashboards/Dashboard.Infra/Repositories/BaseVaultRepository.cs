@@ -62,8 +62,8 @@ public abstract class BaseVaultRepository<T>
     {
         var records = _records ?? await LoadRecords();
         return records.FirstOrDefault(predicate);
-    }
-
+    }    
+    
     public virtual async Task<IReadOnlyList<T>> GetAllAsync()
     {
         var records = _records ?? await LoadRecords();
@@ -80,6 +80,15 @@ public abstract class BaseVaultRepository<T>
             .AsReadOnly();
     }
 
+    public virtual async Task<IReadOnlyList<T?>> GetAllAsync(Func<T, bool> predicate)
+    {
+        var records = _records ?? await LoadRecords();
+        return records
+            .Where(predicate)
+            .ToList()
+            .AsReadOnly();
+    }
+    
     public virtual async Task DeleteAsync(Predicate<T> predicate)
     {
         var records = _records ?? await LoadRecords();
