@@ -1,0 +1,46 @@
+@inherits DashboardPage
+@{ base.BuildRenderTree(__builder); }
+
+<SectionContent SectionName="ToolbarSection">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+        <li class="nav-item dropdown">
+            <a
+                class="nav-link dropdown-toggle"
+                href="javascript:void(0)"
+                id="navbarDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <i class="bx bx-add-to-queue green"></i>
+                Add
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li>
+                    <a class="dropdown-item" href="javascript:void(0)">
+                        <img src="img/icons/datacenter-16.png" alt="datacenter"/>
+                        Datacenter
+                    </a>
+                </li>
+                @* <li> *@
+                @*     <a class="dropdown-item" href="javascript:void(0)">Another action</a> *@
+                @* </li> *@
+                @* <li> *@
+                @*     <hr class="dropdown-divider"/> *@
+                @* </li> *@
+                @* <li> *@
+                @*     <a class="dropdown-item" href="javascript:void(0)">Something else here</a> *@
+                @* </li> *@
+            </ul>
+        </li>
+        @* <li class="nav-item"> *@
+        @*     <a class="nav-link" href="javascript:void(0)">Link</a> *@
+        @* </li> *@
+    </ul>
+</SectionContent>
+
+<h1>certificate</h1>
+
+@code {
+
+}
