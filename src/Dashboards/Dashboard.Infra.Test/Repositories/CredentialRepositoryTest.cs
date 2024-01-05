@@ -35,11 +35,11 @@ public class CredentialRepositoryTest
 
         //Act
         await _subject.AddAsync(credential);
-        var getCredential = await _subject.GetAsync(name);
+        var getCredential = await _subject.GetAsync(credential.Id);
 
         //Assert
         Assert.NotNull(getCredential);
-        Assert.Equal(credential.Id, getCredential.Id);
+        Assert.Equal(credential.Name, getCredential.Name);
     }
 
     [Fact]
@@ -52,10 +52,10 @@ public class CredentialRepositoryTest
 
         //Act
         await _subject.AddAsync(credential);
-        var getCredential = await _subject.GetAsync(name);
+        var getCredential = await _subject.GetAsync(credential.Id);
         getCredential!.UpdateName(name2);
         await _subject.UpdateAsync(getCredential);
-        var getCredential2 = await _subject.GetAsync(name2);
+        var getCredential2 = await _subject.GetAsync(getCredential.Id);
 
         //Assert
         Assert.NotNull(getCredential2);
@@ -90,8 +90,26 @@ public class CredentialRepositoryTest
         var result = await _subject.GetAsync(credential.Name);
 
         //Assert
-        Assert.NotNull(result);
-        Assert.Equal(credential, result);
+        Assert.NotEmpty(result);
+    }    
+    
+    [Fact]
+    public async Task GetAsync_GetsCredentialByNameLike()
+    {
+        //Arrange
+        var credential1 = Credential.None($"Name-{new Random().Next(1000)}");
+        var credential2 = Credential.None($"Test-{new Random().Next(1000)}");
+        var credential3 = Credential.None($"Name-{new Random().Next(1000)}");
+
+        //Act
+        await _subject.AddAsync(credential1);
+        await _subject.AddAsync(credential2);
+        await _subject.AddAsync(credential3);
+        var result = await _subject.GetAsync("name");
+
+        //Assert
+        Assert.NotEmpty(result);
+        Assert.Equal(2, result.Count());
     }
 
     [Fact]
