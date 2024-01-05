@@ -80,7 +80,7 @@ public abstract class BaseVaultRepository<T>
             .AsReadOnly();
     }
 
-    public virtual async Task<IReadOnlyList<T?>> GetAllAsync(Func<T, bool> predicate)
+    public virtual async Task<IReadOnlyList<T>> GetAllAsync(Func<T, bool> predicate)
     {
         var records = _records ?? await LoadRecords();
         return records

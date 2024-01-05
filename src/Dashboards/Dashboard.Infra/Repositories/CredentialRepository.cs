@@ -47,7 +47,7 @@ public class CredentialRepository(IVaultManager vault, IDateTime dateTime, ICurr
         return await base.GetAsync(c => c.Id == id);
     }
 
-    public async Task<IReadOnlyList<Credential?>> GetAsync(string name)
+    public async Task<IReadOnlyList<Credential>> GetAsync(string name)
     {
         return await base.GetAllAsync(c => c.Name.Contains(name, StringComparison.OrdinalIgnoreCase));
     }
