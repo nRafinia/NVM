@@ -49,7 +49,7 @@ public class CredentialRepository(IVaultManager vault, IDateTime dateTime, ICurr
 
     public async Task<Credential?> GetAsync(string name)
     {
-        return await base.GetAsync(c => c.Name == name);
+        return await base.GetAsync(c => c.Name.Contains(name));
     }
 
     public async Task DeleteAsync(IdColumn id)
