@@ -19,23 +19,11 @@ public class UserLogic : IUserLogic
         }
 
         return user;*/
-        return new User()
-        {
-            Id = 1,
-            UserName = "test",
-            Password = "test",
-            Name = "test"
-        };
+        return new User("1", "test", "test", "1");
     }
 
     public async Task<User?> GetProfileAsync(GetProfileRequest model)
     {
-        return new User()
-        {
-            Id = 1,
-            UserName = "test",
-            Password = "test",
-            Name = "test"
-        };
+        return new User("1", "test", "test", "1");
     }
 }
