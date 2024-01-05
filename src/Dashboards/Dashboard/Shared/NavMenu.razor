@@ -28,6 +28,9 @@
 
 
 @code {
+    [Parameter]
+    public NavBar? NavBar { get; set; }
+    
     private bool _collapseNavMenu = true;
 
     private string? NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
@@ -43,6 +46,7 @@
     {
         MainTreeViewService.Selected = item;
         StateHasChanged();
+        NavBar?.Refresh();
         return Task.CompletedTask;
     }
 

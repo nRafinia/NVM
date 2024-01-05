@@ -1,5 +1,4 @@
-﻿@using Dashboard.Domain.Entities
-@using System.Security.Claims
+﻿@using System.Security.Claims
 @inherits LayoutComponentBase
 
 @inject NavigationManager NavigationManager
@@ -21,10 +20,10 @@
 <CascadingValue Value="this">
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
-            <NavMenu/>
+            <NavMenu NavBar="_navBar"/>
 
             <div class="layout-page">
-                <NavBar/>
+                <NavBar @ref="_navBar"/>
 
                 <div class="content-wrapper">
                     <div class="container-xxl flex-grow-1 container-p-y">
@@ -51,6 +50,8 @@
 
     private string _currentUserGivenName = string.Empty;
 
+    private NavBar? _navBar;
+    
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
