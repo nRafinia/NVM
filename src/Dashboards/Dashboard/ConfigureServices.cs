@@ -1,3 +1,4 @@
+using Dashboard.Providers;
 using Microsoft.AspNetCore.Components.Authorization;
 using SharedKernel.Shared;
 
@@ -9,9 +10,11 @@ public class ConfigureServices:IConfigureService
     {
         services.AddRazorPages();
         services.AddServerSideBlazor();
+        services.AddHttpContextAccessor();
          
         services.AddScoped<DashboardAuthentication>();
         services.AddScoped<AuthenticationStateProvider, DashboardAuthentication>();
-        services.AddHttpContextAccessor();
+        services.AddScoped<IMainTreeViewService, MainTreeViewService>();
+
     }
 }
