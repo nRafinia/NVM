@@ -25,7 +25,7 @@ public class CredentialRepository(IVaultManager vault, IDateTime dateTime, ICurr
         {
             throw new DuplicateNameException("Credential name already exists");
         }
-        
+
         return await base.AddAsync(item);
     }
 
@@ -49,13 +49,11 @@ public class CredentialRepository(IVaultManager vault, IDateTime dateTime, ICurr
 
     public async Task<IReadOnlyList<Credential?>> GetAsync(string name)
     {
-        return await base.GetAllAsync(c => c.Name.Contains(name));
+        return await base.GetAllAsync(c => c.Name.Contains(name, StringComparison.OrdinalIgnoreCase));
     }
 
     public async Task DeleteAsync(IdColumn id)
     {
         await base.DeleteAsync(c => c.Id == id);
     }
-
-    
 }
