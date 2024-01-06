@@ -1,6 +1,6 @@
 using Dashboard.Const;
 
-namespace Dashboard.Pages.Dashboards;
+namespace Dashboard.Pages.Dashboards.Certificates;
 
 public partial class Certificate : DashboardPage
 {
