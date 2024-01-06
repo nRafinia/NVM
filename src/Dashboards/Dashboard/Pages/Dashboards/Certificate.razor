@@ -1,5 +1,11 @@
+@using MediatR
+@using Dashboard.Application.Credentials.Queries.GetAllCredentials
+@using Dashboard.Domain.Entities
 @inherits DashboardPage
 @{ base.BuildRenderTree(__builder); }
+
+@inject IMediator Mediator
+@inject SweetAlertService Swal;
 
 <SectionContent SectionName="ToolbarSection">
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -12,35 +18,92 @@
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false">
-                <i class="bx bx-add-to-queue green"></i>
+                <img src="img/icons/certificate-24.png" alt="certificate"/>
                 Add
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li>
                     <a class="dropdown-item" href="javascript:void(0)">
-                        <img src="img/icons/datacenter-16.png" alt="datacenter"/>
-                        Certificate
+                        None
                     </a>
                 </li>
-                @* <li> *@
-                @*     <a class="dropdown-item" href="javascript:void(0)">Another action</a> *@
-                @* </li> *@
-                @* <li> *@
-                @*     <hr cklass="dropdown-divider"/> *@
-                @* </li> *@
-                @* <li> *@
-                @*     <a class="dropdown-item" href="javascript:void(0)">Something else here</a> *@
-                @* </li> *@
+                <li>
+                    <a class="dropdown-item" href="javascript:void(0)">
+                        Basic
+                    </a>
+                </li>
             </ul>
         </li>
-        @* <li class="nav-item"> *@
-        @*     <a class="nav-link" href="javascript:void(0)">Link</a> *@
-        @* </li> *@
+        <li class="nav-item">
+            <a class="nav-link" @onclick="LoadData">
+                <img src="img/icons/refresh-24.png" alt="Refresh"/>
+                Refresh
+            </a>
+        </li>
     </ul>
 </SectionContent>
 
-<h1>certificate</h1>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var credential in _credentials)
+    {
+        <tr>
+            <td>
+                <strong>@credential.Name</strong>
+            </td>
+            <td>
+                <span class="badge bg-label-primary me-1">@credential.CredentialType</span>
+            </td>
+            <td>@credential.Description</td>
+            <td>
+                <div class="dropdown">
+                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                        <i class="bx bx-dots-vertical-rounded"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="javascript:void(0);">
+                            <i class="bx bx-edit-alt me-1"></i> Edit
+                        </a
+                        >
+                        <a class="dropdown-item" href="javascript:void(0);">
+                            <i class="bx bx-trash me-1"></i> Delete
+                        </a
+                        >
+                    </div>
+                </div>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
 
 @code {
+    private List<Credential> _credentials = new (0);
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        var credentialsResponse = await Mediator.Send(new GetAllCredentialQuery());
+        if (credentialsResponse.IsFailure)
+        {
+            await Swal.FireAsync("Error", credentialsResponse.Error!.Message, SweetAlertIcon.Error);
+            return;
+        }
+
+        _credentials = credentialsResponse.Value!.ToList();
+    }
 
 }
