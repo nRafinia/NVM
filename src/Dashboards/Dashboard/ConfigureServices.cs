@@ -1,3 +1,4 @@
+using CurrieTechnologies.Razor.SweetAlert2;
 using Dashboard.Domain.Abstractions;
 using Dashboard.Providers;
 using Dashboard.Services;
@@ -13,6 +14,7 @@ public class ConfigureServices:IConfigureService
         services.AddRazorPages();
         services.AddServerSideBlazor();
         services.AddHttpContextAccessor();
+        services.AddSweetAlert2();
          
         services.AddScoped<DashboardAuthentication>();
         services.AddScoped<AuthenticationStateProvider, DashboardAuthentication>();
