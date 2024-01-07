@@ -138,6 +138,10 @@
     top: 0.5rem;
 }
 
+.required{
+    color: var(--bs-red);    
+}
+
 /**** Main treeView ***/
 .main-tree{
     padding:0 5px 0 5px;
