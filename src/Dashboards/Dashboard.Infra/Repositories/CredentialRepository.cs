@@ -21,7 +21,7 @@ public class CredentialRepository(IVaultManager vault, IDateTime dateTime, ICurr
             throw new DuplicateNameException("Credential id already exists");
         }
 
-        if (credentials.Any(c => c.Name == item.Name))
+        if (credentials.Any(c => string.Equals(c.Name, item.Name, StringComparison.OrdinalIgnoreCase)))
         {
             throw new DuplicateNameException("Credential name already exists");
         }
@@ -33,7 +33,8 @@ public class CredentialRepository(IVaultManager vault, IDateTime dateTime, ICurr
     {
         var credentials = await LoadRecords();
 
-        var existCredentialName = credentials.FirstOrDefault(c => c.Name == item.Name);
+        var existCredentialName =
+            credentials.FirstOrDefault(c => string.Equals(c.Name, item.Name, StringComparison.OrdinalIgnoreCase));
         if (existCredentialName is not null && existCredentialName.Id != item.Id)
         {
             throw new Exception("Credential name already exists");
