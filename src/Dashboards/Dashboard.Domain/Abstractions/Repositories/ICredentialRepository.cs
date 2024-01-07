@@ -11,4 +11,5 @@ public interface ICredentialRepository
     Task<IReadOnlyList<Credential>> GetAllAsync();
     Task<IReadOnlyList<Credential>> GetAllAsync(int index, int size);
     Task DeleteAsync(IdColumn id);
+    Task SaveChanges();
 }
