@@ -84,7 +84,7 @@
     </tbody>
 </table>
 
-<AddNoneCertificate @ref="_addNoneCertificateDialog"></AddNoneCertificate>
+<AddNoneCertificate @ref="_addNoneCertificateDialog" OnAdd="@LoadData"></AddNoneCertificate>
 
 @code {
     private List<Credential> _credentials = new(0);
