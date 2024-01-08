@@ -5,6 +5,7 @@
 @using Dashboard.Application.Credentials.Commands.DeleteCredentials
 @using Dashboard.Domain.Enums
 @using Dashboard.Application.Credentials.Commands.CommitCredentialsChanges
+@using Dashboard.Application.Credentials.Queries.GetCredentialByName
 
 @inherits DashboardPage
 @{ base.BuildRenderTree(__builder); }
@@ -46,6 +47,29 @@
             </a>
         </li>
     </ul>
+    <!-- Search -->
+    <div class="navbar-nav align-items-center">
+        <form autocomplete="off">
+             <input type="hidden" name="hidden" autocomplete="off" style="display:none;">
+
+            <div class="nav-item d-flex align-items-center">
+                <i class="bx bx-search fs-4 lh-0"></i>
+                <input
+                    type="text"
+                    class="form-control border-0 shadow-none"
+                    placeholder="Search..."
+                    aria-label="Search..."
+                    autocomplete="off"
+                    role="presentation"
+                    name="search"
+                    aria-autocomplete='none'
+                    @bind-value="SearchText"
+                    @bind-value:event="onchange"
+                    @oninput="OnChange"/>
+            </div>
+        </form>
+    </div>
+    <!-- /Search -->
 </SectionContent>
 
 <table class="table table-striped">
@@ -101,15 +125,25 @@
     private UpdateNoneCertificate? _updateNoneCertificateDialog;
     private UpdateBasicCertificate? _updateBasicCertificateDialog;
 
+    private string? SearchText { get; set; }= string.Empty;
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
         await LoadData();
     }
 
+    private Task OnChange(ChangeEventArgs args)
+    {
+        SearchText = args.Value is null ? string.Empty : (string)args.Value;
+        return LoadData();
+    }
+
     private async Task LoadData()
     {
-        var credentialsResponse = await Mediator.Send(new GetAllCredentialQuery());
+        var credentialsResponse = string.IsNullOrWhiteSpace(SearchText)
+            ? await Mediator.Send(new GetAllCredentialQuery())
+            : await Mediator.Send(new GetCredentialByNameQuery(SearchText!));
         if (credentialsResponse.IsFailure)
         {
             await Swal.FireAsync("Error", credentialsResponse.Error!.Message, SweetAlertIcon.Error);
@@ -117,6 +151,7 @@
         }
 
         _credentials = credentialsResponse.Value!.ToList();
+        StateHasChanged();
     }
 
     private async Task Delete(IdColumn id)
