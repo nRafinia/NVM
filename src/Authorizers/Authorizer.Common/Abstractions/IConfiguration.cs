@@ -1,6 +1,3 @@
 namespace Authorizer.Common.Abstractions;
 
-public interface IConfiguration
-{
-    
-}
+public interface IConfiguration;
