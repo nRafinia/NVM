@@ -7,14 +7,14 @@ internal static class ObjectExt
     public static bool AllPropertiesHaveValue(this object obj)
     {
         return obj.GetType()
-            .GetProperties(BindingFlags.Public | BindingFlags.GetProperty)
+            .GetProperties()
             .All(p => !IsDefault(p.GetValue(obj)));
     }
     
     public static bool OneOfPropertiesMustHaveValue(this object obj)
     {
         return obj.GetType()
-            .GetProperties(BindingFlags.Public | BindingFlags.GetProperty)
+            .GetProperties()
             .Any(p => !IsDefault(p.GetValue(obj)));
     }
 
