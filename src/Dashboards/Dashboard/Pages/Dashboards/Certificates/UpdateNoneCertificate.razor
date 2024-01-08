@@ -34,11 +34,11 @@
     private string _name = string.Empty;
     private string? _description = string.Empty;
 
-    public void Show(IdColumn id, string name, string? description)
+    public void Show(Credential credential)
     {
-        _id = id;
-        _name = name;
-        _description = description;
+        _id = credential.Id;
+        _name = credential.Name;
+        _description = credential.Description;
         _updateCertificate?.Open();
     }
 
