@@ -15,19 +15,21 @@ public class Credential : AuditableEntity
     public CredentialBasic? BasicCredential { get; private set; }
 
     [JsonConstructor]
-    private Credential(IdColumn id, string name, CredentialType credentialType, string? description) : base(id)
+    private Credential(IdColumn id, string name, CredentialType credentialType, string? description,
+        CredentialBasic? basicCredential) : base(id)
     {
+        BasicCredential = basicCredential;
         Name = Guard.Against.NullOrWhiteSpace(name, nameof(name));
         Description = description;
         CredentialType = credentialType;
     }
 
     public static Credential None(string name, string? description = default)
-        => new (IdColumn.New, name, CredentialType.None, description);
+        => new (IdColumn.New, name, CredentialType.None, description,null);
     
     public static Credential Basic(string name, string userName, string password, string? description = default)
     {
-        var credential = new Credential(IdColumn.New, name, CredentialType.Basic, description);
+        var credential = new Credential(IdColumn.New, name, CredentialType.Basic, description,null);
         credential.AddBasic(userName, password);
         return credential;
     }
