@@ -92,12 +92,14 @@
 <UpdateNoneCertificate @ref="_updateNoneCertificateDialog" OnUpdate="@LoadData"></UpdateNoneCertificate>
 
 <AddBasicCertificate @ref="_addBasicCertificateDialog" OnAdd="@LoadData"></AddBasicCertificate>
+<UpdateBasicCertificate @ref="_updateBasicCertificateDialog" OnUpdate="@LoadData"></UpdateBasicCertificate>
 
 @code {
     private List<Credential> _credentials = new(0);
     private AddNoneCertificate? _addNoneCertificateDialog;
     private AddBasicCertificate? _addBasicCertificateDialog;
     private UpdateNoneCertificate? _updateNoneCertificateDialog;
+    private UpdateBasicCertificate? _updateBasicCertificateDialog;
 
     protected override async Task OnInitializedAsync()
     {
@@ -153,9 +155,14 @@
 
     private void Update(Credential credential)
     {
-        if (credential.CredentialType == CredentialType.None)
+        switch (credential.CredentialType)
         {
-            _updateNoneCertificateDialog?.Show(credential);
+            case CredentialType.None:
+                _updateNoneCertificateDialog?.Show(credential);
+                break;
+            case CredentialType.Basic:
+                _updateBasicCertificateDialog?.Show(credential);
+                break;
         }
     }
 
