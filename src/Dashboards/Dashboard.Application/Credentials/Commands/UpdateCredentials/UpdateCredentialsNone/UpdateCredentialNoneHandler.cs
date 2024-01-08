@@ -35,7 +35,6 @@ public class UpdateCredentialNoneHandler(
         if (!string.IsNullOrWhiteSpace(request.Name))
         {
             source.UpdateName(request.Name);
-            return source;
         }
         
         if (!string.IsNullOrWhiteSpace(request.Description))
