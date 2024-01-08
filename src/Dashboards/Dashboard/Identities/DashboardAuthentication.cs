@@ -8,21 +8,13 @@ using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 
 namespace Dashboard.Identities;
 
-public class DashboardAuthentication : AuthenticationStateProvider
+public class DashboardAuthentication(
+    ProtectedLocalStorage protectedLocalStorage,
+    ILogger<DashboardAuthentication> logger,
+    IUserService userLogic)
+    : AuthenticationStateProvider
 {
-    private readonly ProtectedLocalStorage _protectedLocalStorage;
-    private readonly IUserLogic _userLogic;
-    private readonly ILogger<DashboardAuthentication> _logger;
-
     private User? User { get; set; }
-
-    public DashboardAuthentication(ProtectedLocalStorage protectedLocalStorage, ILogger<DashboardAuthentication> logger,
-        IUserLogic userLogic)
-    {
-        _protectedLocalStorage = protectedLocalStorage;
-        _logger = logger;
-        _userLogic = userLogic;
-    }
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
@@ -36,7 +28,7 @@ public class DashboardAuthentication : AuthenticationStateProvider
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error while getting authentication state, error={Message}", ex.Message);
+            logger.LogError(ex, "Error while getting authentication state, error={Message}", ex.Message);
             await LogoutAsync();
             return default!;
         }
@@ -58,7 +50,7 @@ public class DashboardAuthentication : AuthenticationStateProvider
     public async Task LogoutAsync()
     {
         RefreshUserSession(null);
-        await _protectedLocalStorage.DeleteAsync(IdentityConst.StorageKey);
+        await protectedLocalStorage.DeleteAsync(IdentityConst.StorageKey);
         NotifyAuthenticationStateChanged(GenerateEmptyAuthenticationState());
     }
 
@@ -79,14 +71,14 @@ public class DashboardAuthentication : AuthenticationStateProvider
 
     private async Task<(User?, bool)> AuthenticateUser(string userName, string password)
     {
-        var userResult = await _userLogic.AuthenticateAsync(new LoginRequest(userName, password));
+        var userResult = await userLogic.AuthenticateAsync(new LoginRequest(userName, password));
 
         return (userResult, userResult is not null);
     }
 
     private async Task<(User?, bool)> LookUpUser(int userId, string userName)
     {
-        var userResult = await _userLogic.GetProfileAsync(new GetProfileRequest(userId, userName));
+        var userResult = await userLogic.GetProfileAsync(new GetProfileRequest(userId, userName));
 
         return (userResult, userResult is not null);
     }
@@ -100,7 +92,7 @@ public class DashboardAuthentication : AuthenticationStateProvider
 
         try
         {
-            var storedPrincipal = await _protectedLocalStorage.GetAsync<string>(IdentityConst.StorageKey);
+            var storedPrincipal = await protectedLocalStorage.GetAsync<string>(IdentityConst.StorageKey);
 
             if (string.IsNullOrWhiteSpace(storedPrincipal.Value) || !storedPrincipal.Success)
             {
@@ -121,7 +113,7 @@ public class DashboardAuthentication : AuthenticationStateProvider
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error while getting authentication state in GetUserSession, error={Message}",
+            logger.LogError(ex, "Error while getting authentication state in GetUserSession, error={Message}",
                 ex.Message);
             await LogoutAsync();
             return null;
@@ -132,7 +124,7 @@ public class DashboardAuthentication : AuthenticationStateProvider
     {
         RefreshUserSession(user);
 
-        return _protectedLocalStorage.SetAsync(IdentityConst.StorageKey, JsonSerializer.Serialize(user));
+        return protectedLocalStorage.SetAsync(IdentityConst.StorageKey, JsonSerializer.Serialize(user));
     }
 
     private User? RefreshUserSession(User? user) => User = user;

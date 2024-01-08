@@ -3,7 +3,7 @@ using Dashboard.Domain.Entities;
 
 namespace Dashboard.Application.Users;
 
-public class UserLogic : IUserLogic
+public class UserService : IUserService
 {
     public async Task<User?> AuthenticateAsync(LoginRequest model)
     {

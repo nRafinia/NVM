@@ -1,9 +1,8 @@
 using Dashboard.Application.Users.Models;
-using Dashboard.Domain.Entities;
 
 namespace Dashboard.Application.Users;
 
-public interface IUserLogic
+public interface IUserService
 {
     Task<User?> AuthenticateAsync(LoginRequest model);
     Task<User?> GetProfileAsync(GetProfileRequest model);

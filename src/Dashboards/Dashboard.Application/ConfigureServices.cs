@@ -16,6 +16,6 @@ public class ConfigureServices : IConfigureService
         services.AddMediatR(configuration =>
             configuration.RegisterServicesFromAssemblies(typeof(ConfigureServices).Assembly));
 
-        services.AddScoped<IUserLogic, UserLogic>();
+        services.AddScoped<IUserService, UserService>();
     }
 }
