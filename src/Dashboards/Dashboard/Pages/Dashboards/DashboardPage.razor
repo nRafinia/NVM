@@ -5,9 +5,9 @@
 <h4>@Title</h4>
 
 @code {
-    public Guid Id { get; protected set; }
+    public virtual Guid Id { get; }
     public string? Title { get; protected set; }
-    
+
     public virtual Task Show()
     {
         return Task.CompletedTask;
@@ -17,4 +17,5 @@
     {
         return Task.CompletedTask;
     }
+
 }

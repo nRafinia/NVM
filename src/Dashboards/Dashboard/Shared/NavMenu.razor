@@ -1,5 +1,8 @@
 ﻿@using Dashboard.Components
 @using Dashboard.Components.Models
+@using Dashboard.Providers
+
+@inject IMainTreeViewService MainTreeViewService
 
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
@@ -18,42 +21,33 @@
     <div class="menu-inner-shadow"></div>
 
     <div class="menu-inner main-tree py-1">
-        <TreeViewList Items="_treeNodes" TData="int" OnSelectNode="@OnNodeSelect" @ref="_treeViewList"/>
+        <TreeViewList Items="@MainTreeViewService.GetTreeViewItems" TData="MainTreeModel" OnSelectNode="@OnNodeSelect"/>
     </div>
 </aside>
 
 
 
 @code {
+    [Parameter]
+    public NavBar? NavBar { get; set; }
+    
     private bool _collapseNavMenu = true;
 
     private string? NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
 
     private TreeViewList<int>? _treeViewList;
-    
-    protected override void OnInitialized()
-    {
-        var rootNode = new TreeItemData<int>("NVM", 0, true);
-        _treeViewList?.SetSelectedNode(rootNode);
-        var child1=new TreeItemData<int>("Main", 1, icon:"/img/icons/datacenter-16.png");
-        child1.AddChild(new TreeItemData<int>("Child 1",3,icon:"/img/icons/datacenter-16.png"));
-        rootNode.AddChild(child1);
-        rootNode.AddChild(new TreeItemData<int>("other", 2, false));
-        _treeNodes.Add(rootNode);
-        
-        base.OnInitialized();
-    }
 
     private void ToggleNavMenu()
     {
         _collapseNavMenu = !_collapseNavMenu;
     }
 
-    private List<TreeItemData<int>> _treeNodes = new();
-
-    private async Task OnNodeSelect(TreeItemData<int> item)
+    private Task OnNodeSelect(TreeItemData<MainTreeModel> item)
     {
-        //Console.WriteLine(item.Text);
+        MainTreeViewService.Selected = item;
+        StateHasChanged();
+        NavBar?.Refresh();
+        return Task.CompletedTask;
     }
 
 }

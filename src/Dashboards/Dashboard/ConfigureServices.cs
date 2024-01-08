@@ -1,3 +1,7 @@
+using CurrieTechnologies.Razor.SweetAlert2;
+using Dashboard.Domain.Abstractions;
+using Dashboard.Providers;
+using Dashboard.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using SharedKernel.Shared;
 
@@ -9,9 +13,13 @@ public class ConfigureServices:IConfigureService
     {
         services.AddRazorPages();
         services.AddServerSideBlazor();
+        services.AddHttpContextAccessor();
+        services.AddSweetAlert2();
          
         services.AddScoped<DashboardAuthentication>();
         services.AddScoped<AuthenticationStateProvider, DashboardAuthentication>();
-        services.AddHttpContextAccessor();
+        services.AddScoped<IMainTreeViewService, MainTreeViewService>();
+        services.AddSingleton<ICurrentUser, CurrentUserProvider>();
+
     }
 }

@@ -93,6 +93,11 @@
 
 @code {
 
+    public void Refresh()
+    {
+        StateHasChanged();
+    }
+    
     private async Task Logout()
     {
         await Authenticator.LogoutAsync();

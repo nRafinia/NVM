@@ -1,8 +1,35 @@
 @page "/"
 @using Dashboard.Pages.Dashboards
+@using Dashboard.Providers
+@using Dashboard.Const
+@using Dashboard.Pages.Dashboards.Certificates
 
-<Main></Main>
+@implements IDisposable 
+
+@inject IMainTreeViewService MainTreeViewService
+
+@{
+    var currentId= MainTreeViewService.Selected?.Data?.Id ?? DashboardIds.Main;
+}
+
+@if (currentId == DashboardIds.Main)
+{
+    <Main></Main>
+}
+@if (currentId == DashboardIds.Certificate)
+{
+    <Certificate></Certificate>
+}
 
 @code {
     
+    protected override void OnInitialized()
+    {
+        MainTreeViewService.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        MainTreeViewService.OnChange -= StateHasChanged;
+    }
 }
