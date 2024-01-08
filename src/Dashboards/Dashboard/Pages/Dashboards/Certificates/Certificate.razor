@@ -33,14 +33,14 @@
                     </a>
                 </li>
                 <li>
-                    <a class="dropdown-item" href="javascript:void(0)">
+                    <a class="dropdown-item" href="javascript:void(0)" @onclick="() => _addBasicCertificateDialog?.Show()">
                         Basic
                     </a>
                 </li>
             </ul>
         </li>
         <li class="nav-item">
-            <a class="nav-link" @onclick="LoadData">
+            <a class="nav-link" href="javascript:void(0)" @onclick="LoadData">
                 <img src="img/icons/refresh-24.png" alt="Refresh"/>
                 Refresh
             </a>
@@ -65,7 +65,7 @@
                 <strong>@credential.Name</strong>
             </td>
             <td>
-                <span class="badge bg-label-primary me-1">@credential.CredentialType</span>
+                <span class="badge @GetCertificateLabelType(credential.CredentialType) me-1">@credential.CredentialType</span>
             </td>
             <td>@credential.Description</td>
             <td>
@@ -91,9 +91,12 @@
 <AddNoneCertificate @ref="_addNoneCertificateDialog" OnAdd="@LoadData"></AddNoneCertificate>
 <UpdateNoneCertificate @ref="_updateNoneCertificateDialog" OnUpdate="@LoadData"></UpdateNoneCertificate>
 
+<AddBasicCertificate @ref="_addBasicCertificateDialog" OnAdd="@LoadData"></AddBasicCertificate>
+
 @code {
     private List<Credential> _credentials = new(0);
     private AddNoneCertificate? _addNoneCertificateDialog;
+    private AddBasicCertificate? _addBasicCertificateDialog;
     private UpdateNoneCertificate? _updateNoneCertificateDialog;
 
     protected override async Task OnInitializedAsync()
@@ -142,8 +145,9 @@
             await Swal.FireAsync("Error", deleteResponse.Error!.Message, SweetAlertIcon.Error);
             return;
         }
+
         await Mediator.Send(new CommitCredentialChanges());
-        
+
         await LoadData();
     }
 
@@ -153,6 +157,16 @@
         {
             _updateNoneCertificateDialog?.Show(credential.Id, credential.Name, credential.Description);
         }
+    }
+
+    private string GetCertificateLabelType(CredentialType type)
+    {
+        return type switch
+        {
+            CredentialType.None => "bg-label-primary",
+            CredentialType.Basic => "bg-label-info",
+            _ => "bg-label-dark"
+        };
     }
 
 }
