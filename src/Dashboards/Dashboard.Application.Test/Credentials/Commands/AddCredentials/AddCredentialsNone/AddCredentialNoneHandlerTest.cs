@@ -1,7 +1,6 @@
 using Dashboard.Application.Credentials.Commands.AddCredentials.AddCredentialsNone;
 using Dashboard.Domain.Abstractions.Repositories;
 using Dashboard.Domain.Entities;
-using Dashboard.Domain.Enums;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -29,7 +28,7 @@ namespace Dashboard.Application.Test.Credentials.Commands.AddCredentials.AddCred
         {
             // Arrange
             var request = new AddCredentialNone(name, description);
-            _credentialRepositoryMock.Setup(x => x.AddAsync(It.IsAny<Credential>()));
+            _credentialRepositoryMock.Setup(x => x.AddAsync(It.IsAny<Credential>(),It.IsAny<CancellationToken>()));
 
             // Act
             var result = await _handler.Handle(request, default);
@@ -43,7 +42,7 @@ namespace Dashboard.Application.Test.Credentials.Commands.AddCredentials.AddCred
         {
             // Arrange
             var request = new AddCredentialNone("name");
-            _credentialRepositoryMock.Setup(x => x.AddAsync(It.IsAny<Credential>()))
+            _credentialRepositoryMock.Setup(x => x.AddAsync(It.IsAny<Credential>(),It.IsAny<CancellationToken>()))
                 .Throws(new Exception());
 
             // Act

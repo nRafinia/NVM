@@ -29,7 +29,7 @@ public class GetAllCredentialQueryHandlerTest
             Credential.Basic("Item3", "username", "password"),
         };
         _mockRepo
-            .Setup(r => r.GetAllAsync())
+            .Setup(r => r.GetAllAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(expectedResult);
 
         var handler = new GetAllCredentialQueryHandler(_mockRepo.Object, _mockLogger.Object);
@@ -44,7 +44,7 @@ public class GetAllCredentialQueryHandlerTest
     public async Task Handle_FailedRepoCall_ShouldReturnFailedResult()
     {
         var expectedException = new Exception();
-        _mockRepo.Setup(r => r.GetAllAsync()).ThrowsAsync(expectedException);
+        _mockRepo.Setup(r => r.GetAllAsync(It.IsAny<CancellationToken>())).ThrowsAsync(expectedException);
 
         var handler = new GetAllCredentialQueryHandler(_mockRepo.Object, _mockLogger.Object);
 

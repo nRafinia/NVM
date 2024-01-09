@@ -97,15 +97,15 @@ public class CredentialRepositoryTest
     public async Task GetAsync_GetsCredentialByNameLike()
     {
         //Arrange
-        var credential1 = Credential.None($"Name-{new Random().Next(1000)}");
+        var credential1 = Credential.None($"GetName-{new Random().Next(1000)}");
         var credential2 = Credential.None($"Test-{new Random().Next(1000)}");
-        var credential3 = Credential.None($"Name-{new Random().Next(1000)}");
+        var credential3 = Credential.None($"GetName-{new Random().Next(1000)}");
 
         //Act
         await _subject.AddAsync(credential1);
         await _subject.AddAsync(credential2);
         await _subject.AddAsync(credential3);
-        var result = await _subject.GetAsync("name");
+        var result = await _subject.GetAsync("Getname");
 
         //Assert
         Assert.NotEmpty(result);

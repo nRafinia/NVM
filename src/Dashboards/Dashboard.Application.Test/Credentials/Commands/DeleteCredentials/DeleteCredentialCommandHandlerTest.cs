@@ -44,14 +44,14 @@ namespace Dashboard.Application.Test.Credentials.Commands.DeleteCredentials
             var credentialId = new IdColumn(Guid.NewGuid().ToString());
             var deleteCredentialCommand = new DeleteCredentialCommand(credentialId);
 
-            _repositoryMock.Setup(o => o.DeleteAsync(credentialId)).ThrowsAsync(new Exception());
+            _repositoryMock.Setup(o => o.DeleteAsync(credentialId,It.IsAny<CancellationToken>())).ThrowsAsync(new Exception());
 
             // Act
-            var result = await _deleteCredentialCommandHandler.Handle(deleteCredentialCommand, CancellationToken.None);
+            var result = await _deleteCredentialCommandHandler.Handle(deleteCredentialCommand, It.IsAny<CancellationToken>());
 
             // Assert
             Assert.True(result.IsFailure);
-            _repositoryMock.Verify(repository => repository.DeleteAsync(credentialId), Times.Once);
+            _repositoryMock.Verify(repository => repository.DeleteAsync(credentialId,It.IsAny<CancellationToken>()), Times.Once);
         }
     }
 }

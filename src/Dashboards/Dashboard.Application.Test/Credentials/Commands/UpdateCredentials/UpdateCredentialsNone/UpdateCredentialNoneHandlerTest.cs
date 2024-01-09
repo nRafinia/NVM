@@ -29,7 +29,7 @@ public class UpdateCredentialNoneHandlerTests
         var request = new UpdateCredentialNone(stubCredential.Id, "testName", "testDescription");
         
         _repository
-            .Setup(r => r.GetAsync(It.IsAny<IdColumn>()))
+            .Setup(r => r.GetAsync(It.IsAny<IdColumn>(),It.IsAny<CancellationToken>()))
             .ReturnsAsync(stubCredential);
         
         // Act
@@ -48,7 +48,7 @@ public class UpdateCredentialNoneHandlerTests
         var request = new UpdateCredentialNone(basicCredential.Id, "testName");
         
         _repository
-            .Setup(r => r.GetAsync(It.IsAny<IdColumn>()))
+            .Setup(r => r.GetAsync(It.IsAny<IdColumn>(),It.IsAny<CancellationToken>()))
             .ReturnsAsync(basicCredential);
         
         // Act
