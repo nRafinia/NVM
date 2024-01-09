@@ -1,6 +1,6 @@
 using Dashboard.Domain.Abstractions;
-using Dashboard.Domain.Base;
 using Dashboard.Domain.Licenses;
+using SharedKernel.Base;
 using Vault;
 
 // ReSharper disable MemberCanBeProtected.Global
