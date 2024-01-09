@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Dashboard.Domain.Abstractions;
 using Dashboard.Domain.Licenses;
 using SharedKernel.Base;
@@ -64,11 +65,11 @@ public abstract class BaseVaultRepository<TEntity>
         records.RemoveAll(predicate);
     }
 
-    public virtual async ValueTask<TEntity?> GetAsync(Func<TEntity, bool> predicate,
+    public virtual async ValueTask<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate,
         CancellationToken cancellationToken = default)
     {
         var records = _records ?? await LoadRecords();
-        return records.FirstOrDefault(predicate);
+        return records.FirstOrDefault(predicate.Compile());
     }
 
     public virtual async Task<List<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)
@@ -76,26 +77,25 @@ public abstract class BaseVaultRepository<TEntity>
         return _records ?? await LoadRecords();
     }
 
-    public virtual async Task<List<TEntity>> GetAllAsync(Func<TEntity, bool> predicate, int index,
+    public virtual async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate, int index,
         int size, CancellationToken cancellationToken = default)
     {
         var records = _records ?? await LoadRecords();
         return records
-            .Where(predicate)
+            .Where(predicate.Compile())
             .Skip(size * index)
             .Take(size)
             .ToList();
     }
 
-    public virtual async Task<List<TEntity>> GetAllAsync(Func<TEntity, bool> predicate,
+    public virtual async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate,
         CancellationToken cancellationToken = default)
     {
         var records = _records ?? await LoadRecords();
         return records
-            .Where(predicate)
+            .Where(predicate.Compile())
             .ToList();
     }
-
 
     public Task SaveChanges()
     {
