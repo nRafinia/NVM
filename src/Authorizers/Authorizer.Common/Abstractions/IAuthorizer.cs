@@ -1,9 +1,10 @@
 using Authorizer.Common.Models;
+using SharedKernel.Base.Results;
 
 namespace Authorizer.Common.Abstractions;
 
 public interface IAuthorizer
 {
-    List<UserInfo> GetUsers();
-    UserInfo SignIn(string userName, string password);
+    Result<List<UserInfo>?> GetUsers();
+    Result<UserInfo?> SignIn(string userName, string password);
 }
