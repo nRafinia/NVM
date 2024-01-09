@@ -1,3 +1,5 @@
+using SharedKernel.Base;
+
 namespace Dashboard.Domain.Entities;
 
 public class Datacenter(string id, string name, string? description = null) : Entity(id)

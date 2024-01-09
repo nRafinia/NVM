@@ -1,3 +1,5 @@
+using SharedKernel.Base;
+
 namespace Dashboard.Domain.Entities;
 
 public class User(IdColumn id, string name, string userName, string password) : AuditableEntity(id)

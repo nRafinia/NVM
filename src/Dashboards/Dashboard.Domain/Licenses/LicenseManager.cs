@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Json;
 using Dashboard.Domain.Constants;
 using Dashboard.Domain.Errors;
+using SharedKernel.Base.Results;
 
 namespace Dashboard.Domain.Licenses;
 

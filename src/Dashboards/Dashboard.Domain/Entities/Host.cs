@@ -1,3 +1,5 @@
+using SharedKernel.Base;
+
 namespace Dashboard.Domain.Entities;
 
 public class Host(string id, string address, string name, string? description = null) : Entity(id)

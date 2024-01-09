@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 using Dashboard.Domain.Enums;
+using SharedKernel.Base;
 
 [assembly: InternalsVisibleTo("Dashboard.Infra")]
 
