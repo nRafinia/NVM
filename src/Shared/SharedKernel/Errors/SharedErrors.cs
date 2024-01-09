@@ -8,6 +8,8 @@ public static class SharedErrors
     public const string InternalErrorCode = "InternalError";
 
     public static readonly Error InvalidArguments = new(InvalidArgumentsCode, "The provided information is not valid");
+    public static readonly Error InvalidCredentialType=new("Invalid.CredentialType", "The provided credential type is not valid");
+
     public static Error Duplicate(string message) => new(DuplicateNameCode, message);
     public static readonly Error AuthorizationIsEmpty = new("Authorization.IsEmpty", "Authorization token is empty");
     public static readonly Error AuthorizationIsFailed = new("Authorization.IsEmpty", "Invalid authorization token");
