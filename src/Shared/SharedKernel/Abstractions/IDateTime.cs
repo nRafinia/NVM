@@ -1,4 +1,4 @@
-namespace Dashboard.Domain.Abstractions;
+namespace SharedKernel.Abstractions;
 
 public interface IDateTime
 {
