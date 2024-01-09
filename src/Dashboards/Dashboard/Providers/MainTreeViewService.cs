@@ -8,7 +8,7 @@ public class MainTreeViewService : IMainTreeViewService
     private readonly List<TreeItemData<MainTreeModel>> _treeViewItems = new();
 
     private const string Dashboard = "Dashboard";
-    private const string Certificate = "Certificate";
+    private const string Credential = "Credential";
 
     public MainTreeViewService()
     {
@@ -36,9 +36,9 @@ public class MainTreeViewService : IMainTreeViewService
             new MainTreeModel(DashboardIds.Main));
         _treeViewItems.Add(mainDashboard);
 
-        var certificateDashboard = new TreeItemData<MainTreeModel>(
-            Certificate,
-            new MainTreeModel(DashboardIds.Certificate));
-        _treeViewItems.Add(certificateDashboard);
+        var credentialDashboard = new TreeItemData<MainTreeModel>(
+            Credential,
+            new MainTreeModel(DashboardIds.Credential));
+        _treeViewItems.Add(credentialDashboard);
     }
 }
