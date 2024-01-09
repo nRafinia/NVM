@@ -63,7 +63,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authorizer.Common", "Author
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authorizer.Ldap", "Authorizers\Authorizer.Ldap\Authorizer.Ldap.csproj", "{21889F86-FAC2-482F-83A4-EFF88D89D5B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authorizer.Db", "Authorizers\Authorizer.Db\Authorizer.Db.csproj", "{2E384344-CFA8-4D46-BEC2-FCE4D8CC5009}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authorizer.Local", "Authorizers\Authorizer.Local\Authorizer.Local.csproj", "{2E384344-CFA8-4D46-BEC2-FCE4D8CC5009}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.Persistence", "Shared\SharedKernel.Persistence\SharedKernel.Persistence.csproj", "{6039960E-7B35-494E-9DFE-69444BC5559A}"
 EndProject
