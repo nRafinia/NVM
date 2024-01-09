@@ -1,5 +1,4 @@
 using System.DirectoryServices.Protocols;
-using System.Text;
 using Authorizer.Common.Abstractions;
 using Authorizer.Common.Models;
 using Authorizer.Ldap.Helpers;
