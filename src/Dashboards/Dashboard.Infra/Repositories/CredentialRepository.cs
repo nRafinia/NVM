@@ -1,7 +1,7 @@
 using System.Data;
-using Dashboard.Domain.Abstractions;
 using Dashboard.Domain.Abstractions.Repositories;
 using Dashboard.Domain.ValueObjects;
+using SharedKernel.Abstractions;
 using SharedKernel.Entities;
 using Vault;
 

@@ -3,6 +3,7 @@ using Dashboard.Domain.Licenses;
 using Dashboard.Domain.ValueObjects;
 using Dashboard.Infra.Repositories;
 using Moq;
+using SharedKernel.Abstractions;
 using SharedKernel.Entities;
 using Vault;
 

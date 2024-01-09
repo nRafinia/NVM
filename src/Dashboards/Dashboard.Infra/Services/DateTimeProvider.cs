@@ -1,4 +1,4 @@
-using Dashboard.Domain.Abstractions;
+using SharedKernel.Abstractions;
 
 namespace Dashboard.Infra.Services;
 
