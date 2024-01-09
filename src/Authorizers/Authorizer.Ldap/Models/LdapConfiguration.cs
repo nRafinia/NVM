@@ -1,3 +1,4 @@
+using System.DirectoryServices.Protocols;
 using Authorizer.Common.Abstractions;
 
 namespace Authorizer.Ldap.Models;
@@ -6,49 +7,78 @@ public class LdapConfiguration : IConfiguration
 {
     /// <summary>
     /// Represents the port used for a network connection.
-    /// LDAP uses port 389.
-    /// LDAPS uses port 636.
+    /// LDAP: 389
+    /// LDAPS (SSL): 636
     /// </summary>
-    public int Port { get; set; }
-    
-    /// <summary>
-    /// Represents the LDAP server's zone (DC=com)
-    /// </summary>
-    public string Zone { get; set; } = string.Empty;
-    
-    /// <summary>
-    /// Represents the LDAP server's domain (DC=example)
-    /// </summary>
-    public string Domain { get; set; } = string.Empty;
-    
-    /// <summary>
-    /// Represents the LDAP server's hostname (DC=dc01)
-    /// </summary>
-    public string Subdomain { get; set; } = string.Empty;
+    public int Port { get; set; } = 389;
 
     /// <summary>
-    /// Gets or sets the username.
-    /// Windows= username
-    /// Linux= domain\username
+    /// Use secure connection (LDAPS)
     /// </summary>
-    /// <value>The username.</value>
+    public bool UseSecure { get; set; } = false;
+
+    /// <summary>
+    /// Hostname of the server running LDAP (IP or DNS name)
+    /// <example>ldap.example.com</example>
+    /// </summary>
+    public string HostName { get; set; } = string.Empty;
+
+    /// <summary>
+    /// User to log in to LDAP
+    /// Microsoft Active Directory= username
+    /// Others= domain\username
+    /// </summary>
+    /// <example>
+    /// user@domain.name or cn=user,dc=domain,dc=name
+    /// </example>
     public string Username { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the password.
+    /// The password.
     /// </summary>
-    /// <value>
-    /// The password value.
-    /// </value>
     public string Password { get; set; } = string.Empty;
 
     /// <summary>
-    /// Represents the LDAP server used for connecting to the LDAP directory service. (dc01.example.com)
+    /// Root node in LDAP from which to search for users and groups
+    /// <example>cn=users,dc=example,dc=com</example>
     /// </summary>
-    public string LdapServer { get; set; } = string.Empty;
-    
+    public string BaseDn { get; set; } = string.Empty;
+
     /// <summary>
-    /// Represents the LDAP server's base query. (OU=Users,DC=example,DC=com)
+    /// The filter to use when searching user objects.
     /// </summary>
-    public string LdapQueryBase { get; set; } = string.Empty;
+    /// <example>
+    /// (&(objectCategory=Person)(sAMAccountName=*))
+    /// </example>
+    public string FilterQuery { get; set; } = "(&(objectCategory=Person)(sAMAccountName=*))";
+
+    /// <summary>
+    /// The LDAP attributes.
+    /// </summary>
+    public LdapAttribute Attributes { get; set; } = new();
+
+    /// <summary>
+    /// The LDAP search scope.
+    /// </summary>
+    /// <example>
+    /// Subtree, OneLevel, Base
+    /// </example>
+    public SearchScope Scope { get; set; } = SearchScope.Subtree;
+
+    /// <summary>
+    /// on Windows the authentication type is Negotiate, so there is no need to prepend
+    /// AD user login with domain. On other platforms at the moment only
+    /// Basic authentication is supported
+    /// </summary>
+    /// <example>
+    /// Negotiate, Basic
+    /// </example>
+    public AuthType AuthenticationType { get; set; } = AuthType.Negotiate;
+
+    /// <summary>
+    /// the default one is v2 (at least in that version), and it is unknown if v3
+    /// is actually needed, but at least Synology LDAP works only with v3,
+    /// and since our Exchange doesn't complain, let it be v3
+    /// </summary>
+    public int ProtocolVersion { get; set; } = 3;
 }
