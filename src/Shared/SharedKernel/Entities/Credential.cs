@@ -1,11 +1,7 @@
-using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
-using Dashboard.Domain.Enums;
-using SharedKernel.Base;
+using SharedKernel.Enums;
 
-[assembly: InternalsVisibleTo("Dashboard.Infra")]
-
-namespace Dashboard.Domain.Entities;
+namespace SharedKernel.Entities;
 
 public class Credential : AuditableEntity
 {

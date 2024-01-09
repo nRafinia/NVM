@@ -1,4 +1,4 @@
-namespace Dashboard.Domain.Enums;
+namespace SharedKernel.Enums;
 
 public enum CredentialType
 {

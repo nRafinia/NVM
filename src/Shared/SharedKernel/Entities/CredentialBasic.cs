@@ -1,7 +1,6 @@
 using System.Text.Json.Serialization;
-using SharedKernel.Base;
 
-namespace Dashboard.Domain.Entities;
+namespace SharedKernel.Entities;
 
 public class CredentialBasic : Entity
 {
