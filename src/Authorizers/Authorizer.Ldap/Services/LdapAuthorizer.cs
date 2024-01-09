@@ -4,29 +4,24 @@ using Authorizer.Common.Models;
 using Authorizer.Ldap.Helpers;
 using Authorizer.Ldap.Models;
 using Mapster;
+using SharedKernel.Abstractions;
 using SharedKernel.Base.Results;
-using SharedKernel.Entities;
 using SharedKernel.Enums;
 using SharedKernel.Errors;
 
 namespace Authorizer.Ldap.Services;
 
-public class LdapAuthorizer(LdapConfiguration configuration) : IAuthorizer
+public class LdapAuthorizer(LdapConfiguration configuration, ICredentialService credentialService) : IAuthorizer
 {
-    /// <summary>
-    /// Retrieves a list of user information based on the provided credential.
-    /// </summary>
-    /// <param name="credential">
-    /// The credential used for authentication and authorization.
-    /// For Microsoft Active Directory, provide the username.
-    /// For other systems, provide the domain\username.
-    /// Example: user@domain.name or cn=user,dc=domain,dc=name
-    /// </param>
-    /// <returns>
-    /// Returns a list of user information if successful, otherwise returns a failure result with an error message.
-    /// </returns>
-    public Result<List<UserInfo>?> GetUsers(Credential credential)
+    public async Task<Result<List<UserInfo>?>> GetUsers()
     {
+        var credentialResponse = await credentialService.GetCredentialAsync(configuration.CredentialId);
+        if (credentialResponse.IsFailure)
+        {
+            return Result.Failure<List<UserInfo>>(credentialResponse.Error!);
+        }
+
+        var credential = credentialResponse.Value!;
         if (credential.CredentialType == CredentialType.None)
         {
             return Result.Failure<List<UserInfo>>(SharedErrors.InvalidCredentialType);
@@ -43,8 +38,8 @@ public class LdapAuthorizer(LdapConfiguration configuration) : IAuthorizer
         try
         {
             searchResults = LdapTools.Search(
-                configuration, 
-                credential.BasicCredential!.UserName, 
+                configuration,
+                credential.BasicCredential!.UserName,
                 credential.BasicCredential!.Password,
                 attributesToQuery);
         }
@@ -59,7 +54,7 @@ public class LdapAuthorizer(LdapConfiguration configuration) : IAuthorizer
         return result;
     }
 
-    public Result<UserInfo?> SignIn(string userName, string password)
+    public Task<Result<UserInfo?>> SignIn(string userName, string password)
     {
         var attributesToQuery = new[]
         {
@@ -72,17 +67,20 @@ public class LdapAuthorizer(LdapConfiguration configuration) : IAuthorizer
         try
         {
             var searchResults = LdapTools.Search(
-                userConfiguration, 
+                userConfiguration,
                 userName,
                 password,
                 attributesToQuery);
-            return searchResults.Entries.Count > 0
+            var result = searchResults.Entries.Count > 0
                 ? CastResultToUserInfo(searchResults.Entries[0])
                 : Result.Failure<UserInfo>(SharedErrors.ItemNotFound);
+
+            return Task.FromResult(result);
         }
         catch (Exception e)
         {
-            return Result.Failure<UserInfo>(SharedErrors.InternalErrorMessage(e.Message));
+            var result = Result.Failure<UserInfo>(SharedErrors.InternalErrorMessage(e.Message));
+            return Task.FromResult(result);
         }
     }
 

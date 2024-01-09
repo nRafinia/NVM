@@ -1,9 +1,10 @@
 using System.DirectoryServices.Protocols;
 using Authorizer.Common.Abstractions;
+using Dashboard.Domain.ValueObjects;
 
 namespace Authorizer.Ldap.Models;
 
-public class LdapConfiguration(string hostname, string baseDn) : IConfiguration
+public class LdapConfiguration(string hostname, IdColumn credetialId, string baseDn) : IConfiguration
 {
     /// <summary>
     /// Represents the port used for a network connection.
@@ -23,6 +24,14 @@ public class LdapConfiguration(string hostname, string baseDn) : IConfiguration
     /// </summary>
     public string HostName { get; set; } = hostname;
 
+    /// <summary>
+    /// The credential used for authentication and authorization.
+    /// For Microsoft Active Directory, provide the username.
+    /// For other systems, provide the domain\username.
+    /// Example: user@domain.name or cn=user,dc=domain,dc=name
+    /// </summary>
+    public IdColumn CredentialId { get; set; } = credetialId;
+    
     /// <summary>
     /// Root node in LDAP from which to search for users and groups
     /// <example>cn=users,dc=example,dc=com</example>
