@@ -5,14 +5,33 @@ using Authorizer.Ldap.Helpers;
 using Authorizer.Ldap.Models;
 using Mapster;
 using SharedKernel.Base.Results;
+using SharedKernel.Entities;
+using SharedKernel.Enums;
 using SharedKernel.Errors;
 
 namespace Authorizer.Ldap.Services;
 
 public class LdapAuthorizer(LdapConfiguration configuration) : IAuthorizer
 {
-    public Result<List<UserInfo>?> GetUsers()
+    /// <summary>
+    /// Retrieves a list of user information based on the provided credential.
+    /// </summary>
+    /// <param name="credential">
+    /// The credential used for authentication and authorization.
+    /// For Microsoft Active Directory, provide the username.
+    /// For other systems, provide the domain\username.
+    /// Example: user@domain.name or cn=user,dc=domain,dc=name
+    /// </param>
+    /// <returns>
+    /// Returns a list of user information if successful, otherwise returns a failure result with an error message.
+    /// </returns>
+    public Result<List<UserInfo>?> GetUsers(Credential credential)
     {
+        if (credential.CredentialType == CredentialType.None)
+        {
+            return Result.Failure<List<UserInfo>>(SharedErrors.InvalidCredentialType);
+        }
+
         var attributesToQuery = new[]
         {
             configuration.Attributes.UniqueId,
@@ -23,7 +42,11 @@ public class LdapAuthorizer(LdapConfiguration configuration) : IAuthorizer
         SearchResponse searchResults;
         try
         {
-            searchResults = LdapTools.Search(configuration, attributesToQuery);
+            searchResults = LdapTools.Search(
+                configuration, 
+                credential.BasicCredential!.UserName, 
+                credential.BasicCredential!.Password,
+                attributesToQuery);
         }
         catch (Exception e)
         {
@@ -44,13 +67,15 @@ public class LdapAuthorizer(LdapConfiguration configuration) : IAuthorizer
         };
 
         var userConfiguration = configuration.Adapt<LdapConfiguration>();
-        userConfiguration.Username = userName;
-        userConfiguration.Password = password;
         userConfiguration.FilterQuery = $"(&(objectCategory=Person)(sAMAccountName={userName}))";
 
         try
         {
-            var searchResults = LdapTools.Search(userConfiguration, attributesToQuery);
+            var searchResults = LdapTools.Search(
+                userConfiguration, 
+                userName,
+                password,
+                attributesToQuery);
             return searchResults.Entries.Count > 0
                 ? CastResultToUserInfo(searchResults.Entries[0])
                 : Result.Failure<UserInfo>(SharedErrors.ItemNotFound);
@@ -62,6 +87,7 @@ public class LdapAuthorizer(LdapConfiguration configuration) : IAuthorizer
     }
 
     #region private methods
+
     private UserInfo CastResultToUserInfo(SearchResultEntry searchEntry)
     {
         var uniqueId = searchEntry.Attributes.Contains(configuration.Attributes.UniqueId)
@@ -76,7 +102,7 @@ public class LdapAuthorizer(LdapConfiguration configuration) : IAuthorizer
 
         return new UserInfo(uniqueId, displayName, userName);
     }
-    
+
     private static string GetAttributeValue(DirectoryAttribute attributes)
     {
         if (attributes[0] is byte[] attrValue)
@@ -86,6 +112,6 @@ public class LdapAuthorizer(LdapConfiguration configuration) : IAuthorizer
 
         return attributes[0]?.ToString() ?? string.Empty;
     }
-    
+
     #endregion
 }

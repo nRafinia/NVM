@@ -5,14 +5,15 @@ namespace Authorizer.Ldap.Helpers;
 
 internal static class LdapTools
 {
-    public static SearchResponse Search(LdapConfiguration configuration, IEnumerable<string> attributes)
+    public static SearchResponse Search(LdapConfiguration configuration, string userName, string password,
+        IEnumerable<string> attributes)
     {
         var connection = new LdapConnection(new LdapDirectoryIdentifier(configuration.HostName, configuration.Port))
         {
             AuthType = configuration.AuthenticationType,
-            Credential = new(configuration.Username, configuration.Password)
+            Credential = new(userName, password)
         };
-         
+
         // the default one is v2 (at least in that version), and it is unknown if v3
         // is actually needed, but at least Synology LDAP works only with v3,
         // and since our Exchange doesn't complain, let it be v3
@@ -27,13 +28,11 @@ internal static class LdapTools
         connection.Bind();
 
         var request = new SearchRequest(
-            configuration.BaseDn, 
-            configuration.FilterQuery, 
-            configuration.Scope, 
+            configuration.BaseDn,
+            configuration.FilterQuery,
+            configuration.Scope,
             attributes.ToArray());
 
         return (SearchResponse)connection.SendRequest(request);
     }
-    
-    
 }

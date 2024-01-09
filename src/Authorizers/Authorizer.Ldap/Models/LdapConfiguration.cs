@@ -1,5 +1,6 @@
 using System.DirectoryServices.Protocols;
 using Authorizer.Common.Abstractions;
+using Dashboard.Domain.ValueObjects;
 
 namespace Authorizer.Ldap.Models;
 
@@ -22,21 +23,6 @@ public class LdapConfiguration : IConfiguration
     /// <example>ldap.example.com</example>
     /// </summary>
     public string HostName { get; set; } = string.Empty;
-
-    /// <summary>
-    /// User to log in to LDAP
-    /// Microsoft Active Directory= username
-    /// Others= domain\username
-    /// </summary>
-    /// <example>
-    /// user@domain.name or cn=user,dc=domain,dc=name
-    /// </example>
-    public string Username { get; set; } = string.Empty;
-
-    /// <summary>
-    /// The password.
-    /// </summary>
-    public string Password { get; set; } = string.Empty;
 
     /// <summary>
     /// Root node in LDAP from which to search for users and groups
