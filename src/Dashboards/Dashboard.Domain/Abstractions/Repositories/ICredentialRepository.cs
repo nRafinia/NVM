@@ -1,15 +1,10 @@
 using Dashboard.Domain.Entities;
+using SharedKernel.Abstractions;
 
 namespace Dashboard.Domain.Abstractions.Repositories;
 
-public interface ICredentialRepository
+public interface ICredentialRepository : IBaseRepository<Credential>
 {
-    Task<Credential> AddAsync(Credential credential);
-    Task<Credential> UpdateAsync(Credential credential);
-    Task<Credential?> GetAsync(IdColumn id);
     Task<IReadOnlyList<Credential>> GetAsync(string name);
-    Task<IReadOnlyList<Credential>> GetAllAsync();
-    Task<IReadOnlyList<Credential>> GetAllAsync(int index, int size);
-    Task DeleteAsync(IdColumn id);
     Task SaveChanges();
 }
