@@ -1,6 +1,5 @@
 using Dashboard.Application.Credentials.Commands.AddCredentials.AddCredentialsNone;
 using Dashboard.Domain.Abstractions.Repositories;
-using Dashboard.Domain.Base.Results;
 using Dashboard.Domain.Entities;
 using Dashboard.Domain.Enums;
 using JetBrains.Annotations;

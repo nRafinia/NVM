@@ -1,6 +1,6 @@
-using Dashboard.Domain.Base.Results;
 using FluentValidation;
 using MediatR;
+using SharedKernel.Base.Results;
 
 namespace Dashboard.Application.Behaviors;
 
@@ -54,14 +54,14 @@ internal sealed class ValidationBehaviorResult<TRequest, TResponse> : IPipelineB
 
         if (!responseType.IsGenericType)
         {
-            return (dynamic)Result.Failure(Domain.Errors.SharedErrors.InvalidArguments);
+            return (dynamic)Result.Failure(SharedErrors.InvalidArguments);
         }
 
         var resultType = responseType.GetGenericArguments().FirstOrDefault();
 
         var methodInfo = typeof(Result).GetMethods().First(_ => _ is { Name: "Failure", IsGenericMethod: true });
         var genericMethod = methodInfo.MakeGenericMethod(resultType!);
-        dynamic? result = genericMethod.Invoke(null, new[] { Domain.Errors.SharedErrors.InvalidArguments, (object?)default });
-        return result ?? Result.Failure(Domain.Errors.SharedErrors.InvalidArguments);
+        dynamic? result = genericMethod.Invoke(null, new[] { SharedErrors.InvalidArguments, (object?)default });
+        return result ?? Result.Failure(SharedErrors.InvalidArguments);
     }
 }

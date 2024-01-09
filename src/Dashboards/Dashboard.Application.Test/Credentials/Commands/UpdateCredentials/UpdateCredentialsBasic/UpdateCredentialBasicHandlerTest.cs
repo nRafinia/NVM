@@ -7,6 +7,7 @@ using Dashboard.Domain.Entities;
 using Dashboard.Domain.Enums;
 using Dashboard.Domain.ValueObjects;
 using Microsoft.Extensions.Logging;
+using SharedKernel.Errors;
 
 namespace Dashboard.Application.Test.Credentials.Commands.UpdateCredentials.UpdateCredentialsBasic;
 

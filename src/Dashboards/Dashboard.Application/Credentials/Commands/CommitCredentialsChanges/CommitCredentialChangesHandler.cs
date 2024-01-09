@@ -1,3 +1,6 @@
+using SharedKernel.Base.Commands;
+using SharedKernel.Base.Results;
+
 namespace Dashboard.Application.Credentials.Commands.CommitCredentialsChanges;
 
 public class CommitCredentialChangesHandler(ICredentialRepository repository):ICommandHandler<CommitCredentialChanges>
