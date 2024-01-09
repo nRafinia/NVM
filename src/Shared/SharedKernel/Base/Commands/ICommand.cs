@@ -1,4 +1,4 @@
-﻿namespace Dashboard.Domain.Base.Commands;
+﻿namespace SharedKernel.Base.Commands;
 
 /// <summary>
 /// Marker interface to represent a request without a entity

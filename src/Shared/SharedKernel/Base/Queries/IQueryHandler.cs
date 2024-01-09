@@ -1,4 +1,4 @@
-﻿namespace Dashboard.Domain.Base.Queries;
+﻿namespace SharedKernel.Base.Queries;
 
 
 /// <summary>

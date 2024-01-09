@@ -1,4 +1,4 @@
-﻿namespace Dashboard.Domain.Base
+﻿namespace SharedKernel.Base
 {
     /// <summary>
     /// Represents a concrete domain error.

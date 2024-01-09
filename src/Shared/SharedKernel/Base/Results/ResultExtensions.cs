@@ -1,4 +1,4 @@
-﻿namespace Dashboard.Domain.Base.Results;
+﻿namespace SharedKernel.Base.Results;
 
 /// <summary>
 /// Contains extension methods for the result class.

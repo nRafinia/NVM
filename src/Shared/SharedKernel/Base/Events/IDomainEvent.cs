@@ -1,3 +1,3 @@
-﻿namespace Dashboard.Domain.Base.Events;
+﻿namespace SharedKernel.Base.Events;
 
 public interface IDomainEvent : INotification;

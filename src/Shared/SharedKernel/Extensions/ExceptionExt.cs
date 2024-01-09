@@ -1,7 +1,6 @@
 using System.Data;
-using Dashboard.Domain.Errors;
 
-namespace Dashboard.Domain.Extensions;
+namespace SharedKernel.Extensions;
 
 public static class ExceptionExt
 {

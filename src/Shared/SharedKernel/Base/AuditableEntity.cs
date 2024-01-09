@@ -1,6 +1,6 @@
 using Dashboard.Domain.ValueObjects;
 
-namespace Dashboard.Domain.Base;
+namespace SharedKernel.Base;
 
 public class AuditableEntity(IdColumn id) : Entity(id)
 {

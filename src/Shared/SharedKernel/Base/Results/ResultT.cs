@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Dashboard.Domain.Base.Results;
+namespace SharedKernel.Base.Results;
 
 /// <summary>
 /// Represents the result of some operation, with status information and possibly a value and an error.

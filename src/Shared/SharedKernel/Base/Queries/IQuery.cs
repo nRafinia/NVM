@@ -1,6 +1,6 @@
 ﻿
 
-namespace Dashboard.Domain.Base.Queries;
+namespace SharedKernel.Base.Queries;
 
 /// <summary>
 /// Marker interface to represent a request with a response entity

@@ -1,4 +1,4 @@
-﻿namespace Dashboard.Domain.Base.Commands;
+﻿namespace SharedKernel.Base.Commands;
 
 /// <summary>
 /// Defines a handler for a request with a void (<see cref="Result" />) response.

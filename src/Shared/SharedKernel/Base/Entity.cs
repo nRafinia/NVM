@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
-using Dashboard.Domain.Base.Events;
+using SharedKernel.Base.Events;
 
-namespace Dashboard.Domain.Base;
+namespace SharedKernel.Base;
 
 public class Entity(IdColumn id)
 {

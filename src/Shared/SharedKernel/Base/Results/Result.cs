@@ -1,4 +1,4 @@
-namespace Dashboard.Domain.Base.Results;
+namespace SharedKernel.Base.Results;
 
 /// <summary>
 /// Represents a result of some operation, with status information and possibly an error.
