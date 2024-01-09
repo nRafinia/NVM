@@ -7,11 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Shared\SharedKernel.Persistence\SharedKernel.Persistence.csproj" />
       <ProjectReference Include="..\Authorizer.Common\Authorizer.Common.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Services\" />
     </ItemGroup>
 
 </Project>
