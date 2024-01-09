@@ -19,6 +19,7 @@
     </ItemGroup>
     
     <ItemGroup>
+      <ProjectReference Include="..\..\Shared\SharedKernel.Persistence\SharedKernel.Persistence.csproj" />
       <ProjectReference Include="..\..\Shared\SharedKernel\SharedKernel.csproj" />
       <ProjectReference Include="..\Dashboard.Application\Dashboard.Application.csproj" />
       <ProjectReference Include="..\Dashboard.Components\Dashboard.Components.csproj" />
