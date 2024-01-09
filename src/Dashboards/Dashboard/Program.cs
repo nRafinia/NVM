@@ -26,7 +26,7 @@ var assemblies = new List<Assembly>()
     typeof(Vault.ConfigureServices).Assembly
 };
 builder.Services.AddValidatorsFromAssemblies(assemblies);
-builder.Services.RegisterServices(assemblies.ToArray());
+builder.Services.RegisterServices(builder.Configuration, assemblies.ToArray());
 
 var app = builder.Build();
 
