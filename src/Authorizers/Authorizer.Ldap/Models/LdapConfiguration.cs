@@ -1,10 +1,9 @@
 using System.DirectoryServices.Protocols;
 using Authorizer.Common.Abstractions;
-using Dashboard.Domain.ValueObjects;
 
 namespace Authorizer.Ldap.Models;
 
-public class LdapConfiguration : IConfiguration
+public class LdapConfiguration(string hostname, string baseDn) : IConfiguration
 {
     /// <summary>
     /// Represents the port used for a network connection.
@@ -22,13 +21,13 @@ public class LdapConfiguration : IConfiguration
     /// Hostname of the server running LDAP (IP or DNS name)
     /// <example>ldap.example.com</example>
     /// </summary>
-    public string HostName { get; set; } = string.Empty;
+    public string HostName { get; set; } = hostname;
 
     /// <summary>
     /// Root node in LDAP from which to search for users and groups
     /// <example>cn=users,dc=example,dc=com</example>
     /// </summary>
-    public string BaseDn { get; set; } = string.Empty;
+    public string BaseDn { get; set; } = baseDn;
 
     /// <summary>
     /// The filter to use when searching user objects.
