@@ -1,11 +1,10 @@
 using Dashboard.Application.Credentials.Commands.UpdateCredentials.UpdateCredentialsNone;
-using JetBrains.Annotations;
 using Moq;
 using Dashboard.Domain.Abstractions.Repositories;
-using Dashboard.Domain.Entities;
-using Dashboard.Domain.Enums;
 using Dashboard.Domain.ValueObjects;
 using Microsoft.Extensions.Logging;
+using SharedKernel.Entities;
+using SharedKernel.Enums;
 
 namespace Dashboard.Application.Test.Credentials.Commands.UpdateCredentials.UpdateCredentialsNone;
 

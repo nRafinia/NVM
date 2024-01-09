@@ -1,9 +1,9 @@
 using Dashboard.Application.Credentials.Queries.GetAllCredentials;
 using Dashboard.Domain.Abstractions.Repositories;
-using Dashboard.Domain.Entities;
 using Moq;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
+using SharedKernel.Entities;
 
 namespace Dashboard.Application.Test.Credentials.Queries.GetAllCredentials;
 

@@ -1,5 +1,5 @@
-using Dashboard.Domain.Entities;
 using SharedKernel.Abstractions;
+using SharedKernel.Entities;
 
 namespace Dashboard.Domain.Abstractions.Repositories;
 

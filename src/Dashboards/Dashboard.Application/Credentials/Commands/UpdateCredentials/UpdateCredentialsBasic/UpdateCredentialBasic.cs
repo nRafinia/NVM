@@ -1,5 +1,6 @@
 using Dashboard.Domain.ValueObjects;
 using SharedKernel.Base.Commands;
+using SharedKernel.Entities;
 
 namespace Dashboard.Application.Credentials.Commands.UpdateCredentials.UpdateCredentialsBasic;
 

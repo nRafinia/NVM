@@ -1,9 +1,9 @@
 using Dashboard.Application.Credentials.Commands.AddCredentials.AddCredentialsBasic;
 using Dashboard.Domain.Abstractions.Repositories;
-using Dashboard.Domain.Entities;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 using Moq;
+using SharedKernel.Entities;
 
 namespace Dashboard.Application.Test.Credentials.Commands.AddCredentials.AddCredentialsBasic
 {
