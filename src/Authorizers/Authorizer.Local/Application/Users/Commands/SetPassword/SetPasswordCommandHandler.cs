@@ -23,7 +23,7 @@ public class SetPasswordCommandHandler(
 
             if (user is null)
             {
-                return Result.Failure<UserInfo>(SharedErrors.ItemNotFound);
+                return Result.Failure(SharedErrors.ItemNotFound);
             }
 
             user.SetPassword(request.Password);
