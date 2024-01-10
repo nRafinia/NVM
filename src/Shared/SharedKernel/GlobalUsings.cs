@@ -2,7 +2,6 @@
 
 global using Ardalis.GuardClauses;
 global using MediatR;
-global using Dashboard.Domain.ValueObjects;
 global using SharedKernel.Base;
 global using SharedKernel.Base.Queries;
 global using SharedKernel.Base.Commands;

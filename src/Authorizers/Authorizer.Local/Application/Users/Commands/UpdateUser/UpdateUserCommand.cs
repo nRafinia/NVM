@@ -1,6 +1,6 @@
 using Authorizer.Common.Models;
-using Dashboard.Domain.ValueObjects;
 using SharedKernel.Base.Commands;
+using SharedKernel.ValueObjects;
 
 namespace Authorizer.Local.Application.Users.Commands.UpdateUser;
 

@@ -2,8 +2,8 @@ using Ardalis.GuardClauses;
 using Authorizer.Local.Domain.Enums;
 using Authorizer.Local.Domain.Extensions;
 using Authorizer.Local.Domain.Helpers;
-using Dashboard.Domain.ValueObjects;
 using SharedKernel.Base;
+using SharedKernel.ValueObjects;
 
 namespace Authorizer.Local.Domain.Entities;
 

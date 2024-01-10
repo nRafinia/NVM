@@ -2,6 +2,7 @@ using Authorizer.Local.Domain;
 using Authorizer.Local.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SharedKernel.ValueObjects;
 
 namespace Authorizer.Local.Persistence.Configurations;
 
@@ -24,7 +25,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(u => u.DisplayName)
             .IsRequired();
-        
+
         builder.Property(u => u.Status)
             .IsRequired();
 

@@ -1,8 +1,8 @@
 using System.Linq.Expressions;
-using Dashboard.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel.Abstractions;
 using SharedKernel.Base;
+using SharedKernel.ValueObjects;
 
 namespace SharedKernel.Persistence.Base;
 

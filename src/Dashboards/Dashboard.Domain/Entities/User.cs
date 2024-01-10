@@ -1,4 +1,5 @@
 using SharedKernel.Base;
+using SharedKernel.ValueObjects;
 
 namespace Dashboard.Domain.Entities;
 

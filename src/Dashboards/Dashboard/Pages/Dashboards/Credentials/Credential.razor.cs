@@ -4,7 +4,7 @@ using Dashboard.Application.Credentials.Commands.DeleteCredentials;
 using Dashboard.Application.Credentials.Queries.GetAllCredentials;
 using Dashboard.Application.Credentials.Queries.GetCredentialByName;
 using Dashboard.Const;
-using Dashboard.Domain.ValueObjects;
+using SharedKernel.ValueObjects;
 
 namespace Dashboard.Pages.Dashboards.Credentials;
 

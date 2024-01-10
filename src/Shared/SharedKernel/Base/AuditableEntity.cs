@@ -1,3 +1,5 @@
+using SharedKernel.ValueObjects;
+
 namespace SharedKernel.Base;
 
 public class AuditableEntity(IdColumn id) : Entity(id)

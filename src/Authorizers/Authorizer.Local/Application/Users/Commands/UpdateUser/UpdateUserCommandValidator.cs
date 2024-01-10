@@ -1,6 +1,6 @@
-using Dashboard.Domain.ValueObjects;
 using FluentValidation;
 using SharedKernel.Base;
+using SharedKernel.ValueObjects;
 
 namespace Authorizer.Local.Application.Users.Commands.UpdateUser;
 

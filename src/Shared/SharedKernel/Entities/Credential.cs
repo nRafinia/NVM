@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using SharedKernel.Enums;
+using SharedKernel.ValueObjects;
 
 namespace SharedKernel.Entities;
 

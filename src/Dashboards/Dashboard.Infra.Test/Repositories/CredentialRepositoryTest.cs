@@ -1,10 +1,10 @@
 using Dashboard.Domain.Abstractions;
 using Dashboard.Domain.Licenses;
-using Dashboard.Domain.ValueObjects;
 using Dashboard.Infra.Repositories;
 using Moq;
 using SharedKernel.Abstractions;
 using SharedKernel.Entities;
+using SharedKernel.ValueObjects;
 using Vault;
 
 namespace Dashboard.Infra.Test.Repositories;

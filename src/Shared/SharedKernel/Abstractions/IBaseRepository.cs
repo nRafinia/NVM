@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using SharedKernel.ValueObjects;
 
 namespace SharedKernel.Abstractions;
 

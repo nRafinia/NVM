@@ -1,6 +1,6 @@
 using System.Security.Claims;
-using Dashboard.Domain.ValueObjects;
 using SharedKernel.Abstractions;
+using SharedKernel.ValueObjects;
 
 namespace Dashboard.Services;
 

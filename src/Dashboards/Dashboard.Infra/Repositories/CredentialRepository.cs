@@ -1,8 +1,8 @@
 using System.Data;
 using Dashboard.Domain.Abstractions.Repositories;
-using Dashboard.Domain.ValueObjects;
 using SharedKernel.Abstractions;
 using SharedKernel.Entities;
+using SharedKernel.ValueObjects;
 using Vault;
 
 namespace Dashboard.Infra.Repositories;

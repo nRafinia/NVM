@@ -1,4 +1,5 @@
 using SharedKernel.Entities;
+using SharedKernel.ValueObjects;
 
 namespace SharedKernel.Abstractions;
 

@@ -1,9 +1,9 @@
 using Dashboard.Application.Credentials.Commands.AddCredentials.AddCredentialsNone;
 using Dashboard.Application.Credentials.Commands.DeleteCredentials;
 using Dashboard.Domain.Abstractions.Repositories;
-using Dashboard.Domain.ValueObjects;
 using Microsoft.Extensions.Logging;
 using Moq;
+using SharedKernel.ValueObjects;
 
 namespace Dashboard.Application.Test.Credentials.Commands.DeleteCredentials
 {

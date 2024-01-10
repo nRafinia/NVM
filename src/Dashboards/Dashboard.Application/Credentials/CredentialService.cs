@@ -1,9 +1,9 @@
 using Dashboard.Application.Credentials.Queries.GetCredentialById;
-using Dashboard.Domain.ValueObjects;
 using MediatR;
 using SharedKernel.Abstractions;
 using SharedKernel.Base.Results;
 using SharedKernel.Entities;
+using SharedKernel.ValueObjects;
 
 namespace Dashboard.Application.Credentials;
 

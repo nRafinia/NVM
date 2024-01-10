@@ -1,9 +1,9 @@
 using Dashboard.Application.Credentials.Queries.GetCredentialById;
 using Dashboard.Domain.Abstractions.Repositories;
-using Dashboard.Domain.ValueObjects;
 using Microsoft.Extensions.Logging;
 using Moq;
 using SharedKernel.Entities;
+using SharedKernel.ValueObjects;
 
 namespace Dashboard.Application.Test.Credentials.Queries.GetCredentialById
 {

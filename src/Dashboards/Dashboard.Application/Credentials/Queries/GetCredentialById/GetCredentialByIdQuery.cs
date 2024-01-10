@@ -1,6 +1,6 @@
-using Dashboard.Domain.ValueObjects;
 using SharedKernel.Base.Queries;
 using SharedKernel.Entities;
+using SharedKernel.ValueObjects;
 
 namespace Dashboard.Application.Credentials.Queries.GetCredentialById;
 

@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using SharedKernel.ValueObjects;
 
 namespace SharedKernel.Entities;
 

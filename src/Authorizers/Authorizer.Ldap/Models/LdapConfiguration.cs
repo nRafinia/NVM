@@ -1,6 +1,6 @@
 using System.DirectoryServices.Protocols;
 using Authorizer.Common.Abstractions;
-using Dashboard.Domain.ValueObjects;
+using SharedKernel.ValueObjects;
 
 namespace Authorizer.Ldap.Models;
 
