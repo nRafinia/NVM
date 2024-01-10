@@ -3,6 +3,7 @@
 @using Dashboard.Providers
 @using Dashboard.Const
 @using Dashboard.Pages.Dashboards.Credentials
+@using Dashboard.Pages.Dashboards.Users
 
 @implements IDisposable 
 
@@ -19,6 +20,10 @@
 @if (currentId == DashboardIds.Credential)
 {
     <Credential></Credential>
+}
+@if (currentId == DashboardIds.User)
+{
+    <User></User>
 }
 
 @code {
