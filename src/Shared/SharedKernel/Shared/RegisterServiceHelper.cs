@@ -10,6 +10,6 @@ public static class RegisterServiceHelper
         params Assembly[] assemblies)
     {
         var servicesToRegister = Common.GetImplementedInterfaceOf<IConfigureService>(assemblies).ToList();
-        servicesToRegister.ForEach(x => x.AddServices(services, configuration));
+        servicesToRegister.ForEach(x => x?.AddServices(services, configuration));
     }
 }
