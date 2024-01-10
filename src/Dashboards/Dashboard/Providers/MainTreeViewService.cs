@@ -9,6 +9,7 @@ public class MainTreeViewService : IMainTreeViewService
 
     private const string Dashboard = "Dashboard";
     private const string Credential = "Credential";
+    private const string User = "Users";
 
     public MainTreeViewService()
     {
@@ -40,5 +41,10 @@ public class MainTreeViewService : IMainTreeViewService
             Credential,
             new MainTreeModel(DashboardIds.Credential));
         _treeViewItems.Add(credentialDashboard);
+        
+        var userDashboard = new TreeItemData<MainTreeModel>(
+            User,
+            new MainTreeModel(DashboardIds.User));
+        _treeViewItems.Add(userDashboard);
     }
 }
