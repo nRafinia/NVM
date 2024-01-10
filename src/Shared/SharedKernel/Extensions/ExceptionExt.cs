@@ -10,10 +10,11 @@ public static class ExceptionExt
         {
             ArgumentNullException => Result.Failure(SharedErrors.InvalidArguments),
             DuplicateNameException => Result.Failure(SharedErrors.Duplicate(exception.Message)),
+            ArgumentException => Result.Failure(SharedErrors.InvalidArgumentsMessage(exception.Message)),
             _ => Result.Failure(SharedErrors.InternalErrorMessage(exception.Message))
         };
     }
-    
+
     public static Result<T?> ToResult<T>(this Exception exception)
     {
         return Result.Failure<T>(ToResult(exception).Error!);
