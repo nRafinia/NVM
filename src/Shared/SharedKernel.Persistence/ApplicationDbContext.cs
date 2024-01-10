@@ -1,13 +1,13 @@
-using System.Reflection;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using SharedKernel.Abstractions;
 using SharedKernel.Base;
+using SharedKernel.Persistence.Abstractions;
 
 namespace SharedKernel.Persistence;
 
-public class ApplicationDbContext(DbContextOptions options, IPublisher publisher, IDateTime dateTime)
+public class ApplicationDbContext(DbContextOptions options, IPublisher publisher, IDateTime dateTime, ICurrentUser user,
+    IProjectAssets projectAssets)
     : DbContext(options)
 {
     /// <summary>
@@ -29,11 +29,14 @@ public class ApplicationDbContext(DbContextOptions options, IPublisher publisher
     /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
+        //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        foreach (var assembly in projectAssets.Assemblies)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(assembly);
+        }
         base.OnModelCreating(modelBuilder);
     }
-    
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.LogTo(Console.WriteLine);
@@ -45,16 +48,18 @@ public class ApplicationDbContext(DbContextOptions options, IPublisher publisher
     /// <param name="utcNow">The current date and time in UTC format.</param>
     private void UpdateAuditableEntities(DateTime utcNow)
     {
-        foreach (EntityEntry<AuditableEntity> entityEntry in ChangeTracker.Entries<AuditableEntity>())
+        foreach (var entityEntry in ChangeTracker.Entries<AuditableEntity>())
         {
             if (entityEntry.State == EntityState.Added)
             {
                 entityEntry.Property(nameof(AuditableEntity.Created)).CurrentValue = utcNow;
+                entityEntry.Property(nameof(AuditableEntity.CreatedBy)).CurrentValue = user.GetUserId();
             }
 
             if (entityEntry.State == EntityState.Modified)
             {
                 entityEntry.Property(nameof(AuditableEntity.LastUpdated)).CurrentValue = utcNow;
+                entityEntry.Property(nameof(AuditableEntity.LastUpdatedBy)).CurrentValue = user.GetUserId();
             }
         }
     }
@@ -74,8 +79,7 @@ public class ApplicationDbContext(DbContextOptions options, IPublisher publisher
 
         entities.ForEach(entityEntry => entityEntry.Entity.ClearDomainEvents());
 
-        IEnumerable<Task> tasks =
-            domainEvents.Select(domainEvent => publisher.Publish(domainEvent, cancellationToken));
+        var tasks = domainEvents.Select(domainEvent => publisher.Publish(domainEvent, cancellationToken));
 
         await Task.WhenAll(tasks);
     }
