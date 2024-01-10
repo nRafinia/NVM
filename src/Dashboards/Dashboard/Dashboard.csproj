@@ -19,6 +19,7 @@
     </ItemGroup>
     
     <ItemGroup>
+      <ProjectReference Include="..\..\Authorizers\Authorizer.Local\Authorizer.Local.csproj" />
       <ProjectReference Include="..\..\Shared\SharedKernel.Persistence\SharedKernel.Persistence.csproj" />
       <ProjectReference Include="..\..\Shared\SharedKernel\SharedKernel.csproj" />
       <ProjectReference Include="..\Dashboard.Application\Dashboard.Application.csproj" />

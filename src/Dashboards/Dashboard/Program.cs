@@ -26,7 +26,8 @@ var assemblies = new List<Assembly>()
     typeof(Dashboard.Infra.ConfigureServices).Assembly,
     typeof(Connectors.Docker.ConfigureServices).Assembly,
     typeof(Vault.ConfigureServices).Assembly,
-    typeof(SharedKernel.Persistence.ConfigureServices).Assembly
+    typeof(SharedKernel.Persistence.ConfigureServices).Assembly,
+    typeof(Authorizer.Local.ConfigureServices).Assembly
 };
 var projectAssets = new ProjectAssetsService(assemblies);
 
