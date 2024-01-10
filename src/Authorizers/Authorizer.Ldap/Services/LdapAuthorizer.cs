@@ -13,7 +13,7 @@ namespace Authorizer.Ldap.Services;
 
 public class LdapAuthorizer(LdapConfiguration configuration, ICredentialService credentialService) : IAuthorizer
 {
-    public async Task<Result<List<UserInfo>?>> GetUsers()
+    public async Task<Result<List<UserInfo>?>> GetUsers(CancellationToken cancellationToken = default)
     {
         var credentialResponse = await credentialService.GetCredentialAsync(configuration.CredentialId);
         if (credentialResponse.IsFailure)
@@ -54,7 +54,8 @@ public class LdapAuthorizer(LdapConfiguration configuration, ICredentialService 
         return result;
     }
 
-    public Task<Result<UserInfo?>> SignIn(string userName, string password)
+    public Task<Result<UserInfo?>> SignIn(string userName, string password,
+        CancellationToken cancellationToken = default)
     {
         var attributesToQuery = new[]
         {
