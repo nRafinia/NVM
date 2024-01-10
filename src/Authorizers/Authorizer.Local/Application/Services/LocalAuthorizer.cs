@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Base.Results;
 using SharedKernel.Errors;
 
-namespace Authorizer.Local.Services;
+namespace Authorizer.Local.Application.Services;
 
 public class LocalAuthorizer(IServiceProvider provider) : IAuthorizer
 {
