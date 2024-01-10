@@ -17,7 +17,7 @@ public class GetUserByUserNameQueryHandler(
     {
         try
         {
-            var user = await repository.GetAsync(u => u.UserName == request.UserName, cancellationToken);
+            var user = await repository.GetByUserNameAsync(request.UserName, cancellationToken);
             return user is null
                 ? Result.Failure<UserInfo>(SharedErrors.ItemNotFound)
                 : user.Adapt<UserInfo>();

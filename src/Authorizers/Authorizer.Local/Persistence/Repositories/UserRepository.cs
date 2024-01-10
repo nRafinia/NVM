@@ -12,4 +12,9 @@ public class UserRepository(ApplicationDbContext context)
     {
         return DbSet.Where(u => u.UserName == userName).FirstOrDefaultAsync(cancellationToken: cancellationToken);
     }
+
+    public Task<bool> IsExistUserNameAsync(string userName, CancellationToken cancellationToken = default)
+    {
+        return DbSet.AnyAsync(u => u.UserName == userName, cancellationToken);
+    }
 }
