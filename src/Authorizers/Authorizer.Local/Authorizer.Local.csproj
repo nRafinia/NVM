@@ -11,4 +11,8 @@
       <ProjectReference Include="..\Authorizer.Common\Authorizer.Common.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Application\" />
+    </ItemGroup>
+
 </Project>
