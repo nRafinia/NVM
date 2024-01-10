@@ -1,4 +1,6 @@
-﻿namespace SharedKernel.Errors;
+﻿using System.Xml;
+
+namespace SharedKernel.Errors;
 
 public static class SharedErrors
 {
@@ -8,7 +10,11 @@ public static class SharedErrors
     public const string InternalErrorCode = "InternalError";
 
     public static readonly Error InvalidArguments = new(InvalidArgumentsCode, "The provided information is not valid");
-    public static readonly Error InvalidCredentialType=new("Invalid.CredentialType", "The provided credential type is not valid");
+
+    public static readonly Error InvalidCredentialType =
+        new("Invalid.CredentialType", "The provided credential type is not valid");
+
+    public static readonly Error InvalidCredential = new("Invalid.Credential", "The provided credential is not valid");
 
     public static Error Duplicate(string message) => new(DuplicateNameCode, message);
     public static readonly Error AuthorizationIsEmpty = new("Authorization.IsEmpty", "Authorization token is empty");
@@ -29,6 +35,6 @@ public static class SharedErrors
 
     public static readonly Error UnknownError = new("Provider.Errors", "An unknown error has occurred");
 
-    public static Error ValidationError(Dictionary<string,string[]> errors) =>
+    public static Error ValidationError(Dictionary<string, string[]> errors) =>
         new Error(InvalidArgumentsCode, "The provided information is not valid", errors);
 }
