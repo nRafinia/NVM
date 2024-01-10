@@ -1,4 +1,4 @@
-namespace Dashboard.Domain.ValueObjects;
+namespace SharedKernel.ValueObjects;
 
 public class IdColumn(string value) : ValueObject
 {

@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SharedKernel.Persistence.Abstractions;
+using SharedKernel.Persistence.Converters;
+using SharedKernel.ValueObjects;
 
 namespace SharedKernel.Persistence;
 
@@ -9,7 +11,8 @@ public class ApplicationDbContext(DbContextOptions options, IProjectAssets proje
     /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        Database.Migrate();
+        
         foreach (var assembly in projectAssets.Assemblies)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(assembly);
@@ -22,4 +25,10 @@ public class ApplicationDbContext(DbContextOptions options, IProjectAssets proje
         optionsBuilder.LogTo(Console.WriteLine);
     }
 
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        configurationBuilder
+            .Properties<IdColumn>()
+            .HaveConversion<IdColumnConverter>();
+    }
 }
