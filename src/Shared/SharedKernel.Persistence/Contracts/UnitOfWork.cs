@@ -4,11 +4,11 @@ using SharedKernel.Persistence.Base;
 
 namespace SharedKernel.Persistence.Contracts;
 
-public abstract class UnitOfWork(
+public class UnitOfWork(
     ApplicationDbContext context,
     IPublisher publisher,
     IDateTime dateTime,
     ICurrentUser user)
-    : BaseUnitOfWork<ApplicationDbContext>(context, publisher, dateTime, user)
+    : BaseUnitOfWork<ApplicationDbContext>(context, publisher, dateTime, user), IUnitOfWork
 {
 }

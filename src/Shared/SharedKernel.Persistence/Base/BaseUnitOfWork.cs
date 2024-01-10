@@ -6,19 +6,8 @@ using SharedKernel.Base;
 namespace SharedKernel.Persistence.Base;
 
 public abstract class BaseUnitOfWork<T>(T context, IPublisher publisher, IDateTime dateTime, ICurrentUser user)
-    : IUnitOfWork
     where T : DbContext
 {
-    public void Dispose()
-    {
-        GC.SuppressFinalize(this);
-    }
-
-    ~BaseUnitOfWork()
-    {
-        Dispose();
-    }
-
     public async Task CommitAsync(CancellationToken cancellationToken)
     {
         var currentDate = dateTime.Now;

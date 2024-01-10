@@ -1,6 +1,6 @@
 namespace SharedKernel.Abstractions;
 
-public interface IUnitOfWork : IDisposable
+public interface IUnitOfWork
 {
     Task CommitAsync(CancellationToken cancellationToken);
 }
