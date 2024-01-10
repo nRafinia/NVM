@@ -13,7 +13,7 @@ public class ConfigureServices : IConfigureService
     {
         services.AddDbContext<ApplicationDbContext>(options =>
         {
-            options.UseSqlite(configuration.GetConnectionString("connection"));
+            options.UseSqlite(configuration.GetConnectionString("application"));
         });
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
