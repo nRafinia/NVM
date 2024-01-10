@@ -24,6 +24,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(u => u.DisplayName)
             .IsRequired();
+        
+        builder.Property(u => u.Status)
+            .IsRequired();
 
         builder.Property(u => u.Created);
     }

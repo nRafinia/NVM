@@ -1,5 +1,7 @@
 using Authorizer.Common.Abstractions;
 using Authorizer.Common.Models;
+using Authorizer.Local.Domain.Enums;
+using Authorizer.Local.Domain.Errors;
 using Authorizer.Local.Persistence.Repositories;
 using Mapster;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,7 +23,6 @@ public class LocalAuthorizer(IServiceProvider provider) : IAuthorizer
 
     public async Task<Result<UserInfo?>> SignIn(string userName, string password,
         CancellationToken cancellationToken = default)
-
     {
         var user = await _repository.GetByUserNameAsync(userName, cancellationToken);
         if (user is null)
@@ -29,8 +30,13 @@ public class LocalAuthorizer(IServiceProvider provider) : IAuthorizer
             return Result.Failure<UserInfo>(SharedErrors.ItemNotFound);
         }
 
+        if (user.Status == UserStatus.Inactive)
+        {
+            return Result.Failure<UserInfo>(UserError.UserIsInactive);
+        }
+        
         return user.CheckPassword(password)
             ? user.Adapt<UserInfo>()
-            : Result.Failure<UserInfo>(SharedErrors.InvalidCredential);
+            : Result.Failure<UserInfo>(UserError.PasswordIsInvalid);
     }
 }

@@ -1,4 +1,5 @@
 using Ardalis.GuardClauses;
+using Authorizer.Local.Domain.Enums;
 using Authorizer.Local.Domain.Extensions;
 using Authorizer.Local.Domain.Helpers;
 using Dashboard.Domain.ValueObjects;
@@ -15,6 +16,7 @@ public class User(string userName, string password, string displayName) : Audita
 
     public string DisplayName { get; private set; } = Guard.Against.NullOrEmpty(displayName, nameof(displayName));
 
+    public UserStatus Status { get; private set; }
     
     #region Public methods
 
@@ -47,5 +49,15 @@ public class User(string userName, string password, string displayName) : Audita
         DisplayName = Guard.Against.NullOrEmpty(displayName, nameof(displayName));
     }
 
+    public void Disable()
+    {
+        Status = UserStatus.Inactive;
+    }
+    
+    public void Enable()
+    {
+        Status = UserStatus.Active;
+    }
+    
     #endregion
 }
