@@ -1,6 +1,8 @@
 using System.Reflection;
 using Dashboard.Domain.Licenses;
+using Dashboard.Services;
 using FluentValidation;
+using SharedKernel.Persistence.Abstractions;
 using SharedKernel.Shared;
 
 var licenseResponse = await LicenseManager.Load();
@@ -26,6 +28,9 @@ var assemblies = new List<Assembly>()
     typeof(Vault.ConfigureServices).Assembly,
     typeof(SharedKernel.Persistence.ConfigureServices).Assembly
 };
+var projectAssets = new ProjectAssetsService(assemblies);
+
+builder.Services.AddSingleton<IProjectAssets>(projectAssets);
 builder.Services.AddValidatorsFromAssemblies(assemblies);
 builder.Services.RegisterServices(builder.Configuration, assemblies.ToArray());
 
