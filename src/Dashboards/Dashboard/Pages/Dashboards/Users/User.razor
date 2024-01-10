@@ -18,31 +18,47 @@
 
 <SectionContent SectionName="ToolbarSection">
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-        <li class="nav-item dropdown">
-            <a
-                class="nav-link dropdown-toggle"
-                href="javascript:void(0)"
-                id="navbarDropdown"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false">
-                <img src="img/icons/credential-24.png" alt="credential"/>
-                Add
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li>
-                    <a class="dropdown-item" href="javascript:void(0);" >
-                        None
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item" href="javascript:void(0)" >
-                        Basic
-                    </a>
-                </li>
-            </ul>
+        <li>
+            <div class="btn-group">
+                <button
+                    type="button"
+                    class="btn btn-primary dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Provider: @_authorizerType
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item" href="javascript:void(0);">@AuthorizerType.Local</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="javascript:void(0);">@AuthorizerType.LDAP</a>
+                    </li>
+                </ul>
+            </div>
         </li>
+        @if (_authorizerType == AuthorizerType.LDAP)
+        {
+            <li class="nav-item dropdown">
+                <a
+                    class="nav-link dropdown-toggle"
+                    href="javascript:void(0)"
+                    id="navbarDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <img src="img/icons/user-24.png" alt="credential"/>
+                    Add
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li>
+                        <a class="dropdown-item" href="javascript:void(0);">
+                            User
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        }
         <li class="nav-item">
             <a class="nav-link" href="javascript:void(0)" @onclick="LoadData">
                 <img src="img/icons/refresh-24.png" alt="Refresh"/>
@@ -73,6 +89,12 @@
         </form>
     </div>
     <!-- /Search -->
+    <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0)" @onclick="LoadData">
+                    <img src="img/icons/settings-24.png" alt="Settings"/>
+                    Settings
+                </a>
+            </li>
 </SectionContent>
 
 <table class="table table-striped">

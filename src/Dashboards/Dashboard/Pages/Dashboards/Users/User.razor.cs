@@ -19,7 +19,7 @@ public partial class User : DashboardPage
         _allUsers = _authorizerType switch
         {
             AuthorizerType.Local => await LoadLocalUsers(),
-            AuthorizerType.Ldap => await LoadLdapUsers(),
+            AuthorizerType.LDAP => await LoadLdapUsers(),
             _ => throw new ArgumentOutOfRangeException()
         };
 
