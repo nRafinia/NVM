@@ -12,7 +12,7 @@ public class ConfigureServices : IConfigureService
 {
     public void AddServices(IServiceCollection services, IConfiguration configuration)
     {
-        services.AddSingleton<IUserRepository, UserRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
         ConfigMapping();
     }
 
