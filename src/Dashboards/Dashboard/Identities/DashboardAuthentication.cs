@@ -55,7 +55,7 @@ public class DashboardAuthentication(
     }
 
     #region private methods
-    
+
     private Task<AuthenticationState> GenerateAuthenticationState(User user)
     {
         var claimsIdentity = new ClaimsIdentity(new Claim[]
@@ -71,7 +71,8 @@ public class DashboardAuthentication(
 
     private async Task<(User?, bool)> AuthenticateUser(string userName, string password)
     {
-        var userResult = await userLogic.AuthenticateAsync(new LoginRequest(userName, password));
+        var userResult =
+            await userLogic.AuthenticateAsync(new LoginRequest(userName, password, AuthorizationType.Local));
 
         return (userResult, userResult is not null);
     }
@@ -119,7 +120,7 @@ public class DashboardAuthentication(
             return null;
         }
     }
-    
+
     private ValueTask SetUserSession(User user)
     {
         RefreshUserSession(user);
@@ -131,6 +132,6 @@ public class DashboardAuthentication(
 
     private Task<AuthenticationState> GenerateEmptyAuthenticationState() =>
         Task.FromResult(new AuthenticationState(new ClaimsPrincipal()));
-    
+
     #endregion
 }
