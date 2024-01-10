@@ -11,6 +11,7 @@
       <Content Include="..\..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+      <Content Remove="Pages\Dashboards\Credentials\User.razor" />
     </ItemGroup>
 
     <ItemGroup>

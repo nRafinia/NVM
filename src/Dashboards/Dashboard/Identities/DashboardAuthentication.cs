@@ -72,7 +72,7 @@ public class DashboardAuthentication(
     private async Task<(User?, bool)> AuthenticateUser(string userName, string password)
     {
         var userResult =
-            await userLogic.AuthenticateAsync(new LoginRequest(userName, password, AuthorizationType.Local));
+            await userLogic.AuthenticateAsync(new LoginRequest(userName, password, AuthorizerType.Local));
 
         return (userResult, userResult is not null);
     }

@@ -1,6 +1,6 @@
 namespace Dashboard.Application.Users.Models;
 
-public enum AuthorizationType
+public enum AuthorizerType
 {
     Local,
     Ldap
