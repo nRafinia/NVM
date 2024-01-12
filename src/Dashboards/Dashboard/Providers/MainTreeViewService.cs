@@ -9,7 +9,9 @@ public class MainTreeViewService : IMainTreeViewService
 
     private const string Dashboard = "Dashboard";
     private const string Credential = "Credential";
+    private const string Authentication = "Authentication";
     private const string User = "Users";
+    private const string Ldap = "LDAP";
 
     public MainTreeViewService()
     {
@@ -42,9 +44,17 @@ public class MainTreeViewService : IMainTreeViewService
             new MainTreeModel(DashboardIds.Credential));
         _treeViewItems.Add(credentialDashboard);
         
+        var authentications = new TreeItemData<MainTreeModel>(
+            Authentication,
+            new MainTreeModel(DashboardIds.Authentication));
+        _treeViewItems.Add(authentications);        
         var userDashboard = new TreeItemData<MainTreeModel>(
             User,
             new MainTreeModel(DashboardIds.User));
-        _treeViewItems.Add(userDashboard);
+        authentications.AddChild(userDashboard);
+        var ldapDashboard = new TreeItemData<MainTreeModel>(
+            Ldap,
+            new MainTreeModel(DashboardIds.LDAP));
+        authentications.AddChild(ldapDashboard);
     }
 }
