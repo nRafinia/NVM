@@ -1,13 +1,10 @@
 using Authorizer.Common.Models;
-using Authorizer.Ldap.Services;
 using Authorizer.Local.Application.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
-using Dashboard.Application.Credentials.Queries.GetAllCredentials;
-using Dashboard.Application.Credentials.Queries.GetCredentialByName;
 using Dashboard.Application.Users.Models;
 using Dashboard.Const;
 
-namespace Dashboard.Pages.Dashboards.Users;
+namespace Dashboard.Pages.Dashboards.Authentications;
 
 public partial class User : DashboardPage
 {
