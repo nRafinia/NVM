@@ -4,7 +4,7 @@ using SharedKernel.ValueObjects;
 
 namespace Authorizer.Ldap.Models;
 
-public class LdapConfiguration(string hostname, IdColumn credetialId, string baseDn) : IConfiguration
+public class LdapConfiguration(string hostname, IdColumn credentialId, string baseDn) : IConfiguration
 {
     /// <summary>
     /// Represents the port used for a network connection.
@@ -30,7 +30,7 @@ public class LdapConfiguration(string hostname, IdColumn credetialId, string bas
     /// For other systems, provide the domain\username.
     /// Example: user@domain.name or cn=user,dc=domain,dc=name
     /// </summary>
-    public IdColumn CredentialId { get; set; } = credetialId;
+    public IdColumn CredentialId { get; set; } = credentialId;
     
     /// <summary>
     /// Root node in LDAP from which to search for users and groups
