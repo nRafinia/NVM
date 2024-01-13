@@ -1,0 +1,183 @@
+@using MediatR
+@using Dashboard.Application.Credentials.Queries.GetAllCredentials
+@using Dashboard.Domain.Entities
+@using Dashboard.Application.Credentials.Commands.DeleteCredentials
+@using Dashboard.Application.Credentials.Commands.CommitCredentialsChanges
+@using Dashboard.Application.Credentials.Queries.GetCredentialByName
+@using SharedKernel.Entities
+@using SharedKernel.Enums
+@using Authorizer.Common.Models
+@using Dashboard.Application.Users.Models
+@using Dashboard.Domain.Entities.LDAPs
+@using SharedKernel.Base
+@using SharedKernel.ValueObjects
+
+@inherits DashboardPage
+@{ base.BuildRenderTree(__builder); }
+
+@inject IMediator Mediator
+@inject SweetAlertService Swal;
+
+<SectionContent SectionName="ToolbarSection">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+        <li class="nav-item dropdown">
+            <a
+                class="nav-link dropdown-toggle"
+                href="javascript:void(0)"
+                id="navbarDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <img src="img/icons/ldap-24.png" alt="credential"/>
+                Add
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li>
+                    <a class="dropdown-item" href="javascript:void(0);" @onclick="()=>_addLdap?.Show()">
+                        LDAP Server
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)" @onclick="LoadData">
+                <img src="img/icons/refresh-24.png" alt="Refresh"/>
+                Refresh
+            </a>
+        </li>
+    </ul>
+    <!-- Search -->
+    <div class="navbar-nav align-items-center">
+        <form autocomplete="off">
+            <input type="hidden" name="hidden" autocomplete="off" style="display:none;">
+
+            <div class="nav-item d-flex align-items-center">
+                <i class="bx bx-search fs-4 lh-0"></i>
+                <input
+                    type="text"
+                    class="form-control border-0 shadow-none"
+                    placeholder="Search..."
+                    aria-label="Search..."
+                    autocomplete="off"
+                    role="presentation"
+                    name="search"
+                    aria-autocomplete="none"
+                    @bind-value="SearchText"
+                    @bind-value:event="onchange"
+                    @oninput="OnChange"/>
+            </div>
+        </form>
+    </div>
+    <!-- /Search -->
+</SectionContent>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Host</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var ldap in _ldaps)
+    {
+        <tr @key="ldap">
+            <td>
+                <strong>@ldap.Name</strong>
+            </td>
+            <td>
+                @ldap.HostName
+            </td>
+            <td>
+                <div class="dropdown">
+                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                        <i class="bx bx-dots-vertical-rounded"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="javascript:void(0);" @onclick="() => Update(ldap)">
+                            <i class="bx bx-edit-alt me-1"></i> Edit
+                        </a>
+                        <a class="dropdown-item" href="javascript:void(0);" @onclick="() => Delete(ldap.Id)">
+                            <i class="bx bx-trash me-1"></i> Delete
+                        </a>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<AddLDAP @ref="_addLdap" OnAdd="@LoadData"></AddLDAP>
+
+@code {
+    private AddLDAP? _addLdap;
+    
+    private List<LDAP> _ldaps = new(0);
+
+    private string? SearchText { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await LoadData();
+    }
+
+    private Task OnChange(ChangeEventArgs args)
+    {
+        SearchText = args.Value is null ? string.Empty : (string)args.Value;
+        return LoadData();
+    }
+
+    private async Task Delete(IdColumn id)
+    {
+        var ldap = _ldaps.FirstOrDefault(x => x.Id == id);
+        if (ldap is null)
+        {
+            return;
+        }
+
+        var deleteConfirmation = await Swal.FireAsync(new SweetAlertOptions("Delete")
+        {
+            Text = $"Are you sure for delete '{ldap.Name}' LDAP?",
+            Icon = SweetAlertIcon.Warning,
+            ShowCancelButton = true,
+            ConfirmButtonText = "Yes, delete it!",
+            CancelButtonText = "No, keep it"
+        });
+
+        if (deleteConfirmation.IsDismissed)
+        {
+            return;
+        }
+
+        var deleteResponse = await Mediator.Send(new DeleteCredentialCommand(id));
+        if (deleteResponse.IsFailure)
+        {
+            await Swal.FireAsync("Error", deleteResponse.Error!.Message, SweetAlertIcon.Error);
+            return;
+        }
+
+        await Mediator.Send(new CommitCredentialChanges());
+
+        await LoadData();
+    }
+
+    private void Update(LDAP ldap)
+    {
+        /*switch (user.CredentialType)
+        {
+            case CredentialType.None:
+                _updateNoneCredentialDialog?.Show(user);
+                break;
+            case CredentialType.Basic:
+                _updateBasicCredentialDialog?.Show(user);
+                break;
+        }*/
+    }
+
+
+}

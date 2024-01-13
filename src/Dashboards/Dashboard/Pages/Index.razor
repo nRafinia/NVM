@@ -21,9 +21,14 @@
 {
     <Credential></Credential>
 }
+
 @if (currentId == DashboardIds.User)
 {
     <User></User>
+}
+@if (currentId == DashboardIds.LDAP)
+{
+    <Ldap></Ldap>
 }
 
 @code {
