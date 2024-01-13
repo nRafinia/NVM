@@ -8,7 +8,7 @@ public class UpdateUserCommandValidator:RequestValidator<UpdateUserCommand>
 {
     public UpdateUserCommandValidator()
     {
-        RuleFor(u => u.Id).NotEmpty().NotEqual(IdColumn.New);
+        RuleFor(u => u.Id).NotEmpty().NotEqual(IdColumn.None);
         RuleFor(u => u.DisplayName).NotEmpty();
     }
 }
