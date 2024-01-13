@@ -54,7 +54,8 @@ public class MainTreeViewService : IMainTreeViewService
         authentications.AddChild(userDashboard);
         var ldapDashboard = new TreeItemData<MainTreeModel>(
             Ldap,
-            new MainTreeModel(DashboardIds.LDAP));
+            new MainTreeModel(DashboardIds.LDAP),
+            icon: "/img/icons/ldap-16.png");
         authentications.AddChild(ldapDashboard);
     }
 }
