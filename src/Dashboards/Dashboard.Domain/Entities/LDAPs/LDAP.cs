@@ -4,6 +4,7 @@ using SharedKernel.ValueObjects;
 
 namespace Dashboard.Domain.Entities.LDAPs;
 
+// ReSharper disable once InconsistentNaming
 public class LDAP(
     string name,
     int port,
