@@ -18,7 +18,7 @@ public class GetUsersByLdapQueryHandler(
         catch (Exception e)
         {
             // ReSharper disable once LogMessageIsSentenceProblem
-            logger.LogError(e, "Error in get user by id.");
+            logger.LogError(e, "Error in get user by LDAP id.");
             return e.ToResult<List<User>>();
         }
     }
