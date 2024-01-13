@@ -1,13 +1,14 @@
 namespace SharedKernel.ValueObjects;
 
-public class IdColumn(string value) : ValueObject
+public class IdColumn(Guid value) : ValueObject
 {
-    public string Value { get; } = Guard.Against.NullOrEmpty(value);
+    public Guid Value { get; } = value;
 
-    public static IdColumn New => new(Guid.NewGuid().ToString());
-    public static IdColumn None => new(Guid.Empty.ToString());
+    public static IdColumn New => new(Guid.NewGuid());
+    public static IdColumn None => new(Guid.Empty);
 
-    public static implicit operator IdColumn(string value) => new IdColumn(value);
+    public static implicit operator IdColumn(Guid value) => new (value);    
+    public static implicit operator IdColumn(string value) => Guid.Parse(value);
 
     protected override IEnumerable<object> GetAtomicValues()
     {
@@ -16,6 +17,6 @@ public class IdColumn(string value) : ValueObject
 
     public override string ToString()
     {
-        return value;
+        return Value.ToString();
     }
 }

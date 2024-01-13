@@ -4,11 +4,11 @@ namespace SharedKernel.Extensions;
 
 public static class IdColumnGuardExt
 {
-    public static IdColumn IdColumn(this IGuardClause guardClause, string input, string parameterName)
+    public static IdColumn IdColumn(this IGuardClause guardClause, Guid input, string parameterName)
     {
-        guardClause.NullOrWhiteSpace(input, parameterName);
+        guardClause.Default(input, parameterName);
 
-        if (input == ValueObjects.IdColumn.None.ToString())
+        if (input == ValueObjects.IdColumn.None.Value)
         {
             throw new ArgumentException("IdColumn must not be None.");
         }
@@ -18,7 +18,7 @@ public static class IdColumnGuardExt
     
     public static IdColumn IdColumn(this IGuardClause guardClause, IdColumn input, string parameterName)
     {
-        guardClause.NullOrWhiteSpace(input.Value, parameterName);
+        guardClause.Default(input.Value, parameterName);
 
         if (input == ValueObjects.IdColumn.None)
         {
