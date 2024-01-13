@@ -1,4 +1,5 @@
 using Dashboard.Application.Users.Models;
+using Dashboard.Domain.Entities.Users;
 
 namespace Dashboard.Application.Users;
 

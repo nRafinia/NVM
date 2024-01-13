@@ -1,4 +1,5 @@
 using Dashboard.Application.Users.Models;
+using Dashboard.Domain.Entities.Users;
 
 namespace Dashboard.Application.Users;
 
@@ -18,11 +19,11 @@ public class UserService : IUserService
         }
 
         return user;*/
-        return new User("1", "test", "test", "1");
+        return User.Local("admin", "Aa1234", "test");
     }
 
     public async Task<User?> GetProfileAsync(GetProfileRequest model)
     {
-        return new User("1", "test", "test", "1");
+        return User.Local("admin", "Aa1234", "test");
     }
 }
