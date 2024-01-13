@@ -34,4 +34,11 @@ public class UserRepository(ApplicationDbContext context)
             .Where(u => u.AuthorizerType == AuthorizerType.Local)
             .ToListAsync(cancellationToken);
     }
+
+    public Task<List<User>> GetUsersByNameAsync(string name, CancellationToken cancellationToken = default)
+    {
+        return DbSet
+            .Where(u => u.UserName.Contains(name) || u.DisplayName.Contains(name))
+            .ToListAsync(cancellationToken);
+    }
 }

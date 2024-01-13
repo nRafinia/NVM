@@ -11,6 +11,10 @@ public class UserConfiguration: IEntityTypeConfiguration<User>
         builder.ToTable("Users");
         builder.HasKey(u => u.Id);
 
+        builder.HasIndex(u => u.AuthorizerType);
+        builder.HasIndex(u => u.DisplayName);
+        builder.HasIndex(u => u.UserName);
+
         builder.Property(l => l.UserName)
             .IsRequired();
         builder.Property(l => l.Password)
@@ -28,10 +32,5 @@ public class UserConfiguration: IEntityTypeConfiguration<User>
         builder.Property(u => u.CreatedBy);
         builder.Property(u => u.LastUpdated);
         builder.Property(u => u.LastUpdatedBy);
-        
-        /*builder.HasOne(u => u.Ldap)
-            .WithMany(u => u.Users)
-            .OnDelete(DeleteBehavior.NoAction)
-            .IsRequired(false);*/
     }
 }

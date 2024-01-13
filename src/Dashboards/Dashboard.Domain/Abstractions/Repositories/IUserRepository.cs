@@ -10,4 +10,5 @@ public interface IUserRepository : IBaseRepository<User>
     Task<bool> IsExistUserNameAsync(string userName, CancellationToken cancellationToken = default);
     Task<List<User>> GetUsersByLdapAsync(IdColumn ldapId, CancellationToken cancellationToken = default);
     Task<List<User>> GetLocalUsersAsync(CancellationToken cancellationToken = default);
+    Task<List<User>> GetUsersByNameAsync(string name, CancellationToken cancellationToken = default);
 }
