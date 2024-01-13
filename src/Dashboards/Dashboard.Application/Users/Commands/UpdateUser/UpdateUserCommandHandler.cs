@@ -27,7 +27,7 @@ public class UpdateUserCommandHandler(
             await repository.UpdateAsync(user, cancellationToken);
             await unitOfWork.CommitAsync(cancellationToken);
             
-            return user.Adapt<User>();
+            return user;
         }
         catch (Exception e)
         {

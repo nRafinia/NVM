@@ -1,8 +1,10 @@
 using Dashboard.Domain.Abstractions.Repositories;
 using Dashboard.Domain.Entities.Users;
+using Dashboard.Domain.Entities.Users.Enums;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel.Persistence;
 using SharedKernel.Persistence.Base;
+using SharedKernel.ValueObjects;
 
 namespace Dashboard.Persistence.Repositories;
 
@@ -17,5 +19,19 @@ public class UserRepository(ApplicationDbContext context)
     public Task<bool> IsExistUserNameAsync(string userName, CancellationToken cancellationToken = default)
     {
         return DbSet.AnyAsync(u => u.UserName == userName, cancellationToken);
+    }
+
+    public Task<List<User>> GetUsersByLdapAsync(IdColumn ldapId, CancellationToken cancellationToken = default)
+    {
+        return DbSet
+            .Where(u => u.AuthorizerType == AuthorizerType.LDAP && u.Ldap!.Id == ldapId)
+            .ToListAsync(cancellationToken);
+    }
+
+    public Task<List<User>> GetLocalUsersAsync(CancellationToken cancellationToken = default)
+    {
+        return DbSet
+            .Where(u => u.AuthorizerType == AuthorizerType.Local)
+            .ToListAsync(cancellationToken);
     }
 }

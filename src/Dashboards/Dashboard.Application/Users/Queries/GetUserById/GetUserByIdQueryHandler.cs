@@ -15,9 +15,7 @@ public class GetUserByIdQueryHandler(
         try
         {
             var user = await repository.GetAsync(request.Id, cancellationToken);
-            return user is null
-                ? Result.Failure<User>(SharedErrors.ItemNotFound)
-                : user.Adapt<User>();
+            return user ?? Result.Failure<User>(SharedErrors.ItemNotFound);
         }
         catch (Exception e)
         {
