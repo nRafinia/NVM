@@ -86,6 +86,9 @@ public class LDAP(
 
     public LdapAttribute Attributes { get; set; } = new();
 
+    private List<Users.User>? _users;
+    public IReadOnlyCollection<Users.User>? Users => _users?.AsReadOnly();
+
     public void Update(string name, int port, bool useSecure, string hostName, IdColumn credentialId, string baseDn,
         string filterQuery, SearchScope scope, AuthType authenticationType, int protocolVersion)
     {

@@ -44,5 +44,18 @@ public class LdapConfiguration : IEntityTypeConfiguration<LDAP>
         builder.ComplexProperty(l => l.Attributes)
             .IsRequired();
 
+        builder
+            .HasMany(u => u.Users)
+            .WithOne(u => u.Ldap)
+            //.WithOne()
+            .OnDelete(DeleteBehavior.NoAction)
+            .IsRequired(false);
+            //.HasForeignKey(u => u.LdapId);
+        
+        builder.Navigation(u => u.Users)
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasField("_users");
+        /*builder.Metadata.FindNavigation("Users")?
+            .SetPropertyAccessMode(PropertyAccessMode.Field);*/
     }
 }
