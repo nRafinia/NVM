@@ -67,6 +67,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authorizer.Local", "Authori
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.Persistence", "Shared\SharedKernel.Persistence\SharedKernel.Persistence.csproj", "{6039960E-7B35-494E-9DFE-69444BC5559A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dashboard.Persistence", "Dashboards\Dashboard.Persistence\Dashboard.Persistence.csproj", "{A65F1BC9-6C30-4F49-92EA-D11D8DB25D61}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -161,6 +163,10 @@ Global
 		{6039960E-7B35-494E-9DFE-69444BC5559A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6039960E-7B35-494E-9DFE-69444BC5559A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6039960E-7B35-494E-9DFE-69444BC5559A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A65F1BC9-6C30-4F49-92EA-D11D8DB25D61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A65F1BC9-6C30-4F49-92EA-D11D8DB25D61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A65F1BC9-6C30-4F49-92EA-D11D8DB25D61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A65F1BC9-6C30-4F49-92EA-D11D8DB25D61}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EE9EEAD3-3633-4B34-A558-FCAC750B5D5B} = {917984C1-1DA1-43E6-849B-0E89781EA525}
@@ -185,5 +191,6 @@ Global
 		{21889F86-FAC2-482F-83A4-EFF88D89D5B7} = {C2A23CDD-FD1C-4D32-8B0C-ED6B0DFE5473}
 		{2E384344-CFA8-4D46-BEC2-FCE4D8CC5009} = {C2A23CDD-FD1C-4D32-8B0C-ED6B0DFE5473}
 		{6039960E-7B35-494E-9DFE-69444BC5559A} = {C7C51C2E-31B1-4147-A020-276C7AE73065}
+		{A65F1BC9-6C30-4F49-92EA-D11D8DB25D61} = {975F8E19-2A61-4360-836F-A8317DD60DA9}
 	EndGlobalSection
 EndGlobal
