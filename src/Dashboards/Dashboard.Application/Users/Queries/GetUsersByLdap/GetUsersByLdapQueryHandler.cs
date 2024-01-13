@@ -1,17 +1,15 @@
-using System.Reflection.Metadata.Ecma335;
 using Dashboard.Domain.Entities.Users;
-using Mapster;
 using SharedKernel.Base.Queries;
 using SharedKernel.Base.Results;
 using SharedKernel.Extensions;
 
-namespace Dashboard.Application.Users.Queries.GetUserByLdap;
+namespace Dashboard.Application.Users.Queries.GetUsersByLdap;
 
-public class GetUserByLdapQueryHandler(
+public class GetUsersByLdapQueryHandler(
     IUserRepository repository,
-    ILogger<GetUserByLdapQueryHandler> logger) : IQueryHandler<GetUserByLdapQuery, List<User>>
+    ILogger<GetUsersByLdapQueryHandler> logger) : IQueryHandler<GetUsersByLdapQuery, List<User>>
 {
-    public async Task<Result<List<User>?>> Handle(GetUserByLdapQuery request, CancellationToken cancellationToken)
+    public async Task<Result<List<User>?>> Handle(GetUsersByLdapQuery request, CancellationToken cancellationToken)
     {
         try
         {
