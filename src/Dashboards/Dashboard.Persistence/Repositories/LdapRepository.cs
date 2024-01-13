@@ -13,4 +13,11 @@ public class LdapRepository(ApplicationDbContext context)
     {
         return DbSet.AnyAsync(l => l.Name == name, cancellationToken);
     }
+
+    public async Task<IReadOnlyList<LDAP>> GetByNameAsync(string name, CancellationToken cancellationToken)
+    {
+        return await DbSet
+            .Where(l => l.Name.Contains(name))
+            .ToListAsync(cancellationToken);
+    }
 }
