@@ -1,5 +1,4 @@
 using Authorizer.Common.Models;
-using Authorizer.Local.Application.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Dashboard.Application.LDAPs.Queries.GetAllLDAPs;
 using Dashboard.Application.LDAPs.Queries.GetLDAPByName;

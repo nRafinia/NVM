@@ -35,10 +35,20 @@ public class UserRepository(ApplicationDbContext context)
             .ToListAsync(cancellationToken);
     }
 
-    public Task<List<User>> GetUsersByNameAsync(string name, CancellationToken cancellationToken = default)
+    public Task<List<User>> GetLocalUsersByNameAsync(string name, CancellationToken cancellationToken = default)
     {
         return DbSet
-            .Where(u => u.UserName.Contains(name) || u.DisplayName.Contains(name))
+            .Where(u => u.AuthorizerType == AuthorizerType.Local &&
+                        (u.UserName.Contains(name) || u.DisplayName.Contains(name)))
+            .ToListAsync(cancellationToken);
+    }
+
+    public Task<List<User>> GetLdapUsersByNameAsync(IdColumn ldapId, string name,
+        CancellationToken cancellationToken = default)
+    {
+        return DbSet
+            .Where(u => u.AuthorizerType == AuthorizerType.LDAP &&
+                        (u.Ldap!.Id == ldapId && (u.UserName.Contains(name) || u.DisplayName.Contains(name))))
             .ToListAsync(cancellationToken);
     }
 }

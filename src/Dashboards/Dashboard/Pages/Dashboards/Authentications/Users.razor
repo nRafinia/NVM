@@ -7,7 +7,11 @@
 @using SharedKernel.Entities
 @using SharedKernel.Enums
 @using Authorizer.Common.Models
+@using Dashboard.Application.LDAPs.Queries.GetAllLDAPs
 @using Dashboard.Application.Users.Models
+@using Dashboard.Domain.Entities.LDAPs
+@using Dashboard.Domain.Entities.Users
+@using SharedKernel.ValueObjects
 
 @inherits DashboardPage
 @{ base.BuildRenderTree(__builder); }
@@ -25,19 +29,29 @@
                     class="btn btn-primary dropdown-toggle"
                     data-bs-toggle="dropdown"
                     aria-expanded="false">
-                    Provider: @_authorizerType
+                    Provider: @_provider
                 </button>
+
                 <ul class="dropdown-menu">
                     <li>
-                        <a class="dropdown-item" href="javascript:void(0);">@AuthorizerType.Local</a>
+                        <a class="dropdown-item" href="javascript:void(0);" @onclick="SelectLocal">Local</a>
                     </li>
-                    <li>
-                        <a class="dropdown-item" href="javascript:void(0);">@AuthorizerType.LDAP</a>
-                    </li>
+                    @if (_ldaps.Any())
+                    {
+                        <li>
+                            <hr class="dropdown-divider"/>
+                        </li>
+                        @foreach (var ldap in _ldaps)
+                        {
+                            <li @key="ldap">
+                                <a class="dropdown-item" href="javascript:void(0);" @onclick="() => SelectLdap(ldap)">@ldap.Name</a>
+                            </li>
+                        }
+                    }
                 </ul>
             </div>
         </li>
-        @if (_authorizerType == AuthorizerType.LDAP)
+        @if (_authorizerType == AuthorizerType.Local)
         {
             <li class="nav-item dropdown">
                 <a
@@ -107,7 +121,7 @@
                 <strong>@user.UserName</strong>
             </td>
             <td>
-                @user.Name
+                @user.DisplayName
             </td>
             <td>
                 <div class="dropdown">
@@ -130,42 +144,38 @@
 </table>
 
 @code {
-    private List<UserInfo> _users = new(0);
-    private List<UserInfo> _allUsers = new(0);
-
+    private List<User> _users = new(0);
     private AuthorizerType _authorizerType = AuthorizerType.Local;
+    private List<LDAP> _ldaps = new(0);
+    private IdColumn? _ldapId;
+    private string _provider = "Local";
+
     private string? SearchText { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
         await LoadData();
+        await GetLdaps();
     }
 
-    private async Task OnChange(ChangeEventArgs args)
+    private Task OnChange(ChangeEventArgs args)
     {
         SearchText = args.Value is null ? string.Empty : (string)args.Value;
-        if (string.IsNullOrWhiteSpace(SearchText))
-        {
-            await LoadData();
-        }
-        else
-        {
-            FilterSearchText();
-        }
+        return LoadData();
     }
 
-    private async Task Delete(string id)
+    private async Task Delete(IdColumn id)
     {
-        var credential = _users.FirstOrDefault(x => x.Id == id);
-        if (credential is null)
+        var user = _users.FirstOrDefault(x => x.Id == id);
+        if (user is null)
         {
             return;
         }
 
         var deleteConfirmation = await Swal.FireAsync(new SweetAlertOptions("Delete")
         {
-            Text = $"Are you sure for delete '{credential.Name}' user?",
+            Text = $"Are you sure for delete '{user.DisplayName}' user?",
             Icon = SweetAlertIcon.Warning,
             ShowCancelButton = true,
             ConfirmButtonText = "Yes, delete it!",
@@ -189,7 +199,7 @@
         await LoadData();
     }
 
-    private void Update(UserInfo user)
+    private void Update(User user)
     {
         /*switch (user.CredentialType)
         {
@@ -202,5 +212,19 @@
         }*/
     }
 
+    private Task SelectLocal()
+    {
+        _authorizerType = AuthorizerType.Local;
+        _provider = "Local";
+        return LoadData();
+    }
+
+    private Task SelectLdap(LDAP ldap)
+    {
+        _authorizerType = AuthorizerType.LDAP;
+        _ldapId = ldap.Id;
+        _provider = ldap.Name;
+        return LoadData();
+    }
 
 }
