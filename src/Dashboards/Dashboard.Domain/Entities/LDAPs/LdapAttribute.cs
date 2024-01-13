@@ -1,12 +1,11 @@
 using SharedKernel.Base;
-using SharedKernel.ValueObjects;
 
 namespace Dashboard.Domain.Entities.LDAPs;
 
 public class LdapAttribute(
     string uniqueId = "objectGUID",
     string userName = "sAMAccountName",
-    string displayName = "displayName") : Entity(IdColumn.New)
+    string displayName = "displayName") : ValueObject
 {
     /// <summary>
     /// The attribute field to use for tracking user identity across user renames
@@ -14,7 +13,7 @@ public class LdapAttribute(
     /// <example>
     /// objectGUID
     /// </example>
-    public string UniqueId { get; private set; } = uniqueId;
+    public string UniqueId { get; private set; } = Guard.Against.NullOrEmpty(uniqueId, nameof(uniqueId));
 
     /// <summary>
     /// The attribute field to use on the user object.
@@ -22,7 +21,7 @@ public class LdapAttribute(
     /// <example>
     /// sAMAccountName
     /// </example>
-    public string UserName { get; private set; } = userName;
+    public string UserName { get; private set; } = Guard.Against.NullOrEmpty(userName, nameof(userName));
 
     /// <summary>
     /// The attribute field to use when loading the user full name.
@@ -30,15 +29,12 @@ public class LdapAttribute(
     /// <example>
     /// displayName
     /// </example>
-    public string DisplayName { get; private set; } = displayName;
+    public string DisplayName { get; private set; } = Guard.Against.NullOrEmpty(displayName, nameof(displayName));
 
-    public LDAP Ldap { get; set; }
-    public IdColumn LdapId { get; set; }
-
-    public void Update(string uniqueId, string userName, string displayName)
+    protected override IEnumerable<object> GetAtomicValues()
     {
-        UniqueId = Guard.Against.NullOrEmpty(uniqueId, nameof(uniqueId));
-        UserName = Guard.Against.NullOrEmpty(userName, nameof(userName));
-        DisplayName = Guard.Against.NullOrEmpty(displayName, nameof(displayName));
+        yield return UniqueId;
+        yield return UserName;
+        yield return DisplayName;
     }
 }

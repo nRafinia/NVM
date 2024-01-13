@@ -32,6 +32,7 @@
       <ProjectReference Include="..\Dashboard.Components\Dashboard.Components.csproj" />
       <ProjectReference Include="..\Dashboard.Domain\Dashboard.Domain.csproj" />
       <ProjectReference Include="..\Dashboard.Infra\Dashboard.Infra.csproj" />
+      <ProjectReference Include="..\Dashboard.Persistence\Dashboard.Persistence.csproj" />
     </ItemGroup>
 
     <ItemGroup>

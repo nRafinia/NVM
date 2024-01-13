@@ -84,7 +84,6 @@ public class LDAP(
     public int ProtocolVersion { get; private set; } = protocolVersion;
 
     public LdapAttribute Attributes { get; set; } = new();
-    public IdColumn AttributesId { get; set; }
 
     public void Update(string name, int port, bool useSecure, string hostName, IdColumn credentialId, string baseDn,
         string filterQuery, SearchScope scope, AuthType authenticationType, int protocolVersion)
