@@ -2,7 +2,7 @@ using System.Security.Claims;
 using System.Text.Json;
 using Dashboard.Application.Users;
 using Dashboard.Application.Users.Models;
-using Dashboard.Domain.Entities;
+using Dashboard.Domain.Entities.Users;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 
@@ -62,7 +62,7 @@ public class DashboardAuthentication(
         {
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new(ClaimTypes.Name, user.UserName),
-            new(ClaimTypes.GivenName, user.Name)
+            new(ClaimTypes.GivenName, user.DisplayName)
         }, IdentityConst.AuthenticationType);
 
         var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);

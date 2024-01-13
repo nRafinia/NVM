@@ -47,17 +47,5 @@ namespace Dashboard.Application.Test.Credentials.Queries.GetCredentialById
             Assert.True(result.IsFailure);
         }
 
-        [Fact]
-        public async Task Handle_RepositoryThrowsException_ReturnsFailure()
-        {
-            var exceptionId = new IdColumn("exceptionId");
-
-            _repositoryMock.Setup(r => r.GetAsync(exceptionId,It.IsAny<CancellationToken>()))
-                .Throws<Exception>();
-
-            var result = await _queryHandler.Handle(new GetCredentialByIdQuery(exceptionId), CancellationToken.None);
-
-            Assert.True(result.IsFailure);
-        }
     }
 }

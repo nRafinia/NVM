@@ -41,7 +41,7 @@ namespace Dashboard.Application.Test.Credentials.Commands.DeleteCredentials
         public async void Handle_Should_Fail_When_Exception_Is_Thrown()
         {
             // Arrange
-            var credentialId = new IdColumn(Guid.NewGuid().ToString());
+            var credentialId = new IdColumn(Guid.NewGuid());
             var deleteCredentialCommand = new DeleteCredentialCommand(credentialId);
 
             _repositoryMock.Setup(o => o.DeleteAsync(credentialId,It.IsAny<CancellationToken>())).ThrowsAsync(new Exception());
