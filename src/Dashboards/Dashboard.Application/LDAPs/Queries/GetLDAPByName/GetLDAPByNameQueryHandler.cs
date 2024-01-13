@@ -9,21 +9,21 @@ namespace Dashboard.Application.LDAPs.Queries.GetLDAPByName;
 public class GetLDAPByNameQueryHandler(
     ILdapRepository repository,
     ILogger<GetLDAPByNameQueryHandler> logger)
-    : IQueryHandler<GetLDAPByNameQuery, IReadOnlyList<LDAP>>
+    : IQueryHandler<GetLDAPByNameQuery, List<LDAP>>
 {
-    public async Task<Result<IReadOnlyList<LDAP>?>> Handle(GetLDAPByNameQuery request,
+    public async Task<Result<List<LDAP>?>> Handle(GetLDAPByNameQuery request,
         CancellationToken cancellationToken)
     {
         try
         {
             var result = await repository.GetByNameAsync(request.Name, cancellationToken);
-            return Result.Success<IReadOnlyList<LDAP>?>(result);
+            return Result.Success<List<LDAP>?>(result);
         }
         catch (Exception e)
         {
             // ReSharper disable once LogMessageIsSentenceProblem
             logger.LogError(e, "Error in add none credential.");
-            return e.ToResult<IReadOnlyList<LDAP>?>();
+            return e.ToResult<List<LDAP>?>();
         }
     }
 }

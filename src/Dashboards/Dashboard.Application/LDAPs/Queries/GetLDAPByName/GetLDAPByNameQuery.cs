@@ -3,4 +3,4 @@ using SharedKernel.Base.Queries;
 
 namespace Dashboard.Application.LDAPs.Queries.GetLDAPByName;
 
-public record GetLDAPByNameQuery(string Name) : IQuery<IReadOnlyList<LDAP>>;
+public record GetLDAPByNameQuery(string Name) : IQuery<List<LDAP>>;
