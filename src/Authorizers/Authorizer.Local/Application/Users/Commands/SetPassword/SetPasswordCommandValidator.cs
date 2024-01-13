@@ -8,7 +8,7 @@ public class SetPasswordCommandValidator : RequestValidator<SetPasswordCommand>
 {
     public SetPasswordCommandValidator()
     {
-        RuleFor(x => x.Id).NotEmpty().NotEqual(IdColumn.New);
+        RuleFor(x => x.Id).NotEmpty().NotEqual(IdColumn.None);
         RuleFor(x => x.Password).NotEmpty();
     }
 }

@@ -8,6 +8,6 @@ public class GetUserByIdQueryValidator : RequestValidator<GetUserByIdQuery>
 {
     public GetUserByIdQueryValidator()
     {
-        RuleFor(x => x.Id).NotEmpty().NotEqual(IdColumn.New);
+        RuleFor(x => x.Id).NotEmpty().NotEqual(IdColumn.None);
     }
 }

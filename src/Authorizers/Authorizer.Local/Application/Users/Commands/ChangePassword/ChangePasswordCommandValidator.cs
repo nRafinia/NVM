@@ -8,7 +8,7 @@ public class ChangePasswordCommandValidator : RequestValidator<ChangePasswordCom
 {
     public ChangePasswordCommandValidator()
     {
-        RuleFor(x => x.Id).NotEmpty().NotEqual(IdColumn.New);
+        RuleFor(x => x.Id).NotEmpty().NotEqual(IdColumn.None);
         RuleFor(x => x.OldPassword).NotEmpty();
         RuleFor(x => x.NewPassword).NotEmpty();
     }
