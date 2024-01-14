@@ -113,6 +113,8 @@
     </Footer>
 </Dialog>
 
+<SelectCredential @ref="_selectCredential" OnSelect="@OnCredentialSelected"></SelectCredential>
+
 @code {
     [Parameter] public EventCallback OnUpdate { get; set; }
 

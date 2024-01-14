@@ -97,7 +97,7 @@
                         <i class="bx bx-dots-vertical-rounded"></i>
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="javascript:void(0);" @onclick="() => Update(ldap)">
+                        <a class="dropdown-item" href="javascript:void(0);" @onclick="() => Test(ldap)">
                             <i class="bx bx-check-alt me-1"></i> Test
                         </a>
                         <a class="dropdown-item" href="javascript:void(0);" @onclick="() => Update(ldap)">
@@ -120,10 +120,12 @@
 
 <AddLDAP @ref="_addLdap" OnAdd="@LoadData"></AddLDAP>
 <UpdateLDAP @ref="_updateLdap" OnUpdate="@LoadData"></UpdateLDAP>
+<TestLDAPConfig @ref="_testLdapConfig"></TestLDAPConfig>
 
 @code {
     private AddLDAP? _addLdap;
     private UpdateLDAP? _updateLdap;
+    private TestLDAPConfig? _testLdapConfig;
 
     private List<LDAP> _ldaps = new(0);
 
@@ -141,12 +143,14 @@
         return LoadData();
     }
 
-    
-
     private Task Update(LDAP ldap)
     {
         return _updateLdap?.ShowAsync(ldap) ?? Task.CompletedTask;
     }
 
+    private Task Test(LDAP ldap)
+    {
+        return _testLdapConfig?.ShowAsync(ldap) ?? Task.CompletedTask;
+    }
 
 }
