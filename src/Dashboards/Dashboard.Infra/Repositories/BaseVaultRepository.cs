@@ -72,6 +72,13 @@ public abstract class BaseVaultRepository<TEntity>
         return records.FirstOrDefault(predicate.Compile());
     }
 
+    public Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate,
+        CancellationToken cancellationToken = default)
+    {
+        var records = _records ?? LoadRecords().Result;
+        return Task.FromResult(records.Any(predicate.Compile()));
+    }
+
     public virtual async Task<List<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return _records ?? await LoadRecords();

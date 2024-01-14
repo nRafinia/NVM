@@ -1,4 +1,5 @@
 using System.Data;
+using System.Linq.Expressions;
 using Dashboard.Domain.Abstractions.Repositories;
 using SharedKernel.Abstractions;
 using SharedKernel.Entities;

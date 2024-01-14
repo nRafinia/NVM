@@ -76,4 +76,10 @@ public abstract class BaseRepository<TDbContext, TEntity>(TDbContext context) : 
             .Take(size)
             .ToListAsync(cancellationToken);
     }
+
+    public Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
+    {
+        return DbSet.AsNoTracking()
+            .AnyAsync(predicate, cancellationToken);
+    }
 }

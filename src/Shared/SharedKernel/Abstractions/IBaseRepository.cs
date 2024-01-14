@@ -18,8 +18,12 @@ public interface IBaseRepository<TEntity>
 
     Task<List<TEntity>> GetAllAsync(CancellationToken cancellationToken = default);
 
-    Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default);
+    Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate,
+        CancellationToken cancellationToken = default);
 
     Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate, int index, int size,
+        CancellationToken cancellationToken = default);
+
+    Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate,
         CancellationToken cancellationToken = default);
 }
