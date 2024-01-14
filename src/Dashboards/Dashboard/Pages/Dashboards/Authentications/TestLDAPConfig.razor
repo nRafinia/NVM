@@ -5,6 +5,7 @@
 @using SharedKernel.Entities
 @using Authorizer.Ldap.Services
 @using Authorizer.Ldap.Models
+@using Mapster
 @using SharedKernel.Abstractions
 @using LdapAttribute = Authorizer.Ldap.Models.LdapAttribute
 
@@ -61,22 +62,7 @@
         StateHasChanged();
         await Task.Delay(100);
 
-        var configuration = new LdapConfiguration(ldap.HostName, ldap.CredentialId, ldap.BaseDn)
-        {
-            Port = ldap.Port,
-            UseSecure = ldap.UseSecure,
-            FilterQuery = ldap.FilterQuery,
-            Scope = (System.DirectoryServices.Protocols.SearchScope)ldap.Scope,
-            AuthenticationType = (System.DirectoryServices.Protocols.AuthType)ldap.AuthenticationType,
-            ProtocolVersion = ldap.ProtocolVersion,
-            Attributes = new LdapAttribute()
-            {
-                DisplayName = ldap.Attributes.DisplayName,
-                UniqueId = ldap.Attributes.UniqueId,
-                UserName = ldap.Attributes.UserName
-            }
-        };
-
+        var configuration = ldap.Adapt<LdapConfiguration>();
 
         var authorizer = new LdapAuthorizer(configuration, CredentialService);
         var getUserResponse = await authorizer.GetUsers();
