@@ -1,4 +1,3 @@
-using Dashboard.Domain.Abstractions;
 using Dashboard.Domain.Licenses;
 using Dashboard.Infra.Repositories;
 using Moq;

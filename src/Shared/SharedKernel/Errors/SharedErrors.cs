@@ -1,6 +1,4 @@
-﻿using System.Xml;
-
-namespace SharedKernel.Errors;
+﻿namespace SharedKernel.Errors;
 
 public static class SharedErrors
 {

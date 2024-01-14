@@ -1,5 +1,4 @@
 using Dashboard.Domain.Entities.LDAPs;
-using Mapster;
 using SharedKernel.Abstractions;
 using SharedKernel.Base.Commands;
 using SharedKernel.Base.Results;

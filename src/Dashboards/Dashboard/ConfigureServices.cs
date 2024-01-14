@@ -1,5 +1,4 @@
 using CurrieTechnologies.Razor.SweetAlert2;
-using Dashboard.Domain.Abstractions;
 using Dashboard.Providers;
 using Dashboard.Services;
 using Microsoft.AspNetCore.Components.Authorization;

@@ -1,5 +1,4 @@
 using Dashboard.Domain.Entities.Users;
-using Mapster;
 using SharedKernel.Base.Queries;
 using SharedKernel.Base.Results;
 using SharedKernel.Extensions;
