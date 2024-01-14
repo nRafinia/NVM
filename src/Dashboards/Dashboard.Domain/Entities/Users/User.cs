@@ -31,7 +31,7 @@ public class User : AuditableEntity
     private User(string userName, string? password, string displayName, AuthorizerType authorizerType,
         LDAP? ldap) : base(IdColumn.New)
     {
-        UserName = Guard.Against.NullOrEmpty(userName, nameof(userName));
+        UserName = Guard.Against.NullOrEmpty(userName, nameof(userName)).ToLower();
         Password = password is null
             ? password
             : SecretHasher.Hash(Guard.Against.Password(password, nameof(password)));
