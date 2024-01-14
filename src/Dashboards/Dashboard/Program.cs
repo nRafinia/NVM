@@ -49,6 +49,8 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 
+Dashboard.Infra.ConfigureServices.AddInfraApplication(app);
+
 app.UseRouting();
 
 app.MapBlazorHub();
