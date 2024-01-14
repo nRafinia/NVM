@@ -11,19 +11,27 @@
       <Content Include="..\..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+      <Content Remove="Pages\Dashboards\Credentials\User.razor" />
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0" />
         <PackageReference Include="CurrieTechnologies.Razor.SweetAlert2" Version="5.5.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.1">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
     </ItemGroup>
     
     <ItemGroup>
+      <ProjectReference Include="..\..\Authorizers\Authorizer.Ldap\Authorizer.Ldap.csproj" />
+      <ProjectReference Include="..\..\Shared\SharedKernel.Persistence\SharedKernel.Persistence.csproj" />
       <ProjectReference Include="..\..\Shared\SharedKernel\SharedKernel.csproj" />
       <ProjectReference Include="..\Dashboard.Application\Dashboard.Application.csproj" />
       <ProjectReference Include="..\Dashboard.Components\Dashboard.Components.csproj" />
       <ProjectReference Include="..\Dashboard.Domain\Dashboard.Domain.csproj" />
       <ProjectReference Include="..\Dashboard.Infra\Dashboard.Infra.csproj" />
+      <ProjectReference Include="..\Dashboard.Persistence\Dashboard.Persistence.csproj" />
     </ItemGroup>
 
     <ItemGroup>

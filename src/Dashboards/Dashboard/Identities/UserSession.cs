@@ -1,7 +1,9 @@
+using SharedKernel.ValueObjects;
+
 namespace Dashboard.Identities;
 
 public class UserSession
 {
-    public int UserId { get; set; }
-    public string UserName { get; set; }=string.Empty;
+    public IdColumn UserId { get; set; } = IdColumn.None;
+    public string UserName { get; set; } = string.Empty;
 }

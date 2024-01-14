@@ -1,7 +1,7 @@
 using System.Text.Json;
-using Dashboard.Domain.Entities;
 using JetBrains.Annotations;
-using Dashboard.Domain.Enums;
+using SharedKernel.Entities;
+using SharedKernel.Enums;
 
 namespace Dashboard.Domain.Test.Entities;
 

@@ -1,5 +1,6 @@
 using Dashboard.Application.Extensions;
 using FluentValidation;
+using SharedKernel.Base;
 
 namespace Dashboard.Application.Credentials.Commands.UpdateCredentials.UpdateCredentialsNone;
 

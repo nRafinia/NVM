@@ -1,6 +1,8 @@
 using System.Reflection;
 using Dashboard.Domain.Licenses;
+using Dashboard.Services;
 using FluentValidation;
+using SharedKernel.Persistence.Abstractions;
 using SharedKernel.Shared;
 
 var licenseResponse = await LicenseManager.Load();
@@ -22,11 +24,16 @@ var assemblies = new List<Assembly>()
     typeof(Program).Assembly,
     typeof(Dashboard.Application.ConfigureServices).Assembly,
     typeof(Dashboard.Infra.ConfigureServices).Assembly,
+    typeof(Dashboard.Persistence.ConfigureServices).Assembly,
     typeof(Connectors.Docker.ConfigureServices).Assembly,
-    typeof(Vault.ConfigureServices).Assembly
+    typeof(Vault.ConfigureServices).Assembly,
+    typeof(SharedKernel.Persistence.ConfigureServices).Assembly
 };
+var projectAssets = new ProjectAssetsService(assemblies);
+
+builder.Services.AddSingleton<IProjectAssets>(projectAssets);
 builder.Services.AddValidatorsFromAssemblies(assemblies);
-builder.Services.RegisterServices(assemblies.ToArray());
+builder.Services.RegisterServices(builder.Configuration, assemblies.ToArray());
 
 var app = builder.Build();
 

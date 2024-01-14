@@ -1,4 +1,5 @@
 using FluentValidation;
+using SharedKernel.Base;
 
 namespace Dashboard.Application.Credentials.Commands.AddCredentials.AddCredentialsNone;
 

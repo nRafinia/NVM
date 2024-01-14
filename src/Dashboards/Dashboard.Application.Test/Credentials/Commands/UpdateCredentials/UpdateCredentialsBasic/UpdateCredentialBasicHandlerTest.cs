@@ -2,11 +2,11 @@ using Dashboard.Application.Credentials.Commands.UpdateCredentials.UpdateCredent
 using JetBrains.Annotations;
 using Dashboard.Domain.Abstractions.Repositories;
 using Moq;
-using Dashboard.Domain.Errors;
-using Dashboard.Domain.Entities;
-using Dashboard.Domain.Enums;
-using Dashboard.Domain.ValueObjects;
 using Microsoft.Extensions.Logging;
+using SharedKernel.Entities;
+using SharedKernel.Enums;
+using SharedKernel.Errors;
+using SharedKernel.ValueObjects;
 
 namespace Dashboard.Application.Test.Credentials.Commands.UpdateCredentials.UpdateCredentialsBasic;
 
@@ -30,7 +30,7 @@ public class UpdateCredentialBasicHandlerTest
         // Arrange
         var request = new UpdateCredentialBasic(IdColumn.New, "Test", "Test", "Test", "Test");
         _mockCredentialRepository
-            .Setup(x => x.GetAsync(It.IsAny<IdColumn>()))
+            .Setup(x => x.GetAsync(It.IsAny<IdColumn>(),It.IsAny<CancellationToken>()))
             .ReturnsAsync(default(Credential));
 
         // Act
@@ -49,10 +49,10 @@ public class UpdateCredentialBasicHandlerTest
         var request = new UpdateCredentialBasic(IdColumn.New, "Test1", "UserName1", "Password1", "Description1");
 
         _mockCredentialRepository
-            .Setup(x => x.GetAsync(It.IsAny<IdColumn>()))
+            .Setup(x => x.GetAsync(It.IsAny<IdColumn>(),It.IsAny<CancellationToken>()))
             .ReturnsAsync(credential);
         _mockCredentialRepository
-            .Setup(x => x.UpdateAsync(It.IsAny<Credential>()))
+            .Setup(x => x.UpdateAsync(It.IsAny<Credential>(),It.IsAny<CancellationToken>()))
             .ReturnsAsync(credential);
 
         // Act
@@ -69,7 +69,7 @@ public class UpdateCredentialBasicHandlerTest
         var request = new UpdateCredentialBasic(IdColumn.New, "Test", "Test", "Test", "Test");
 
         // Act
-        _mockCredentialRepository.Setup(x => x.GetAsync(It.IsAny<IdColumn>())).Throws(new Exception());
+        _mockCredentialRepository.Setup(x => x.GetAsync(It.IsAny<IdColumn>(),It.IsAny<CancellationToken>())).Throws(new Exception());
         var result = await _updateCredentialBasicHandler.Handle(request, CancellationToken.None);
 
         // Assert
@@ -84,7 +84,7 @@ public class UpdateCredentialBasicHandlerTest
         var request = new UpdateCredentialBasic(noneCredential.Id, "Name","UserName", "Password");
         
         _mockCredentialRepository
-            .Setup(r => r.GetAsync(It.IsAny<IdColumn>()))
+            .Setup(r => r.GetAsync(It.IsAny<IdColumn>(),It.IsAny<CancellationToken>()))
             .ReturnsAsync(noneCredential);
         
         // Act

@@ -1,5 +1,3 @@
-using System.Reflection;
-
 namespace Dashboard.Application.Extensions;
 
 internal static class ObjectExt

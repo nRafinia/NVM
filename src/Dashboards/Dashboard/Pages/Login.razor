@@ -70,6 +70,7 @@
                 <span class="app-brand-text demo text-body fw-bolder">@Const.ApplicationName</span>
             </a>
         </div>
+        
         <!-- /Logo -->
         <h4 class="mb-2">Welcome</h4>
         <p class="mb-4">Please sign-in to your account and start the adventure</p>
@@ -87,7 +88,7 @@
                     </a>*@
                 </div>
                 <div class="input-group input-group-merge">
-                    <Password Value="@LoginFormModel.Password" Id="password"/>
+                    <Password @bind-Value="@LoginFormModel.Password" Id="password"/>
                 </div>
             </div>
             <div class="mb-3">

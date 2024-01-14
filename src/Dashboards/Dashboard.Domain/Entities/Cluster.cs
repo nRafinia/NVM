@@ -1,3 +1,5 @@
+using SharedKernel.Base;
+
 namespace Dashboard.Domain.Entities;
 
 public class Cluster(string id, string name, string? description = null) : Entity(id)

@@ -1,0 +1,225 @@
+@using Dashboard.Application.Credentials.Commands.CommitCredentialsChanges
+@using Dashboard.Application.LDAPs.Commands.AddLDAP
+@using SharedKernel.Entities
+@using Dashboard.Domain.Entities.LDAPs.Enums
+@using SharedKernel.Extensions
+
+@inject IMediator Mediator
+@inject SweetAlertService Swal;
+
+<Dialog title="Add LDAP" @ref="_addCredential">
+    <Body>
+    <div class="form-group mb-3">
+        <label for="txt-add-name">Name <span class="required">*</span></label>
+        <input type="text" class="form-control" id="txt-add-name" @bind="_name" placeholder="name"/>
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="txt-add-port">Port <span class="required">*</span></label>
+        <input type="number" class="form-control" id="txt-add-port" @bind="_port" placeholder="389 / 636"/>
+        <small class="text-light fw-semibold">Represents the port used for a network connection. (LDAP: 389, LDAPs: 636)</small>
+    </div>
+
+    <div class="form-check mb-3">
+        <input type="checkbox" class="form-check-input" id="txt-add-use-secure" @bind="_useSecure"/>
+        <label for="txt-add-use-secure" class="form-check-label">Use secure</label>
+        <small class="text-light fw-semibold">Use secure connection (LDAPS)</small>
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="txt-add-host">Host Name <span class="required">*</span></label>
+        <input type="text" class="form-control" id="txt-add-host" @bind="_hostName"/>
+        <small class="text-light fw-semibold">
+            Hostname of the server running LDAP (IP or DNS name). Example: ldap.example.com
+        </small>
+    </div>
+
+
+    <div class="form-group mb-3">
+        <label for="txt-add-host">Credential <span class="required">*</span></label>
+
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="credential name" aria-label="credential name"
+                   aria-describedby="button-addon2" value="@(_credential?.Name)" readonly="readonly"/>
+            <button class="btn btn-outline-primary" type="button" id="btn-select-credential" @onclick="ShowCredentials">Select</button>
+        </div>
+        <small class="text-light fw-semibold">
+            The credential used for authentication and authorization.<br/>
+            For Microsoft Active Directory, provide the username.<br/>
+            For other systems, provide the domain\username.<br/>
+            Example: user@domain.name or cn=user,dc=domain,dc=name
+        </small>
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="txt-add-baseOn">base On <span class="required">*</span></label>
+        <input type="text" class="form-control" id="txt-add-baseOn" @bind="_baseDn"/>
+        <small class="text-light fw-semibold">
+            Root node in LDAP from which to search for users and groups. Example: cn=users,dc=example,dc=com
+        </small>
+    </div>
+
+    <div class="accordion mt-3" id="acc-add-parent">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="hdr-add-additional">
+                <button
+                    type="button"
+                    class="accordion-button collapsed padding-lr-0"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#acc-add-additional"
+                    aria-expanded="false"
+                    aria-controls="accordionTwo">
+                    Additional configs
+                </button>
+            </h2>
+            <div
+                id="acc-add-additional"
+                class="accordion-collapse collapse"
+                aria-labelledby="hdr-add-additional"
+                data-bs-parent="#acc-add-parent">
+                <div class="accordion-body padding-lr-0">
+
+                    <div class="form-group mb-3">
+                        <label for="txt-add-filter-query">Filter query <span class="required">*</span></label>
+                        <input type="text" class="form-control" id="txt-add-filter-query" @bind="_filterQuery"/>
+                        <small class="text-light fw-semibold">
+                            The filter to use when searching user objects. Example: (&(objectCategory=Person)(sAMAccountName=*))
+                        </small>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="txt-add-scope">Scope</label>
+                        <select class="form-select" id="txt-add-scope" @bind="_scope">
+                            @foreach (var item in EnumExt.GetEnumList<SearchScope>())
+                            {
+                                <option value="@item.Key">@item.Value</option>
+                            }
+                        </select>
+                        <small class="text-light fw-semibold">The LDAP search scope.</small>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="txt-add-scope">Authentication type</label>
+                        <select class="form-select" id="txt-add-auth-type" @bind="_authenticationType">
+                            @foreach (var item in EnumExt.GetEnumList<AuthType>())
+                            {
+                                @* <option value="@item.Key" @(item.Key == _authenticationType ? "selected" : "")>@item.Value</option> *@
+                                <option value="@item.Key">@item.Value</option>
+                            }
+                        </select>
+                        <small class="text-light fw-semibold">
+                            On Windows the authentication type is Negotiate, so there is no need to prepend
+                            AD user login with domain. On other platforms at the moment only
+                            Basic authentication is supported
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txt-add-protocol">Protocol version</label>
+                        <input type="number" class="form-control" id="txt-add-protocol" @bind="_protocolVersion"/>
+                        <small class="text-light fw-semibold">
+                            The default one is v2 (at least in that version), and it is unknown if v3
+                            is actually needed, but at least Synology LDAP works only with v3,
+                            and since our Exchange doesn't complain, let it be v3
+                        </small>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </Body>
+    <Footer>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" @onclick="Add">Add</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="Close">Close</button>
+    </Footer>
+</Dialog>
+
+<SelectCredential @ref="_selectCredential" OnSelect="@OnCredentialSelected"></SelectCredential>
+
+@code {
+    [Parameter] public EventCallback OnAdd { get; set; }
+
+    private Dialog? _addCredential;
+    private SelectCredential? _selectCredential;
+
+    private string _name = string.Empty;
+    private int _port = 389;
+    private bool _useSecure;
+    private string _hostName = string.Empty;
+    private string _baseDn = string.Empty;
+    private string _filterQuery = "(&(objectCategory=Person)(sAMAccountName=*))";
+    private SearchScope _scope = SearchScope.Subtree;
+    private AuthType _authenticationType = AuthType.Negotiate;
+    private int _protocolVersion = 3;
+
+    private Credential? _credential;
+
+    public void Show()
+    {
+        _name = string.Empty;
+        _addCredential?.Open();
+    }
+
+    private void Close()
+    {
+        _addCredential?.Close();
+    }
+
+    private async Task Add()
+    {
+        if (!IsValidForm())
+        {
+            await Swal.FireAsync("Error", "Invalid form data", SweetAlertIcon.Error);
+            return;
+        }
+
+        var addLdapResponse = await Mediator.Send(new AddLdapCommand(
+            _name,
+            _port,
+            _useSecure,
+            _hostName,
+            _credential!.Id,
+            _baseDn,
+            _filterQuery,
+            _scope,
+            _authenticationType,
+            _protocolVersion
+        ));
+
+        if (addLdapResponse.IsFailure)
+        {
+            await Swal.FireAsync("Error", addLdapResponse.Error!.Message, SweetAlertIcon.Error);
+            return;
+        }
+
+        await Mediator.Send(new CommitCredentialChanges());
+
+        Close();
+
+        await OnAdd.InvokeAsync();
+    }
+
+    private bool IsValidForm()
+    {
+        return !string.IsNullOrWhiteSpace(_name) &&
+               _port > 0 &&
+               !string.IsNullOrWhiteSpace(_hostName) &&
+               !string.IsNullOrWhiteSpace(_baseDn) &&
+               !string.IsNullOrWhiteSpace(_filterQuery) &&
+               _protocolVersion > 0;
+    }
+
+    private void ShowCredentials()
+    {
+        _selectCredential?.Show();
+    }
+
+    private Task OnCredentialSelected(Credential credential)
+    {
+        _credential = credential;
+        return Task.CompletedTask;
+    }
+
+}

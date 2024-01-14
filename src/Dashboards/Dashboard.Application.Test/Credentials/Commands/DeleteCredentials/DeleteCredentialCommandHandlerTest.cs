@@ -1,9 +1,9 @@
 using Dashboard.Application.Credentials.Commands.AddCredentials.AddCredentialsNone;
 using Dashboard.Application.Credentials.Commands.DeleteCredentials;
 using Dashboard.Domain.Abstractions.Repositories;
-using Dashboard.Domain.ValueObjects;
 using Microsoft.Extensions.Logging;
 using Moq;
+using SharedKernel.ValueObjects;
 
 namespace Dashboard.Application.Test.Credentials.Commands.DeleteCredentials
 {
@@ -41,17 +41,17 @@ namespace Dashboard.Application.Test.Credentials.Commands.DeleteCredentials
         public async void Handle_Should_Fail_When_Exception_Is_Thrown()
         {
             // Arrange
-            var credentialId = new IdColumn(Guid.NewGuid().ToString());
+            var credentialId = new IdColumn(Guid.NewGuid());
             var deleteCredentialCommand = new DeleteCredentialCommand(credentialId);
 
-            _repositoryMock.Setup(o => o.DeleteAsync(credentialId)).ThrowsAsync(new Exception());
+            _repositoryMock.Setup(o => o.DeleteAsync(credentialId,It.IsAny<CancellationToken>())).ThrowsAsync(new Exception());
 
             // Act
-            var result = await _deleteCredentialCommandHandler.Handle(deleteCredentialCommand, CancellationToken.None);
+            var result = await _deleteCredentialCommandHandler.Handle(deleteCredentialCommand, It.IsAny<CancellationToken>());
 
             // Assert
             Assert.True(result.IsFailure);
-            _repositoryMock.Verify(repository => repository.DeleteAsync(credentialId), Times.Once);
+            _repositoryMock.Verify(repository => repository.DeleteAsync(credentialId,It.IsAny<CancellationToken>()), Times.Once);
         }
     }
 }

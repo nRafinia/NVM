@@ -1,6 +1,7 @@
-using Dashboard.Domain.Abstractions;
-using Dashboard.Domain.Base;
+using System.Linq.Expressions;
 using Dashboard.Domain.Licenses;
+using SharedKernel.Abstractions;
+using SharedKernel.Base;
 using Vault;
 
 // ReSharper disable MemberCanBeProtected.Global
@@ -8,15 +9,15 @@ using Vault;
 
 namespace Dashboard.Infra.Repositories;
 
-public abstract class BaseVaultRepository<T>
+public abstract class BaseVaultRepository<TEntity>
 {
-    protected virtual string VaultPath => nameof(T);
+    protected virtual string VaultPath => nameof(TEntity);
     private readonly IVaultManager _vault;
     private readonly IDateTime _dateTimeProvider;
     private readonly ICurrentUser _userProvider;
     private readonly byte[] _key;
 
-    private static List<T>? _records;
+    private static List<TEntity>? _records;
 
     protected BaseVaultRepository(IVaultManager vault, IDateTime dateTime, ICurrentUser userProvider)
     {
@@ -32,7 +33,7 @@ public abstract class BaseVaultRepository<T>
         _key = keyResponse.Value!;
     }
 
-    public virtual async Task<T> AddAsync(T item)
+    public virtual async Task<TEntity> AddAsync(TEntity item, CancellationToken cancellationToken = default)
     {
         var records = _records ?? await LoadRecords();
 
@@ -42,7 +43,7 @@ public abstract class BaseVaultRepository<T>
         return item;
     }
 
-    public virtual async Task<T> UpdateAsync(T item)
+    public virtual async Task<TEntity> UpdateAsync(TEntity item, CancellationToken cancellationToken = default)
     {
         var records = _records ?? await LoadRecords();
 
@@ -58,41 +59,49 @@ public abstract class BaseVaultRepository<T>
         return item;
     }
 
-    public virtual async Task<T?> GetAsync(Func<T, bool> predicate)
-    {
-        var records = _records ?? await LoadRecords();
-        return records.FirstOrDefault(predicate);
-    }    
-    
-    public virtual async Task<IReadOnlyList<T>> GetAllAsync()
-    {
-        var records = _records ?? await LoadRecords();
-        return records.AsReadOnly();
-    }
-
-    public virtual async Task<IReadOnlyList<T>> GetAllAsync(int index, int size)
-    {
-        var records = _records ?? await LoadRecords();
-        return records
-            .Skip(size * index)
-            .Take(size)
-            .ToList()
-            .AsReadOnly();
-    }
-
-    public virtual async Task<IReadOnlyList<T>> GetAllAsync(Func<T, bool> predicate)
-    {
-        var records = _records ?? await LoadRecords();
-        return records
-            .Where(predicate)
-            .ToList()
-            .AsReadOnly();
-    }
-    
-    public virtual async Task DeleteAsync(Predicate<T> predicate)
+    public virtual async Task DeleteAsync(Predicate<TEntity> predicate, CancellationToken cancellationToken = default)
     {
         var records = _records ?? await LoadRecords();
         records.RemoveAll(predicate);
+    }
+
+    public virtual async ValueTask<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate,
+        CancellationToken cancellationToken = default)
+    {
+        var records = _records ?? await LoadRecords();
+        return records.FirstOrDefault(predicate.Compile());
+    }
+
+    public Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate,
+        CancellationToken cancellationToken = default)
+    {
+        var records = _records ?? LoadRecords().Result;
+        return Task.FromResult(records.Any(predicate.Compile()));
+    }
+
+    public virtual async Task<List<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        return _records ?? await LoadRecords();
+    }
+
+    public virtual async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate, int index,
+        int size, CancellationToken cancellationToken = default)
+    {
+        var records = _records ?? await LoadRecords();
+        return records
+            .Where(predicate.Compile())
+            .Skip(size * index)
+            .Take(size)
+            .ToList();
+    }
+
+    public virtual async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate,
+        CancellationToken cancellationToken = default)
+    {
+        var records = _records ?? await LoadRecords();
+        return records
+            .Where(predicate.Compile())
+            .ToList();
     }
 
     public Task SaveChanges()
@@ -104,27 +113,27 @@ public abstract class BaseVaultRepository<T>
 
     #region protected methods
 
-    protected async Task<List<T>> LoadRecords()
+    protected async Task<List<TEntity>> LoadRecords()
     {
         if (_records is not null)
         {
             return _records;
         }
 
-        _records = await _vault.Decrypt<List<T>>(VaultPath, _key);
+        _records = await _vault.Decrypt<List<TEntity>>(VaultPath, _key);
 
         if (_records is not null)
         {
             return _records;
         }
 
-        _records = new List<T>();
+        _records = new List<TEntity>();
         await SaveChanges();
 
         return _records;
     }
 
-    private void SetAuditableData(T item, bool isUpdate)
+    private void SetAuditableData(TEntity item, bool isUpdate)
     {
         if (item is not AuditableEntity auditableItem)
         {

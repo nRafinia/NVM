@@ -1,4 +1,5 @@
-using Dashboard.Domain.Base.Queries;
+using SharedKernel.Base.Queries;
+using SharedKernel.Entities;
 
 namespace Dashboard.Application.Credentials.Queries.GetCredentialByName;
 

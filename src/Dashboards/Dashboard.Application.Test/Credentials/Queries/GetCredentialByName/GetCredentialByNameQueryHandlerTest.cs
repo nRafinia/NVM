@@ -3,6 +3,7 @@ using JetBrains.Annotations;
 using Moq;
 using Microsoft.Extensions.Logging;
 using Dashboard.Domain.Abstractions.Repositories;
+using SharedKernel.Entities;
 
 namespace Dashboard.Application.Test.Credentials.Queries.GetCredentialByName;
 
@@ -25,7 +26,7 @@ public class GetCredentialByNameQueryHandlerTest
         // Arrange
         var query = new GetCredentialByNameQuery("test");
         _credentialRepositoryMock.Setup(r => r.GetAsync(query.Name))
-            .ReturnsAsync(new List<Dashboard.Domain.Entities.Credential>());
+            .ReturnsAsync(new List<Credential>());
 
         // Act
         var result = await _queryHandler.Handle(query, CancellationToken.None);

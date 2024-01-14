@@ -1,0 +1,253 @@
+@using MediatR
+@using Dashboard.Application.Credentials.Queries.GetAllCredentials
+@using Dashboard.Domain.Entities
+@using Dashboard.Application.Credentials.Commands.DeleteCredentials
+@using Dashboard.Application.Credentials.Commands.CommitCredentialsChanges
+@using Dashboard.Application.Credentials.Queries.GetCredentialByName
+@using SharedKernel.Entities
+@using SharedKernel.Enums
+@using Authorizer.Common.Models
+@using Dashboard.Application.LDAPs.Queries.GetAllLDAPs
+@using Dashboard.Application.Users.Commands.UpdateUserStatus
+@using Dashboard.Domain.Entities.LDAPs
+@using Dashboard.Domain.Entities.Users
+@using Dashboard.Domain.Entities.Users.Enums
+@using SharedKernel.ValueObjects
+@using AuthorizerType = Dashboard.Application.Users.Models.AuthorizerType
+
+@inherits DashboardPage
+@{ base.BuildRenderTree(__builder); }
+
+@inject IMediator Mediator
+@inject SweetAlertService Swal;
+@inject IServiceProvider ServiceProvider;
+
+<SectionContent SectionName="ToolbarSection">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li>
+            <div class="btn-group">
+                <button
+                    type="button"
+                    class="btn btn-primary dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Provider: @_provider
+                </button>
+
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item" href="javascript:void(0);" @onclick="SelectLocal">Local</a>
+                    </li>
+                    @if (_ldaps.Any())
+                    {
+                        <li>
+                            <hr class="dropdown-divider"/>
+                        </li>
+                        @foreach (var ldap in _ldaps)
+                        {
+                            <li @key="ldap">
+                                <a class="dropdown-item" href="javascript:void(0);" @onclick="() => SelectLdap(ldap)">@ldap.Name</a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        </li>
+
+        @if (_authorizerType == AuthorizerType.Local)
+        {
+            <li class="nav-item dropdown">
+                <a
+                    class="nav-link dropdown-toggle"
+                    href="javascript:void(0)"
+                    id="navbarDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <img src="img/icons/user-24.png" alt="credential"/>
+                    Add
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li>
+                        <a class="dropdown-item" href="javascript:void(0);" @onclick="AddUser">
+                            User
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        }
+
+        <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)" @onclick="LoadData">
+                <img src="img/icons/refresh-24.png" alt="Refresh"/>
+                Refresh
+            </a>
+        </li>
+    </ul>
+    <!-- Search -->
+    <div class="navbar-nav align-items-center">
+        <form autocomplete="off">
+            <input type="hidden" name="hidden" autocomplete="off" style="display:none;">
+
+            <div class="nav-item d-flex align-items-center">
+                <i class="bx bx-search fs-4 lh-0"></i>
+                <input
+                    type="text"
+                    class="form-control border-0 shadow-none"
+                    placeholder="Search..."
+                    aria-label="Search..."
+                    autocomplete="off"
+                    role="presentation"
+                    name="search"
+                    aria-autocomplete="none"
+                    @bind-value="SearchText"
+                    @bind-value:event="onchange"
+                    @oninput="OnChange"/>
+            </div>
+        </form>
+    </div>
+    <!-- /Search -->
+</SectionContent>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>User name</th>
+        <th>Display name</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var user in _users)
+    {
+        <tr @key="user">
+            <td>
+                <strong>@user.UserName</strong>
+            </td>
+            <td>
+                @user.DisplayName
+            </td>
+            <td>
+                <span class="badge @GetUserStatusLabelType(user.Status) me-1">@user.Status</span>
+            </td>
+            <td>
+                <div class="dropdown">
+                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                        <i class="bx bx-dots-vertical-rounded"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                        @if (user.Status == UserStatus.Active)
+                        {
+                            <a class="dropdown-item" href="javascript:void(0);" @onclick="() => ChangeUserStatus(user.Id, UserStatus.Inactive)">
+                                <i class="bx bx-lock-alt me-1"></i> Disable
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="dropdown-item" href="javascript:void(0);" @onclick="() => ChangeUserStatus(user.Id, UserStatus.Active)">
+                                <i class="bx bx-lock-open-alt me-1"></i> Enable
+                            </a>
+                        }
+
+                        @if (_authorizerType == AuthorizerType.Local)
+                        {
+                            <a class="dropdown-item" href="javascript:void(0);" @onclick="() => SetPassword(user)">
+                                <i class="bx bx-key me-1"></i> Set password
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a class="dropdown-item" href="javascript:void(0);" @onclick="() => Update(user)">
+                                <i class="bx bx-edit-alt me-1"></i> Edit
+                            </a>
+                        }
+                    </div>
+                </div>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<AddUser @ref="_addUser" OnAdd="LoadData"></AddUser>
+<UpdateUser @ref="_updateUser" OnUpdate="LoadData"></UpdateUser>
+<SetPassword @ref="_setPassword"></SetPassword>
+
+@code {
+    private AddUser? _addUser;
+    private UpdateUser? _updateUser;
+    private SetPassword? _setPassword;
+
+    private List<User> _users = new(0);
+    private AuthorizerType _authorizerType = AuthorizerType.Local;
+    private List<LDAP> _ldaps = new(0);
+    private IdColumn? _ldapId;
+    private string _provider = "Local";
+
+    private string? SearchText { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await LoadData();
+        await GetLdaps();
+    }
+
+    private Task OnChange(ChangeEventArgs args)
+    {
+        SearchText = args.Value is null ? string.Empty : (string)args.Value;
+        return LoadData();
+    }
+
+    private void AddUser()
+    {
+        _addUser?.Show();
+    }
+
+    private void Update(User user)
+    {
+        _updateUser?.Show(user);
+    }
+
+    private void SetPassword(User user)
+    {
+        _setPassword?.Show(user.Id);
+    }
+
+    private Task SelectLocal()
+    {
+        _authorizerType = AuthorizerType.Local;
+        _provider = "Local";
+        return LoadData();
+    }
+
+    private Task SelectLdap(LDAP ldap)
+    {
+        _authorizerType = AuthorizerType.LDAP;
+        _ldapId = ldap.Id;
+        _provider = ldap.Name;
+        return LoadData();
+    }
+
+    private static string GetUserStatusLabelType(UserStatus type)
+    {
+        return type switch
+        {
+            UserStatus.Active => "bg-label-success",
+            UserStatus.Inactive => "bg-label-dark",
+            _ => "bg-label-dark"
+        };
+    }
+
+    private async Task ChangeUserStatus(IdColumn id, UserStatus status)
+    {
+        var changeStatusResponse = await Mediator.Send(new UpdateUserStatusCommand(id, status));
+        if (changeStatusResponse.IsFailure)
+        {
+            await Swal.FireAsync("Error", changeStatusResponse.Error!.Message, SweetAlertIcon.Error);
+            return;
+        }
+
+        await LoadData();
+    }
+
+}

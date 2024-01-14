@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Authorizers\Authorizer.Ldap\Authorizer.Ldap.csproj" />
       <ProjectReference Include="..\..\Connectors\Docker.Connectors.Common\Docker.Connectors.Common.csproj" />
       <ProjectReference Include="..\..\Shared\SharedKernel\SharedKernel.csproj" />
       <ProjectReference Include="..\Dashboard.Domain\Dashboard.Domain.csproj" />

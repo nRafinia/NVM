@@ -1,0 +1,96 @@
+@using Dashboard.Domain.Entities.LDAPs
+@using SharedKernel.ValueObjects
+@using Dashboard.Application.Credentials.Queries.GetCredentialById
+@using SharedKernel.Base.Results
+@using SharedKernel.Entities
+@using Authorizer.Ldap.Services
+@using Authorizer.Ldap.Models
+@using Mapster
+@using SharedKernel.Abstractions
+@using LdapAttribute = Authorizer.Ldap.Models.LdapAttribute
+
+@inject IMediator Mediator
+@inject ICredentialService CredentialService
+
+<Dialog title="Add LDAP" @ref="_testLdapDialog">
+    <Body>
+    <div class="alert alert-@_checkingStatus" role="alert">@_checkingResult</div>
+    </Body>
+    <Footer>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" @onclick="CheckAgain">Again</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="Close">Close</button>
+    </Footer>
+</Dialog>
+
+@code {
+    private Dialog? _testLdapDialog;
+
+    private string _checkingResult = "Checking...";
+    private string _checkingStatus = "success";
+    private LDAP? _ldap;
+
+    public async Task ShowAsync(LDAP ldap)
+    {
+        _ldap = ldap;
+        if (_ldap is null)
+        {
+            return;
+        }
+
+        _checkingResult = "Checking...";
+        _checkingStatus = "success";
+
+        _testLdapDialog?.Open();
+        StateHasChanged();
+        
+        await SendCheckingRequest(_ldap!);
+    }
+
+    private void Close()
+    {
+        _testLdapDialog?.Close();
+    }
+
+    private Task CheckAgain()
+    {
+        return SendCheckingRequest(_ldap!);
+    }
+
+    private async Task SendCheckingRequest(LDAP ldap)
+    {
+        _checkingResult = "Checking...";
+        StateHasChanged();
+        await Task.Delay(100);
+
+        var configuration = ldap.Adapt<LdapConfiguration>();
+
+        var authorizer = new LdapAuthorizer(configuration, CredentialService);
+        var getUserResponse = await authorizer.GetUsers();
+        if (getUserResponse.IsFailure)
+        {
+            _checkingResult = getUserResponse.Error!.Message;
+            _checkingStatus = "danger";
+            StateHasChanged();
+            return;
+        }
+
+        var users = getUserResponse.Value;
+        _checkingResult = $"Connect is success, Found {users!.Count} users";
+        _checkingStatus = users.Any() ? "success" : "warning";
+        StateHasChanged();
+    }
+
+    private async Task<Result<Credential?>> GetCredential(IdColumn credentialId)
+    {
+        var getCredentialResponse = await Mediator.Send(new GetCredentialByIdQuery(credentialId));
+        if (getCredentialResponse.IsFailure)
+        {
+            _checkingResult = getCredentialResponse.Error!.Message;
+            _checkingStatus = "danger";
+            return Result.Failure<Credential>(getCredentialResponse.Error);
+        }
+
+        return getCredentialResponse.Value;
+    }
+
+}

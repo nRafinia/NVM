@@ -1,8 +1,8 @@
 using System.Data;
-using Dashboard.Domain.Abstractions;
 using Dashboard.Domain.Abstractions.Repositories;
-using Dashboard.Domain.Entities;
-using Dashboard.Domain.ValueObjects;
+using SharedKernel.Abstractions;
+using SharedKernel.Entities;
+using SharedKernel.ValueObjects;
 using Vault;
 
 namespace Dashboard.Infra.Repositories;
@@ -12,7 +12,7 @@ public class CredentialRepository(IVaultManager vault, IDateTime dateTime, ICurr
 {
     protected override string VaultPath => "credentials";
 
-    public override async Task<Credential> AddAsync(Credential item)
+    public override async Task<Credential> AddAsync(Credential item, CancellationToken cancellationToken = default)
     {
         var credentials = await LoadRecords();
 
@@ -26,10 +26,10 @@ public class CredentialRepository(IVaultManager vault, IDateTime dateTime, ICurr
             throw new DuplicateNameException("Credential name already exists");
         }
 
-        return await base.AddAsync(item);
+        return await base.AddAsync(item, cancellationToken);
     }
 
-    public override async Task<Credential> UpdateAsync(Credential item)
+    public override async Task<Credential> UpdateAsync(Credential item, CancellationToken cancellationToken = default)
     {
         var credentials = await LoadRecords();
 
@@ -40,12 +40,12 @@ public class CredentialRepository(IVaultManager vault, IDateTime dateTime, ICurr
             throw new Exception("Credential name already exists");
         }
 
-        return await base.UpdateAsync(item);
+        return await base.UpdateAsync(item, cancellationToken);
     }
 
-    public async Task<Credential?> GetAsync(IdColumn id)
+    public async ValueTask<Credential?> GetAsync(IdColumn id, CancellationToken cancellationToken = default)
     {
-        return await base.GetAsync(c => c.Id == id);
+        return await base.GetAsync(c => c.Id == id, cancellationToken);
     }
 
     public async Task<IReadOnlyList<Credential>> GetAsync(string name)
@@ -53,8 +53,13 @@ public class CredentialRepository(IVaultManager vault, IDateTime dateTime, ICurr
         return await base.GetAllAsync(c => c.Name.Contains(name, StringComparison.OrdinalIgnoreCase));
     }
 
-    public async Task DeleteAsync(IdColumn id)
+    public async Task DeleteAsync(IdColumn id, CancellationToken cancellationToken = default)
     {
-        await base.DeleteAsync(c => c.Id == id);
+        await base.DeleteAsync(c => c.Id == id, cancellationToken);
+    }
+
+    public async Task DeleteAsync(Credential credential, CancellationToken cancellationToken = default)
+    {
+        await base.DeleteAsync(c => c.Id == credential.Id, cancellationToken);
     }
 }

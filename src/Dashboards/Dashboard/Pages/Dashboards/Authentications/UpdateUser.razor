@@ -1,0 +1,73 @@
+@using Dashboard.Application.Users.Commands.AddUser
+@using Dashboard.Application.Users.Commands.UpdateUser
+@using Dashboard.Domain.Entities.Users
+@using SharedKernel.ValueObjects
+
+@inject IMediator Mediator
+@inject SweetAlertService Swal;
+
+<Dialog title="Update User" @ref="_updateUser">
+    <Body>
+    <div class="form-group mb-3">
+        <label for="txt-add-display-name">Display Name <span class="required">*</span></label>
+        <input type="text" class="form-control" id="txt-add-display-name" @bind="_displayName"/>
+    </div>
+
+    </Body>
+    <Footer>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" @onclick="Update">Update</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="Close">Close</button>
+    </Footer>
+</Dialog>
+
+@code {
+    [Parameter] public EventCallback OnUpdate { get; set; }
+
+    private Dialog? _updateUser;
+
+    private IdColumn _id = IdColumn.None;
+    private string _displayName = string.Empty;
+
+    public void Show(User user)
+    {
+        _id= user.Id;
+        _displayName = user.DisplayName;
+        _updateUser?.Open();
+    }
+
+    private void Close()
+    {
+        _updateUser?.Close();
+    }
+
+    private async Task Update()
+    {
+        if (!IsValidForm())
+        {
+            await Swal.FireAsync("Error", "Invalid form data", SweetAlertIcon.Error);
+            return;
+        }
+
+        var updateUserResponse = await Mediator.Send(new UpdateUserCommand(
+            _id,
+            _displayName
+        ));
+
+        if (updateUserResponse.IsFailure)
+        {
+            await Swal.FireAsync("Error", updateUserResponse.Error!.Message, SweetAlertIcon.Error);
+            return;
+        }
+
+        Close();
+
+        await OnUpdate.InvokeAsync();
+    }
+
+    private bool IsValidForm()
+    {
+        return _id != IdColumn.None &&
+               !string.IsNullOrWhiteSpace(_displayName);
+    }
+
+}

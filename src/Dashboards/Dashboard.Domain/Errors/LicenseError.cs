@@ -1,3 +1,5 @@
+using SharedKernel.Base;
+
 namespace Dashboard.Domain.Errors;
 
 public static class LicenseError

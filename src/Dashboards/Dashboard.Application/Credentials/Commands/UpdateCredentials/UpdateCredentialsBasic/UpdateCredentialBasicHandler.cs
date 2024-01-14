@@ -1,4 +1,8 @@
-using Dashboard.Domain.Enums;
+using SharedKernel.Base.Commands;
+using SharedKernel.Base.Results;
+using SharedKernel.Entities;
+using SharedKernel.Enums;
+using SharedKernel.Extensions;
 
 namespace Dashboard.Application.Credentials.Commands.UpdateCredentials.UpdateCredentialsBasic;
 

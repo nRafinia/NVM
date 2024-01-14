@@ -1,9 +1,9 @@
 using Dashboard.Application.Credentials.Commands.AddCredentials.AddCredentialsBasic;
 using Dashboard.Domain.Abstractions.Repositories;
-using Dashboard.Domain.Entities;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 using Moq;
+using SharedKernel.Entities;
 
 namespace Dashboard.Application.Test.Credentials.Commands.AddCredentials.AddCredentialsBasic
 {
@@ -32,7 +32,7 @@ namespace Dashboard.Application.Test.Credentials.Commands.AddCredentials.AddCred
             // Assert
             Assert.True(result.IsSuccess);
             _mockCredentialRepository.Verify(
-                repo => repo.AddAsync(It.IsAny<Credential>()), Times.Once);
+                repo => repo.AddAsync(It.IsAny<Credential>(), CancellationToken.None), Times.Once);
         }
 
         [Fact]
@@ -41,11 +41,11 @@ namespace Dashboard.Application.Test.Credentials.Commands.AddCredentials.AddCred
             // Arrange
             var addCredentialRequest = new AddCredentialBasic("Test Name", "Test User", "Test Password");
             _mockCredentialRepository
-                .Setup(repo => repo.AddAsync(It.IsAny<Credential>()))
+                .Setup(repo => repo.AddAsync(It.IsAny<Credential>(), It.IsAny<CancellationToken>()))
                 .Throws(new Exception());
 
             // Act
-            var result = await _handler.Handle(addCredentialRequest, CancellationToken.None);
+            var result = await _handler.Handle(addCredentialRequest, It.IsAny<CancellationToken>());
 
             // Assert
             Assert.True(result.IsFailure);
