@@ -3,8 +3,10 @@ using System.Text.Json;
 using Dashboard.Application.Users;
 using Dashboard.Application.Users.Models;
 using Dashboard.Domain.Entities.Users;
+using Mapster;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+using SharedKernel.ValueObjects;
 
 namespace Dashboard.Identities;
 
@@ -72,12 +74,12 @@ public class DashboardAuthentication(
     private async Task<(User?, bool)> AuthenticateUser(string userName, string password)
     {
         var userResult =
-            await userLogic.AuthenticateAsync(new LoginRequest(userName, password, AuthorizerType.Local));
+            await userLogic.AuthenticateAsync(new LoginRequest(userName, password));
 
         return (userResult, userResult is not null);
     }
 
-    private async Task<(User?, bool)> LookUpUser(int userId, string userName)
+    private async Task<(User?, bool)> LookUpUser(IdColumn userId, string userName)
     {
         var userResult = await userLogic.GetProfileAsync(new GetProfileRequest(userId, userName));
 
@@ -125,7 +127,8 @@ public class DashboardAuthentication(
     {
         RefreshUserSession(user);
 
-        return protectedLocalStorage.SetAsync(IdentityConst.StorageKey, JsonSerializer.Serialize(user));
+        var userSession = user.Adapt<UserSession>();
+        return protectedLocalStorage.SetAsync(IdentityConst.StorageKey, JsonSerializer.Serialize(userSession));
     }
 
     private User? RefreshUserSession(User? user) => User = user;

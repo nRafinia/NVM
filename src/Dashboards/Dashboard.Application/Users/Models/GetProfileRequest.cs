@@ -1,3 +1,5 @@
+using SharedKernel.ValueObjects;
+
 namespace Dashboard.Application.Users.Models;
 
-public record GetProfileRequest(int UserId, string UserName);
+public record GetProfileRequest(IdColumn UserId, string UserName);
