@@ -23,6 +23,11 @@ public class User : AuditableEntity
 
     #region Constructors
 
+    private User(IdColumn id): base(id)
+    {
+        
+    }
+    
     private User(string userName, string? password, string displayName, AuthorizerType authorizerType,
         LDAP? ldap) : base(IdColumn.New)
     {
