@@ -1,6 +1,8 @@
 using CurrieTechnologies.Razor.SweetAlert2;
+using Dashboard.Domain.Entities.Users;
 using Dashboard.Providers;
 using Dashboard.Services;
+using Mapster;
 using Microsoft.AspNetCore.Components.Authorization;
 using SharedKernel.Abstractions;
 using SharedKernel.Shared;
@@ -20,5 +22,15 @@ public class ConfigureServices : IConfigureService
         services.AddScoped<AuthenticationStateProvider, DashboardAuthentication>();
         services.AddScoped<IMainTreeViewService, MainTreeViewService>();
         services.AddSingleton<ICurrentUser, CurrentUserProvider>();
+        
+        ConfigureMapping();
+    }
+
+    private static void ConfigureMapping()
+    {
+        TypeAdapterConfig<User, UserSession>
+            .NewConfig()
+            .Map(d => d.UserName, s => s.UserName)
+            .Map(d => d.UserId, s => s.Id);
     }
 }
