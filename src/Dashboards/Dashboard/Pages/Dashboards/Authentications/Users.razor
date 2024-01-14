@@ -147,7 +147,7 @@
 
                         @if (_authorizerType == AuthorizerType.Local)
                         {
-                            <a class="dropdown-item" href="javascript:void(0);" @onclick="() => Update(user)">
+                            <a class="dropdown-item" href="javascript:void(0);" @onclick="() => SetPassword(user)">
                                 <i class="bx bx-key me-1"></i> Set password
                             </a>
                             <hr class="dropdown-divider">
@@ -167,9 +167,11 @@
 </table>
 
 <AddUser @ref="_addUser" OnAdd="LoadData"></AddUser>
+<SetPassword @ref="_setPassword"></SetPassword>
 
 @code {
     private AddUser? _addUser;
+    private SetPassword? _setPassword;
     
     private List<User> _users = new(0);
     private AuthorizerType _authorizerType = AuthorizerType.Local;
@@ -244,6 +246,11 @@
         }*/
     }
 
+    private void SetPassword(User user)
+    {
+        _setPassword?.Show(user.Id);
+    }
+    
     private Task SelectLocal()
     {
         _authorizerType = AuthorizerType.Local;
