@@ -34,7 +34,7 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li>
-                    <a class="dropdown-item" href="javascript:void(0);" @onclick="()=>_addLdap?.Show()">
+                    <a class="dropdown-item" href="javascript:void(0);" @onclick="() => _addLdap?.Show()">
                         LDAP Server
                     </a>
                 </li>
@@ -119,10 +119,12 @@
 </table>
 
 <AddLDAP @ref="_addLdap" OnAdd="@LoadData"></AddLDAP>
+<UpdateLDAP @ref="_updateLdap" OnUpdate="@LoadData"></UpdateLDAP>
 
 @code {
     private AddLDAP? _addLdap;
-    
+    private UpdateLDAP? _updateLdap;
+
     private List<LDAP> _ldaps = new(0);
 
     private string? SearchText { get; set; } = string.Empty;
@@ -139,51 +141,11 @@
         return LoadData();
     }
 
-    private async Task Delete(IdColumn id)
+    
+
+    private Task Update(LDAP ldap)
     {
-        var ldap = _ldaps.FirstOrDefault(x => x.Id == id);
-        if (ldap is null)
-        {
-            return;
-        }
-
-        var deleteConfirmation = await Swal.FireAsync(new SweetAlertOptions("Delete")
-        {
-            Text = $"Are you sure for delete '{ldap.Name}' LDAP?",
-            Icon = SweetAlertIcon.Warning,
-            ShowCancelButton = true,
-            ConfirmButtonText = "Yes, delete it!",
-            CancelButtonText = "No, keep it"
-        });
-
-        if (deleteConfirmation.IsDismissed)
-        {
-            return;
-        }
-
-        var deleteResponse = await Mediator.Send(new DeleteCredentialCommand(id));
-        if (deleteResponse.IsFailure)
-        {
-            await Swal.FireAsync("Error", deleteResponse.Error!.Message, SweetAlertIcon.Error);
-            return;
-        }
-
-        await Mediator.Send(new CommitCredentialChanges());
-
-        await LoadData();
-    }
-
-    private void Update(LDAP ldap)
-    {
-        /*switch (user.CredentialType)
-        {
-            case CredentialType.None:
-                _updateNoneCredentialDialog?.Show(user);
-                break;
-            case CredentialType.Basic:
-                _updateBasicCredentialDialog?.Show(user);
-                break;
-        }*/
+        return _updateLdap?.ShowAsync(ldap) ?? Task.CompletedTask;
     }
 
 
