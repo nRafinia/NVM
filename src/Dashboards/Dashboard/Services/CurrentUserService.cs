@@ -4,7 +4,7 @@ using SharedKernel.ValueObjects;
 
 namespace Dashboard.Services;
 
-public class CurrentUserProvider(IHttpContextAccessor httpContext) : ICurrentUser
+public class CurrentUserService(IHttpContextAccessor httpContext) : ICurrentUser
 {
     public IdColumn GetUserId()
     {

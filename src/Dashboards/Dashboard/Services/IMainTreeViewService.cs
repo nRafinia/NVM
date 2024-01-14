@@ -1,6 +1,7 @@
 using Dashboard.Components.Models;
+using Dashboard.Models;
 
-namespace Dashboard.Providers;
+namespace Dashboard.Services;
 
 public interface IMainTreeViewService
 {

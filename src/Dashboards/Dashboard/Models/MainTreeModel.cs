@@ -1,4 +1,4 @@
-namespace Dashboard.Providers;
+namespace Dashboard.Models;
 
 public class MainTreeModel(Guid id)
 {

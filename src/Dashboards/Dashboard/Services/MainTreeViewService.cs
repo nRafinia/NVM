@@ -1,7 +1,8 @@
 using Dashboard.Components.Models;
 using Dashboard.Const;
+using Dashboard.Models;
 
-namespace Dashboard.Providers;
+namespace Dashboard.Services;
 
 public class MainTreeViewService : IMainTreeViewService
 {
