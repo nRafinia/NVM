@@ -59,49 +59,74 @@
         </small>
     </div>
 
-    <div class="form-group mb-3">
-        <label for="txt-add-filter-query">Filter query <span class="required">*</span></label>
-        <input type="text" class="form-control" id="txt-add-filter-query" @bind="_filterQuery"/>
-        <small class="text-light fw-semibold">
-            The filter to use when searching user objects. Example: (&(objectCategory=Person)(sAMAccountName=*))
-        </small>
-    </div>
+    <div class="accordion mt-3" id="acc-add-parent">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="hdr-add-additional">
+                <button
+                    type="button"
+                    class="accordion-button collapsed padding-lr-0"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#acc-add-additional"
+                    aria-expanded="false"
+                    aria-controls="accordionTwo">
+                    Additional configs
+                </button>
+            </h2>
+            <div
+                id="acc-add-additional"
+                class="accordion-collapse collapse"
+                aria-labelledby="hdr-add-additional"
+                data-bs-parent="#acc-add-parent">
+                <div class="accordion-body padding-lr-0">
 
-    <div class="form-group mb-3">
-        <label for="txt-add-scope">Scope</label>
-        <select class="form-select" id="txt-add-scope" @bind="_scope">
-            @foreach (var item in EnumExt.GetEnumList<SearchScope>())
-            {
-                <option value="@item.Key">@item.Value</option>
-            }
-        </select>
-        <small class="text-light fw-semibold">The LDAP search scope.</small>
-    </div>
+                    <div class="form-group mb-3">
+                        <label for="txt-add-filter-query">Filter query <span class="required">*</span></label>
+                        <input type="text" class="form-control" id="txt-add-filter-query" @bind="_filterQuery"/>
+                        <small class="text-light fw-semibold">
+                            The filter to use when searching user objects. Example: (&(objectCategory=Person)(sAMAccountName=*))
+                        </small>
+                    </div>
 
-    <div class="form-group mb-3">
-        <label for="txt-add-scope">Authentication type</label>
-        <select class="form-select" id="txt-add-auth-type" @bind="_authenticationType">
-            @foreach (var item in EnumExt.GetEnumList<AuthType>())
-            {
-                @* <option value="@item.Key" @(item.Key == _authenticationType ? "selected" : "")>@item.Value</option> *@
-                <option value="@item.Key">@item.Value</option>
-            }
-        </select>
-        <small class="text-light fw-semibold">
-            On Windows the authentication type is Negotiate, so there is no need to prepend 
-            AD user login with domain. On other platforms at the moment only
-            Basic authentication is supported
-        </small>
-    </div>
+                    <div class="form-group mb-3">
+                        <label for="txt-add-scope">Scope</label>
+                        <select class="form-select" id="txt-add-scope" @bind="_scope">
+                            @foreach (var item in EnumExt.GetEnumList<SearchScope>())
+                            {
+                                <option value="@item.Key">@item.Value</option>
+                            }
+                        </select>
+                        <small class="text-light fw-semibold">The LDAP search scope.</small>
+                    </div>
 
-    <div class="form-group">
-        <label for="txt-add-protocol">Protocol version</label>
-        <input type="number" class="form-control" id="txt-add-protocol" @bind="_protocolVersion"/>
-        <small class="text-light fw-semibold">
-            The default one is v2 (at least in that version), and it is unknown if v3
-            is actually needed, but at least Synology LDAP works only with v3,
-            and since our Exchange doesn't complain, let it be v3
-        </small>
+                    <div class="form-group mb-3">
+                        <label for="txt-add-scope">Authentication type</label>
+                        <select class="form-select" id="txt-add-auth-type" @bind="_authenticationType">
+                            @foreach (var item in EnumExt.GetEnumList<AuthType>())
+                            {
+                                @* <option value="@item.Key" @(item.Key == _authenticationType ? "selected" : "")>@item.Value</option> *@
+                                <option value="@item.Key">@item.Value</option>
+                            }
+                        </select>
+                        <small class="text-light fw-semibold">
+                            On Windows the authentication type is Negotiate, so there is no need to prepend
+                            AD user login with domain. On other platforms at the moment only
+                            Basic authentication is supported
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txt-add-protocol">Protocol version</label>
+                        <input type="number" class="form-control" id="txt-add-protocol" @bind="_protocolVersion"/>
+                        <small class="text-light fw-semibold">
+                            The default one is v2 (at least in that version), and it is unknown if v3
+                            is actually needed, but at least Synology LDAP works only with v3,
+                            and since our Exchange doesn't complain, let it be v3
+                        </small>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
 
     </Body>
