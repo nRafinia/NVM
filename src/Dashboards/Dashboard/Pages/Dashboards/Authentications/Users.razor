@@ -8,6 +8,7 @@
 @using SharedKernel.Enums
 @using Authorizer.Common.Models
 @using Dashboard.Application.LDAPs.Queries.GetAllLDAPs
+@using Dashboard.Application.Users.Commands.UpdateUserStatus
 @using Dashboard.Domain.Entities.LDAPs
 @using Dashboard.Domain.Entities.Users
 @using Dashboard.Domain.Entities.Users.Enums
@@ -52,7 +53,7 @@
                 </ul>
             </div>
         </li>
-        
+
         @if (_authorizerType == AuthorizerType.Local)
         {
             <li class="nav-item dropdown">
@@ -75,7 +76,7 @@
                 </ul>
             </li>
         }
-        
+
         <li class="nav-item">
             <a class="nav-link" href="javascript:void(0)" @onclick="LoadData">
                 <img src="img/icons/refresh-24.png" alt="Refresh"/>
@@ -113,6 +114,7 @@
     <tr>
         <th>User name</th>
         <th>Display name</th>
+        <th>Status</th>
         <th>Actions</th>
     </tr>
     </thead>
@@ -127,6 +129,9 @@
                 @user.DisplayName
             </td>
             <td>
+                <span class="badge @GetUserStatusLabelType(user.Status) me-1">@user.Status</span>
+            </td>
+            <td>
                 <div class="dropdown">
                     <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                         <i class="bx bx-dots-vertical-rounded"></i>
@@ -134,13 +139,13 @@
                     <div class="dropdown-menu">
                         @if (user.Status == UserStatus.Active)
                         {
-                            <a class="dropdown-item" href="javascript:void(0);" @onclick="() => Update(user)">
+                            <a class="dropdown-item" href="javascript:void(0);" @onclick="() => ChangeUserStatus(user.Id, UserStatus.Inactive)">
                                 <i class="bx bx-lock-alt me-1"></i> Disable
                             </a>
                         }
                         else
                         {
-                            <a class="dropdown-item" href="javascript:void(0);" @onclick="() => Update(user)">
+                            <a class="dropdown-item" href="javascript:void(0);" @onclick="() => ChangeUserStatus(user.Id, UserStatus.Active)">
                                 <i class="bx bx-lock-open-alt me-1"></i> Enable
                             </a>
                         }
@@ -154,9 +159,6 @@
                             <a class="dropdown-item" href="javascript:void(0);" @onclick="() => Update(user)">
                                 <i class="bx bx-edit-alt me-1"></i> Edit
                             </a>
-                            <a class="dropdown-item" href="javascript:void(0);" @onclick="() => Delete(user.Id)">
-                                <i class="bx bx-trash me-1"></i> Delete
-                            </a>
                         }
                     </div>
                 </div>
@@ -167,12 +169,14 @@
 </table>
 
 <AddUser @ref="_addUser" OnAdd="LoadData"></AddUser>
+<UpdateUser @ref="_updateUser" OnUpdate="LoadData"></UpdateUser>
 <SetPassword @ref="_setPassword"></SetPassword>
 
 @code {
     private AddUser? _addUser;
+    private UpdateUser? _updateUser;
     private SetPassword? _setPassword;
-    
+
     private List<User> _users = new(0);
     private AuthorizerType _authorizerType = AuthorizerType.Local;
     private List<LDAP> _ldaps = new(0);
@@ -198,59 +202,17 @@
     {
         _addUser?.Show();
     }
-    
-    private async Task Delete(IdColumn id)
-    {
-        var user = _users.FirstOrDefault(x => x.Id == id);
-        if (user is null)
-        {
-            return;
-        }
-
-        var deleteConfirmation = await Swal.FireAsync(new SweetAlertOptions("Delete")
-        {
-            Text = $"Are you sure for delete '{user.DisplayName}' user?",
-            Icon = SweetAlertIcon.Warning,
-            ShowCancelButton = true,
-            ConfirmButtonText = "Yes, delete it!",
-            CancelButtonText = "No, keep it"
-        });
-
-        if (deleteConfirmation.IsDismissed)
-        {
-            return;
-        }
-
-        var deleteResponse = await Mediator.Send(new DeleteCredentialCommand(id));
-        if (deleteResponse.IsFailure)
-        {
-            await Swal.FireAsync("Error", deleteResponse.Error!.Message, SweetAlertIcon.Error);
-            return;
-        }
-
-        await Mediator.Send(new CommitCredentialChanges());
-
-        await LoadData();
-    }
 
     private void Update(User user)
     {
-        /*switch (user.CredentialType)
-        {
-            case CredentialType.None:
-                _updateNoneCredentialDialog?.Show(user);
-                break;
-            case CredentialType.Basic:
-                _updateBasicCredentialDialog?.Show(user);
-                break;
-        }*/
+        _updateUser?.Show(user);
     }
 
     private void SetPassword(User user)
     {
         _setPassword?.Show(user.Id);
     }
-    
+
     private Task SelectLocal()
     {
         _authorizerType = AuthorizerType.Local;
@@ -264,6 +226,28 @@
         _ldapId = ldap.Id;
         _provider = ldap.Name;
         return LoadData();
+    }
+
+    private static string GetUserStatusLabelType(UserStatus type)
+    {
+        return type switch
+        {
+            UserStatus.Active => "bg-label-success",
+            UserStatus.Inactive => "bg-label-dark",
+            _ => "bg-label-dark"
+        };
+    }
+
+    private async Task ChangeUserStatus(IdColumn id, UserStatus status)
+    {
+        var changeStatusResponse = await Mediator.Send(new UpdateUserStatusCommand(id, status));
+        if (changeStatusResponse.IsFailure)
+        {
+            await Swal.FireAsync("Error", changeStatusResponse.Error!.Message, SweetAlertIcon.Error);
+            return;
+        }
+
+        await LoadData();
     }
 
 }
