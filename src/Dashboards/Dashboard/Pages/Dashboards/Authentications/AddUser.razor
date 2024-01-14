@@ -15,7 +15,9 @@
 
     <div class="form-group mb-3">
         <label for="txt-add-password">Password <span class="required">*</span></label>
-        <input type="password" class="form-control" id="txt-add-password" @bind="_password" placeholder=""/>
+        <div class="input-group input-group-merge">
+            <Password @bind-Value="_password" Class="form-control" Id="txt-add-password"/>
+        </div>
         <small class="text-light fw-semibold">
             Password must contain at least one uppercase letter, one lowercase letter, and be at least 6 characters long.
         </small>
